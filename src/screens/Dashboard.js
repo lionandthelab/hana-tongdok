@@ -9,13 +9,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { logoutUser } from "../api/auth-api";
 import { dailyVerse } from '../data/DailyVerse';
 
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 
 LocaleConfig.locales['kr'] = {
-  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-  monthNamesShort: ['1.','2.','3.','4.','5.','6.','7.','8.','9.','10.','11.','12.'],
-  dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'],
-  dayNamesShort: ['일','월','화','수','목','금','토'],
+  monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+  monthNamesShort: ['1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.', '11.', '12.'],
+  dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
   today: '오늘'
 };
 LocaleConfig.defaultLocale = 'kr';
@@ -146,7 +146,7 @@ class Dashboard extends Component {
 
     percent = readDayNum / totalDayNum * 100
     var percentString = String(percent.toFixed(2).concat("% 완료!\n(").concat(readDayNum)
-    .concat(" / ".concat(totalDayNum).concat(")")))
+      .concat(" / ".concat(totalDayNum).concat(")")))
 
     return percentString
   }
@@ -165,7 +165,7 @@ class Dashboard extends Component {
   }
 
   getMarkedDates(checkedDates) {
-    var obj = checkedDates.reduce((c, v) => Object.assign(c, {[v]: {selected: true, marked: true}}), {});
+    var obj = checkedDates.reduce((c, v) => Object.assign(c, { [v]: { selected: true, marked: true } }), {});
     return obj;
   }
 
@@ -175,7 +175,7 @@ class Dashboard extends Component {
       curDate: _curDate,
       complete: false,
       showCalendar: false,
-    }, function() {
+    }, function () {
       this.getDailyVerseContents()
       this.state.swiperRef.scrollBy(-(this.state.pageCount + 1), true);
     })
@@ -201,7 +201,7 @@ class Dashboard extends Component {
   nextDate() {
     var _curDate = this.state.curDate
     // cannot go after 2020-12-31
-    if (_curDate+1 > lastDay) return
+    if (_curDate + 1 > lastDay) return
 
     _curDate.setDate(_curDate.getDate() + 1);
     this.setState({
@@ -251,7 +251,7 @@ class Dashboard extends Component {
   openSettings() {
     this.setState({
       isSettingsVisible: true
-    })  
+    })
   }
 
   closeSettings() {
@@ -264,7 +264,7 @@ class Dashboard extends Component {
   setPlan1() {
     this.setState({
       plan: 1
-    })   
+    })
     this._storePlan('1')
     this.getDailyVerseContents()
   }
@@ -422,14 +422,14 @@ class Dashboard extends Component {
               {/* {todayVerse.date} */}
               {this.state.curDate.getMonth() + 1}월 {this.state.curDate.getDate()}일
           </Text>
-            {!this.state.loadingDate?
+            {!this.state.loadingDate ?
               this.state.todayVerse.map((verse, i) => (
                 <Text key={i} style={styles.chapter}>
                   {verse.chapter}
                 </Text>
               )
               )
-            : null}
+              : null}
           </View>
           <TouchableOpacity style={styles.arrowRightView} onPress={() => { this.nextDate() }}>
             <Icon name="angle-down" size={100} color="#3CD3AD99" />
@@ -443,7 +443,7 @@ class Dashboard extends Component {
     this.state.todayContents.map((contentValues, i) =>
       contentValues.map((contentValue, j) =>
         renderPages.push([
-          <View key={1+i} style={styles.verseContainer}>
+          <View key={1 + i} style={styles.verseContainer}>
             <ScrollView
               showsVerticalScrollIndicator={true} style={styles.oneChaper}>
               <View style={styles.chapterLineBox}>
@@ -506,7 +506,7 @@ class Dashboard extends Component {
             complete: true
           })
           this._storecheckedDate(this.state.curDate)
-          
+
           _interval = setTimeout(() => {
             this.setState({
               showCalendar: true,
@@ -520,12 +520,12 @@ class Dashboard extends Component {
 
     renderCalendar = [
       <View>
-      <Calendar
+        <Calendar
           current={this.state.curDate}
           minDate={'2020-01-01'}
           maxDate={'2020-12-31'}
-          hideExtraDays={true}    
-          firstDay={1}      
+          hideExtraDays={true}
+          firstDay={0}
           markedDates={
             this.getMarkedDates(this.state.checkedDates)
           }
@@ -556,8 +556,8 @@ class Dashboard extends Component {
             textDayHeaderFontSize: 16
           }}
           // onDayPress={(day) => {this.setNextDate(day.dateString); this.goMain()}}
-          onDayPress={(day) => {this.goToDate(day.dateString)}}
-          />
+          onDayPress={(day) => { this.goToDate(day.dateString) }}
+        />
       </View>
     ]
 
@@ -573,14 +573,14 @@ class Dashboard extends Component {
           {/* <View style={styles.checkUpperView}> */}
           {/* </View> */}
           <View style={styles.progressView}>
-          <Text style={styles.goHomeText}> {this.wholeProgress()} </Text>
-{this.state.showCalendar?
+            <Text style={styles.goHomeText}> {this.wholeProgress()} </Text>
+            {this.state.showCalendar ?
               <TouchableOpacity style={styles.goHomeText} onPress={() => {
                 this.goMain()
               }}>
                 <Text style={styles.goHomeText}> 계속 읽기 </Text>
               </TouchableOpacity>
-              :null}
+              : null}
           </View>
         </Background>
       </View >
@@ -593,7 +593,7 @@ class Dashboard extends Component {
             loop={false} loadMinimal={true} loadMinimalSize={1}
             bounces={true} showsPagination={this.state.showsPagination}
             paginationStyle={{
-            bottom: 10, left: null, right: 10
+              bottom: 10, left: null, right: 10
             }}>
             {renderPages}
           </Swiper>
