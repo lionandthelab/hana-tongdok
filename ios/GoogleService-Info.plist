@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>665524533654-i24h2tn5l0ehse5s9vlkb3cetd5r42ua.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.665524533654-i24h2tn5l0ehse5s9vlkb3cetd5r42ua</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDzjCb7Oif0hePN2WVsZQmZ-WieKxEV_sk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>665524533654</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.lionatlab.hana-readthru</string>
+	<key>PROJECT_ID</key>
+	<string>hanareadthru</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hanareadthru.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:665524533654:ios:6e834585294ab3ca6705b7</string>
+	<key>DATABASE_URL</key>
+	<string>https://hanareadthru.firebaseio.com</string>
+</dict>
+</plist>
