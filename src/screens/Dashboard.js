@@ -11,6 +11,7 @@ import { dailyVerse } from '../data/DailyVerse';
 
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import ProgressCircle from 'react-native-progress-circle'
+import { StatusBar } from 'react-native';
 
 LocaleConfig.locales['kr'] = {
   monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -55,6 +56,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    StatusBar.setHidden(true);
     this.setState({
       curDate: new Date(),
     })
@@ -68,6 +70,7 @@ class Dashboard extends Component {
 
   async componentWillUnmount() {
     await this._storePlan(this.state.plan)
+    await this._storeFontSize(this.state.verseFontSize)
   }
 
   //----------------------------------------
@@ -77,6 +80,14 @@ class Dashboard extends Component {
   async _storePlan(plan) {
     try {
       await AsyncStorage.setItem('@key_plan', plan);
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
+  async _storeFontSize(fontSize) {
+    try {
+      await AsyncStorage.setItem('@key_fontsize', String(fontSize));
     } catch (error) {
       // Error saving data
     }
@@ -98,6 +109,14 @@ class Dashboard extends Component {
         // first launch
         this.setPlan1()
       }
+    } catch (error) {
+      // Error retrieving data
+      value = 0
+    }
+
+    try {
+      value = await AsyncStorage.getItem('@key_fontsize')
+      this.setState({ verseFontSize: parseInt(value) })
     } catch (error) {
       // Error retrieving data
       value = 0
@@ -264,20 +283,22 @@ class Dashboard extends Component {
 
   increaseFontSize() {
     var newSize = this.state.verseFontSize + 2
-    if (newSize > 26)
+    if (newSize > 30)
       newSize = this.state.verseFontSize
     this.setState({
       verseFontSize: newSize
     })
+    this._storeFontSize(this.state.verseFontSize)
   }
 
   decreaseFontSize() {
     var newSize = this.state.verseFontSize - 2
-    if (newSize < 18)
+    if (newSize < 16)
       newSize = this.state.verseFontSize
     this.setState({
       verseFontSize: newSize
     })
+    this._storeFontSize(this.state.verseFontSize)
   }
 
   openSettings() {
@@ -572,7 +593,7 @@ class Dashboard extends Component {
           style={{
             width: Dimensions.get('window').width * 0.8,
             alignContent: 'center',
-            // height: '100%',
+            height: '100%',
           }}
           theme={{
             // backgroundColor: '#ffffff',
@@ -896,7 +917,7 @@ var styles = StyleSheet.create({
     borderColor: '#3CD3AD',
   },
   progressView: {
-    flex: 3,
+    flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -919,6 +940,7 @@ var styles = StyleSheet.create({
   calendarView: {
     flex: 4,
     marginTop: 10,
+    marginBottom: 20,
     alignContent: 'flex-start',
     justifyContent: 'flex-start',
   },
