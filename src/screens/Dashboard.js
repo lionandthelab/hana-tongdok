@@ -896,7 +896,7 @@ var styles = StyleSheet.create({
     borderColor: '#3CD3AD',
   },
   progressView: {
-    flex: 2,
+    flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
   },
