@@ -21,14 +21,14 @@ LocaleConfig.locales['kr'] = {
 LocaleConfig.defaultLocale = 'kr';
 
 const oneDay = (1000 * 60 * 60 * 24)
-const firstDay = new Date('2020-01-01')
-const lastDay = new Date('2020-12-31')
+const firstDay = new Date(new Date().getFullYear(), 0, 1);
+const lastDay = new Date(new Date().getFullYear(), 11, 31)
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      curDate: new Date('2020-01-01'),
+      curDate: firstDay,
       nextDateToRead: new Date(),
       verseFontSize: 20,
       pageCount: 0,
@@ -131,17 +131,24 @@ class Dashboard extends Component {
   // utils
   //----------------------------------------
 
+  isThisYear(date) {
+    if (parseInt(date.substring(0, 4)) === this.state.curDate.getFullYear()) {
+      return true;
+    }
+  }
+
   wholeProgress() {
     var percent = 0.0
 
     var unique = [...new Set(this.state.checkedDates)];
-    var readDayNum = unique.length
+    var readThisYearDayNum = unique.filter(x => { return parseInt(x.substring(0.4)) == this.state.curDate.getFullYear() });
+    var readDayNum = readThisYearDayNum.length
     var totalDayNum = 0
 
     if (this.state.curDate.getFullYear() % 4 == 0) {
       totalDayNum = 366
     } else {
-      totalDayNum = 366
+      totalDayNum = 365
     }
 
     percent = readDayNum / totalDayNum * 100
@@ -200,8 +207,8 @@ class Dashboard extends Component {
 
   nextDate() {
     var _curDate = this.state.curDate
-    // cannot go after 2020-12-31
-    if (_curDate + 1 > lastDay) return
+    // cannot go after 20xx-12-31
+    // if (_curDate + 1 > _lastDay) return
 
     _curDate.setDate(_curDate.getDate() + 1);
     this.setState({
@@ -289,19 +296,22 @@ class Dashboard extends Component {
     this.setState({
       loadingDate: true
     })
-    var curDateIdx = (this.state.curDate.getTime() - firstDay.getTime()) / oneDay
+    var _curDate = this.state.curDate;
+    var _firstDay = new Date(_curDate.getFullYear(), 0, 1);
+    var _lastDay = new Date(_curDate.getFullYear(), 11, 31);
+    var curDateIdx = (_curDate.getTime() - _firstDay.getTime()) / oneDay
     var _todayVerse = []
     var _todayContents = []
     var _pageCount = 0
     for (let i = 0; i < this.state.plan; i++) {
       // _date.setDate(firstDay.getDate() + (curDateIdx * plan + i + 1))
       var dateToProceed = 0
-      if (this.state.curDate.getFullYear() % 4 == 0) {
+      if (_curDate.getFullYear() % 4 == 0) {
         dateToProceed = (curDateIdx * this.state.plan + i) % 366
       } else {
         dateToProceed = (curDateIdx * this.state.plan + i) % 365
       }
-      var _date = new Date(firstDay.getTime() + dateToProceed * oneDay)
+      var _date = new Date(_firstDay.getTime() + dateToProceed * oneDay)
       var _dateToReadKey = 'm' + (_date.getMonth() + 1) + 'd' + (_date.getDate())
       // alert(_dateToReadKey)
 
@@ -522,8 +532,10 @@ class Dashboard extends Component {
       <View>
         <Calendar
           current={this.state.curDate}
+          // minDate={'2020-01-01'}
+          // maxDate={'2020-12-31'}
           minDate={'2020-01-01'}
-          maxDate={'2020-12-31'}
+          maxDate={'2022-12-31'}
           hideExtraDays={true}
           firstDay={0}
           markedDates={

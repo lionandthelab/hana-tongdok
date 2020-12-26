@@ -16,7 +16,7 @@
 #import <UMCore/UMModuleRegistry.h>
 #import <UMReactNativeAdapter/UMNativeModulesProxy.h>
 #import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
-
+@import UserNotifications;
 @import Firebase;
 
 @implementation AppDelegate

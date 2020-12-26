@@ -11,6 +11,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		71224F7C256822F200AE047B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71224F7A256822F100AE047B /* UserNotifications.framework */; };
 		713AC24423BD072700474B93 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713AC24323BD072700474B93 /* GoogleService-Info.plist */; };
 		914986DAB89A5D2E2377C1AD /* libPods-hana_readthru.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB55D45FF47D75A9DEC39368 /* libPods-hana_readthru.a */; };
 		F4CA5F7368F34AA4A041A340 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1E07A6622842F583962572 /* libRNFirebase.a */; };
@@ -44,6 +45,7 @@
 		5485E1A8CAD74BE2BBEE6858 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		54A36998C3B2410D900F56FB /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		6BEA6580B3AD4448971B7A29 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		71224F7A256822F100AE047B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		713AC23F23BCA22000474B93 /* hana_readthruRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = hana_readthruRelease.entitlements; path = hana_readthru/hana_readthruRelease.entitlements; sourceTree = "<group>"; };
 		713AC24323BD072700474B93 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7192555E23BC9E0600BB0373 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71224F7C256822F200AE047B /* UserNotifications.framework in Frameworks */,
 				914986DAB89A5D2E2377C1AD /* libPods-hana_readthru.a in Frameworks */,
 				F4CA5F7368F34AA4A041A340 /* libRNFirebase.a in Frameworks */,
 			);
@@ -98,6 +101,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				71224F7A256822F100AE047B /* UserNotifications.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
@@ -221,6 +225,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 5A4WASTGS5;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -411,9 +416,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = hana_readthru/hana_readthruDebug.entitlements;
-				CURRENT_PROJECT_VERSION = 114;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 117;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 5A4WASTGS5;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -424,7 +431,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/hana_readthru\"",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -432,6 +439,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.lionatlab.hana-readthru";
 				PRODUCT_NAME = hana_readthru;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -443,8 +451,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = hana_readthru/hana_readthruRelease.entitlements;
-				CURRENT_PROJECT_VERSION = 114;
-				DEVELOPMENT_TEAM = 5A4WASTGS5;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 117;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -455,7 +465,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/hana_readthru\"",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -463,6 +473,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.lionatlab.hana-readthru";
 				PRODUCT_NAME = hana_readthru;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -495,7 +506,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Jungni Choi (F574WU83PQ)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -548,7 +559,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Jungni Choi (F574WU83PQ)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -562,6 +573,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
