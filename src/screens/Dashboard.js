@@ -10,6 +10,7 @@ import { logoutUser } from "../api/auth-api";
 import { dailyVerse } from '../data/DailyVerse';
 
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import ProgressCircle from 'react-native-progress-circle'
 
 LocaleConfig.locales['kr'] = {
   monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -43,6 +44,9 @@ class Dashboard extends Component {
       loadingDate: false,
       swiperRef: null,
       showsPagination: Platform.OS === 'ios' ? false : true,
+
+      // progress
+      progress: 0,
     };
   }
 
@@ -54,6 +58,8 @@ class Dashboard extends Component {
     this.setState({
       curDate: new Date(),
     })
+
+    this.calcProgress();
   }
 
   componentWillUpdate() {
@@ -125,6 +131,7 @@ class Dashboard extends Component {
       // Error retrieving data
       this.state.checkedDates = "err"
     }
+    this.calcProgress();
   }
 
   //----------------------------------------
@@ -137,7 +144,22 @@ class Dashboard extends Component {
     }
   }
 
-  wholeProgress() {
+  animate() {
+    let progress = 0;
+    this.setState({ progress });
+    setTimeout(() => {
+      this.setState({ indeterminate: false });
+      setInterval(() => {
+        progress += Math.random() / 5;
+        if (progress > 1) {
+          progress = 1;
+        }
+        this.setState({ progress });
+      }, 500);
+    }, 1500);
+  }
+
+  calcProgress() {
     var percent = 0.0
 
     var unique = [...new Set(this.state.checkedDates)];
@@ -152,8 +174,11 @@ class Dashboard extends Component {
     }
 
     percent = readDayNum / totalDayNum * 100
-    var percentString = String(percent.toFixed(2).concat("% 완료!\n(").concat(readDayNum)
-      .concat(" / ".concat(totalDayNum).concat(")")))
+    // var percentString = String(percent.toFixed(2).concat("% 완료!\n(").concat(readDayNum)
+    // .concat(" / ".concat(totalDayNum).concat(")")))
+    var percentString = String(percent.toFixed(2).concat("%"))
+
+    this.setState({ progress: percent })
 
     return percentString
   }
@@ -325,6 +350,8 @@ class Dashboard extends Component {
       pageCount: _pageCount,
       loadingDate: false
     })
+
+    this.calcProgress();
   }
 
   scaleCheckmark(value) {
@@ -516,6 +543,7 @@ class Dashboard extends Component {
             complete: true
           })
           this._storecheckedDate(this.state.curDate)
+          this.calcProgress();
 
           _interval = setTimeout(() => {
             this.setState({
@@ -585,14 +613,26 @@ class Dashboard extends Component {
           {/* <View style={styles.checkUpperView}> */}
           {/* </View> */}
           <View style={styles.progressView}>
-            <Text style={styles.goHomeText}> {this.wholeProgress()} </Text>
-            {this.state.showCalendar ?
-              <TouchableOpacity style={styles.goHomeText} onPress={() => {
-                this.goMain()
-              }}>
+            <ProgressCircle
+              percent={parseInt(this.state.progress)}
+              radius={50}
+              borderWidth={8}
+              color="#3CD3AD"
+              shadowColor="#ddd"
+              bgColor="#fff"
+            >
+              <Text style={{ fontSize: 18 }}>{this.state.progress.toFixed(2)}%</Text>
+            </ProgressCircle>
+            {/* <Text style={styles.goHomeText}> {this.wholeProgress()} </Text> */}
+
+            <TouchableOpacity style={styles.goHomeText} onPress={() => {
+              this.goMain()
+            }}>
+              {this.state.showCalendar ?
                 <Text style={styles.goHomeText}> 계속 읽기 </Text>
-              </TouchableOpacity>
-              : null}
+                : null}
+
+            </TouchableOpacity>
           </View>
         </Background>
       </View >
@@ -887,6 +927,7 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: Platform.OS === 'ios' ? 20 : 20,
     fontWeight: 'bold',
+    marginTop: 10,
     color: '#3CD3AD',
   },
   logoutButton: {
