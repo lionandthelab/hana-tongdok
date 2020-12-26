@@ -33,6 +33,12 @@ class Dashboard extends Component {
       curDate: firstDay,
       nextDateToRead: new Date(),
       verseFontSize: 20,
+      darkMode: true,
+      fontColor: '#000000',
+      bgColor: '#FFFFFF',
+      // fontColor: this.state.darkMode ? '#FFFFFF' : '#000000',
+      // bgColor: this.state.darkMode ? '#000000' : '#25282d',
+
       pageCount: 0,
       plan: 0,
       todayVerse: [],
@@ -115,11 +121,15 @@ class Dashboard extends Component {
     }
 
     try {
-      value = await AsyncStorage.getItem('@key_fontsize')
-      this.setState({ verseFontSize: parseInt(value) })
+      value = parseInt(await AsyncStorage.getItem('@key_fontsize'))
+
+      if (parseInt(value) > 10 && parseInt(value) < 100) {
+        this.setState({ verseFontSize: parseInt(value) })
+      } else {
+        this.setState({ verseFontSize: 20 })
+      }
     } catch (error) {
       // Error retrieving data
-      value = 0
     }
 
     this._retrievecheckedDates()
@@ -338,6 +348,17 @@ class Dashboard extends Component {
     this.getDailyVerseContents()
   }
 
+  flipDarkMode() {
+    const _new = !this.state.darkMode
+    const _fontColor = _new ? '#000000' : '#FFFFFF'
+    const _bgColor = _new ? '#FFFFFF' : '#25282d'
+    this.setState({
+      darkMode: _new,
+      fontColor: _fontColor,
+      bgColor: _bgColor,
+    })
+  }
+
   getDailyVerseContents() {
     this.setState({
       loadingDate: true
@@ -467,7 +488,7 @@ class Dashboard extends Component {
             <Text style={[styles.settingsIconView,
             { padding: 3, fontWeight: 'bold', fontSize: 24, color: "#3CD3AD99" }]}>
               1년{this.state.plan}독
-          </Text>
+            </Text>
             <TouchableOpacity style={styles.settingsIconView} onPress={() => { this.openSettings() }}>
               <Icon name="cogs" size={40} color="#3CD3AD99" />
             </TouchableOpacity>
@@ -501,14 +522,19 @@ class Dashboard extends Component {
     this.state.todayContents.map((contentValues, i) =>
       contentValues.map((contentValue, j) =>
         renderPages.push([
-          <View key={1 + i} style={styles.verseContainer}>
+          <View key={1 + i} style={[styles.verseContainer, { backgroundColor: this.state.bgColor }]}>
             <ScrollView
               showsVerticalScrollIndicator={true} style={styles.oneChaper}>
               <View style={styles.chapterLineBox}>
                 <View style={styles.chapterLineWrapper}>
-                  <Text style={[styles.chapterLine, { fontSize: this.state.verseFontSize + 3 }]}>
+                  <Text style={[styles.chapterLine, { color: this.state.fontColor, fontSize: this.state.verseFontSize + 3 }]}>
                     {contentValue.chapter_name}
                   </Text>
+                </View>
+                <View style={styles.fontSizerIconWrapper}>
+                  <TouchableOpacity onPress={() => this.flipDarkMode()}>
+                    <Icon name="flash" size={25} color="#3CD3AD" />
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.fontSizerIconWrapper}>
                   <TouchableOpacity onPress={() => this.increaseFontSize()}>
@@ -525,7 +551,7 @@ class Dashboard extends Component {
                 <View key={i} style={styles.verseContent}>
                   {verseValue.title ?
                     <View style={styles.titleLine} >
-                      <Text style={[styles.title, { fontSize: this.state.verseFontSize + 1 }]} >
+                      <Text style={[styles.title, { color: this.state.fontColor, fontSize: this.state.verseFontSize + 1 }]} >
                         {verseValue.title}
                       </Text>
                     </View> : null}
@@ -533,7 +559,7 @@ class Dashboard extends Component {
                     <Text style={styles.idx}>
                       {verseValue.idx}
                     </Text>
-                    <Text style={[styles.verse, { fontSize: this.state.verseFontSize, lineHeight: this.state.verseFontSize + 10 }]}>
+                    <Text style={[styles.verse, { color: this.state.fontColor, fontSize: this.state.verseFontSize, lineHeight: this.state.verseFontSize + 10 }]}>
                       {verseValue.content}
                     </Text>
                   </View>
@@ -644,6 +670,8 @@ class Dashboard extends Component {
             >
               <Text style={{ fontSize: 18 }}>{this.state.progress.toFixed(2)}%</Text>
             </ProgressCircle>
+            <Text style={{ fontSize: 14 }}>{this.state.curDate.getFullYear()}년</Text>
+
             {/* <Text style={styles.goHomeText}> {this.wholeProgress()} </Text> */}
 
             <TouchableOpacity style={styles.goHomeText} onPress={() => {
@@ -863,7 +891,7 @@ var styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: 'bold',
     margin: 10,
-    color: '#000'
+    // color: '#000'
     // color: '#3CD3AD',
   },
   verseContent: {
