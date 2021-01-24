@@ -5,7 +5,7 @@ interface IProps {
 
 const CurDate: React.FC<IProps> = (props: IProps) => 
     <div id="CurDate">
-        <h1>This is CurDate hahaha</h1>
+        <h1>This is CurDate </h1>
     </div>
 
 CurDate.defaultProps = {
