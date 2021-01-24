@@ -1,7 +1,13 @@
 .App {
   text-align: center;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
 }
-
+.Horizon {
+  text-align: center;
+  display: flex;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
