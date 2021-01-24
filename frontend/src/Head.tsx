@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Button } from '@material-ui/core';
 
 interface IProps {
     name?: string;
