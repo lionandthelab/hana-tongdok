@@ -1,17 +1,29 @@
 import React from 'react';
 import logo from './logo.svg';
+import Home from './Home';
+import Head from './Head';
+import Navigator from './Navigator';
+import CurDate from './CurDate';
+import Footer from './Footer';
+import Body from './Body';
+
 import './App.css';
+import './Head.css';
+import './CurDate.css';
+import './Footer.css';
+import './Navigator.css';
+import './Body.css';
 
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                Learn React
-            </header>
+            <Head />
+            <div className="Horizon">
+            <CurDate />
+            <Navigator />
+            </div>
+            <Body />
+            <Footer />
         </div>
     );
 }
