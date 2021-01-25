@@ -1,0 +1,5 @@
+#Navigator {
+  background-color: chartreuse;
+  flex: 1;
+  overflow: auto;
+}
