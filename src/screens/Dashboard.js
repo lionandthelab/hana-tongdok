@@ -33,7 +33,7 @@ class Dashboard extends Component {
       curDate: firstDay,
       nextDateToRead: new Date(),
       verseFontSize: 20,
-      darkMode: true,
+      darkMode: 0,
       fontColor: '#000000',
       bgColor: '#FFFFFF',
       // fontColor: this.state.darkMode ? '#FFFFFF' : '#000000',
@@ -62,10 +62,16 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    StatusBar.setHidden(true);
+    var _fontColor = this.state.darkMode == 0 ? '#000000' : '#FFFFFF'
+    var _bgColor = this.state.darkMode == 0 ? '#FFFFFF' : '#25282d'
     this.setState({
       curDate: new Date(),
+      fontColor: _fontColor,
+      bgColor: _bgColor,
     })
+
+    StatusBar.setHidden(true);
+    StatusBar.setBackgroundColor(_bgColor);
 
     this.calcProgress();
   }
@@ -77,6 +83,7 @@ class Dashboard extends Component {
   async componentWillUnmount() {
     await this._storePlan(this.state.plan)
     await this._storeFontSize(this.state.verseFontSize)
+    // await this._storeDarkMode(this.state.darkMode)
   }
 
   //----------------------------------------
@@ -99,8 +106,29 @@ class Dashboard extends Component {
     }
   }
 
+  async _storeDarkMode(mode) {
+    try {
+      if (mode == 1) {
+        await AsyncStorage.setItem('@key_dark', '1');
+      }
+      else {
+        await AsyncStorage.setItem('@key_dark', '0');
+      }
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
   async _retrieveData() {
     var value = 0
+
+    // try {
+    //   value = parseInt(await AsyncStorage.getItem('@key_dark'))
+    // } catch (error) {
+    //   // Error retrieving data
+    //   alert('error darkmode')
+    // }
+    // this.setState({ darkMode: value })
 
     try {
       value = await AsyncStorage.getItem('@key_plan')
@@ -122,6 +150,7 @@ class Dashboard extends Component {
 
     try {
       value = parseInt(await AsyncStorage.getItem('@key_fontsize'))
+      // alert(`fontsize: ${value}`)
 
       if (parseInt(value) > 10 && parseInt(value) < 100) {
         this.setState({ verseFontSize: parseInt(value) })
@@ -349,14 +378,16 @@ class Dashboard extends Component {
   }
 
   flipDarkMode() {
-    const _new = !this.state.darkMode
-    const _fontColor = _new ? '#000000' : '#FFFFFF'
-    const _bgColor = _new ? '#FFFFFF' : '#25282d'
+    var _new = this.state.darkMode == 0 ? 1 : 0
+    var _fontColor = _new == 0 ? '#000000' : '#FFFFFF'
+    var _bgColor = _new == 0 ? '#FFFFFF' : '#25282d'
     this.setState({
       darkMode: _new,
       fontColor: _fontColor,
       bgColor: _bgColor,
     })
+    // this._storeDarkMode(_new)
+    StatusBar.setBackgroundColor(_bgColor);
   }
 
   getDailyVerseContents() {
