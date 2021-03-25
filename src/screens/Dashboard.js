@@ -1,6 +1,5 @@
 import React, { memo, useState, useEffect, Component } from "react";
 import {
-  Dimensions,
   Platform,
   View,
   Text,
@@ -9,65 +8,23 @@ import {
   SafeAreaView,
   Animated,
   Easing,
-  Button,
   TouchableOpacity,
-  PixelRatio,
+  StatusBar,
 } from "react-native";
 import Background from "../components/Background";
-import Swiper from "react-native-swiper";
-import Modal from "react-native-modal";
-import AsyncStorage from "@react-native-community/async-storage";
+import PageHeader from "../components/PageHeader";
+import Verse from "../components/Verse";
+import CalendarView from "../components/CalendarView";
+import Settings from "../components/Settings";
 
+import Swiper from "react-native-swiper";
+import AsyncStorage from "@react-native-community/async-storage";
+import ProgressCircle from "react-native-progress-circle";
 import Icon from "react-native-vector-icons/FontAwesome";
+
 import { logoutUser } from "../api/auth-api";
 import { dailyVerse } from "../data/DailyVerse";
-
-import { Calendar, LocaleConfig } from "react-native-calendars";
-import ProgressCircle from "react-native-progress-circle";
-import { StatusBar } from "react-native";
-
-LocaleConfig.locales["kr"] = {
-  monthNames: [
-    "1월",
-    "2월",
-    "3월",
-    "4월",
-    "5월",
-    "6월",
-    "7월",
-    "8월",
-    "9월",
-    "10월",
-    "11월",
-    "12월",
-  ],
-  monthNamesShort: [
-    "1.",
-    "2.",
-    "3.",
-    "4.",
-    "5.",
-    "6.",
-    "7.",
-    "8.",
-    "9.",
-    "10.",
-    "11.",
-    "12.",
-  ],
-  dayNames: [
-    "일요일",
-    "월요일",
-    "화요일",
-    "수요일",
-    "목요일",
-    "금요일",
-    "토요일",
-  ],
-  dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
-  today: "오늘",
-};
-LocaleConfig.defaultLocale = "kr";
+import IntroView from "../components/ IntroView";
 
 const oneDay = 1000 * 60 * 60 * 24;
 const firstDay = new Date(new Date().getFullYear(), 0, 1);
@@ -99,9 +56,20 @@ class Dashboard extends Component {
       swiperRef: null,
       showsPagination: Platform.OS === "ios" ? false : true,
 
-      // progress
       progress: 0,
     };
+
+    var increaseFontSize = this.increaseFontSize.bind(this);
+    var decreaseFontSize = this.decreaseFontSize.bind(this);
+    var flipDarkMode = this.flipDarkMode.bind(this);
+    var goToDate = this.goToDate.bind(this);
+    var setPlan1 = this.setPlan1.bind(this);
+    var setPlan2 = this.setPlan2.bind(this);
+    var setPlan3 = this.setPlan3.bind(this);
+    var openSettings = this.openSettings.bind(this);
+    var closeSettings = this.closeSettings.bind(this);
+    var previousDate = this.previousDate.bind(this);
+    var nextDate = this.nextDate.bind(this);
   }
 
   async componentWillMount() {
@@ -403,7 +371,7 @@ class Dashboard extends Component {
 
   decreaseFontSize() {
     var newSize = this.state.verseFontSize - 2;
-    if (newSize < 16) newSize = this.state.verseFontSize;
+    if (newSize < 6) newSize = this.state.verseFontSize;
     this.setState({
       verseFontSize: newSize,
     });
@@ -508,169 +476,29 @@ class Dashboard extends Component {
 
   render() {
     var renderSettingsModal = [
-      <Modal
-        key={11}
+      <Settings
         isVisible={this.state.isSettingsVisible}
-        testID={"modal"}
-        backdropColor="#777777"
-        backdropOpacity={0.2}
-        animationIn="zoomInDown"
-        animationOut="zoomOutUp"
-        animationInTiming={600}
-        animationOutTiming={600}
-        backdropTransitionInTiming={600}
-        backdropTransitionOutTiming={600}
-      >
-        <View style={styles.settingsDummyView}></View>
-        <View style={styles.settingsModalView}>
-          <View style={styles.settingsModalTitle}>
-            <Text style={styles.settingsModalClose}></Text>
-            <Text style={styles.customBackdropText}>설정</Text>
-            <TouchableOpacity
-              style={styles.settingsModalClose}
-              onPress={() => {
-                this.closeSettings();
-              }}
-            >
-              <Icon name="times-circle" size={36} color="#00ffcc" />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.settingsModalContents}>
-            <View style={styles.settingsModalPlan}>
-              <Text style={styles.settingsModalPlanTitle}>통독 플랜</Text>
-              <TouchableOpacity
-                style={styles.settingsModalPlanButton}
-                onPress={() => {
-                  this.setPlan1();
-                }}
-              >
-                <Text
-                  style={[
-                    styles.settingsModalPlanText,
-                    this.state.plan == 1
-                      ? { color: "#00ffcc", borderColor: "#00ffcc" }
-                      : null,
-                  ]}
-                >
-                  1독
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.settingsModalPlanButton}
-                onPress={() => {
-                  this.setPlan2();
-                }}
-              >
-                <Text
-                  style={[
-                    styles.settingsModalPlanText,
-                    this.state.plan == 2
-                      ? { color: "#00ffcc", borderColor: "#00ffcc" }
-                      : null,
-                  ]}
-                >
-                  2독
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.settingsModalPlanButton}
-                onPress={() => {
-                  this.setPlan3();
-                }}
-              >
-                <Text
-                  style={[
-                    styles.settingsModalPlanText,
-                    this.state.plan == 3
-                      ? { color: "#00ffcc", borderColor: "#00ffcc" }
-                      : null,
-                  ]}
-                >
-                  3독
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity
-              style={styles.settingsModalLogout}
-              onPress={() => {
-                logoutUser();
-                this.closeSettings();
-              }}
-            >
-              <Icon name="sign-out" size={36} color="#FFFFFF" />
-              <Text style={styles.buttonInSettings}>로그아웃</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.settingsDummyView}></View>
-      </Modal>,
+        plan={this.state.plan}
+        setPlan1={this.setPlan1.bind(this)}
+        setPlan2={this.setPlan2.bind(this)}
+        setPlan3={this.setPlan3.bind(this)}
+        logout={logoutUser}
+        closeSettings={this.closeSettings.bind(this)}
+      />,
     ];
 
     // intro page
     var renderPages = [];
     renderPages.push([
-      <View key={0} style={styles.headerContainer}>
-        <View style={styles.dateBox}>
-          <View style={styles.settingsView}>
-            <Text
-              style={[
-                styles.settingsIconView,
-                {
-                  padding: 3,
-                  fontWeight: "bold",
-                  fontSize: 24,
-                  color: "#3CD3AD99",
-                },
-              ]}
-            >
-              1년{this.state.plan}독
-            </Text>
-            <TouchableOpacity
-              style={styles.settingsIconView}
-              onPress={() => {
-                this.openSettings();
-              }}
-            >
-              <Icon name="cogs" size={40} color="#3CD3AD99" />
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            style={styles.arrowLeftView}
-            onPress={() => {
-              this.previousDate();
-            }}
-          >
-            <Icon name="angle-up" size={100} color="#3CD3AD99" />
-          </TouchableOpacity>
-          <View style={styles.dateView}>
-            <Text style={styles.date}>
-              {/* {todayVerse.date} */}
-              {this.state.curDate.getMonth() + 1}월{" "}
-              {this.state.curDate.getDate()}일
-            </Text>
-            {!this.state.loadingDate
-              ? this.state.todayVerse.map((verse, i) => (
-                  <Text key={i} style={styles.chapter}>
-                    {verse.chapter}
-                  </Text>
-                ))
-              : null}
-          </View>
-          <TouchableOpacity
-            style={styles.arrowRightView}
-            onPress={() => {
-              this.nextDate();
-            }}
-          >
-            <Icon name="angle-down" size={100} color="#3CD3AD99" />
-          </TouchableOpacity>
-          <View style={styles.settingsDummyView}></View>
-        </View>
-      </View>,
+      <IntroView
+        plan={this.state.plan}
+        openSettings={this.openSettings.bind(this)}
+        previousDate={this.previousDate.bind(this)}
+        nextDate={this.nextDate.bind(this)}
+        curDate={this.state.curDate}
+        loadingDate={this.state.loadingDate}
+        todayVerse={this.state.todayVerse}
+      />,
     ]);
 
     // content page
@@ -682,69 +510,23 @@ class Dashboard extends Component {
               showsVerticalScrollIndicator={true}
               style={styles.oneChaper}
             >
-              <View style={styles.chapterLineBox}>
-                <View style={styles.chapterLineWrapper}>
-                  <Text
-                    style={[
-                      styles.chapterLine,
-                      {
-                        color: this.state.fontColor,
-                        fontSize: this.state.verseFontSize + 3,
-                      },
-                    ]}
-                  >
-                    {contentValue.chapter_name}
-                  </Text>
-                </View>
-                <View style={styles.fontSizerIconWrapper}>
-                  <TouchableOpacity onPress={() => this.flipDarkMode()}>
-                    <Icon name="flash" size={25} color="#3CD3AD" />
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.fontSizerIconWrapper}>
-                  <TouchableOpacity onPress={() => this.increaseFontSize()}>
-                    <Icon name="plus" size={25} color="#3CD3AD" />
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.fontSizerIconWrapper}>
-                  <TouchableOpacity onPress={() => this.decreaseFontSize()}>
-                    <Icon name="minus" size={25} color="#3CD3AD" />
-                  </TouchableOpacity>
-                </View>
-              </View>
+              <PageHeader
+                fontColor={this.state.fontColor}
+                fontSize={this.state.verseFontSize + 3}
+                chapterName={contentValue.chapter_name}
+                flipDarkMode={this.flipDarkMode.bind(this)}
+                increaseFontSize={this.increaseFontSize.bind(this)}
+                decreaseFontSize={this.decreaseFontSize.bind(this)}
+              />
+
               {contentValue.verse.map((verseValue, i) => (
-                <View key={i} style={styles.verseContent}>
-                  {verseValue.title ? (
-                    <View style={styles.titleLine}>
-                      <Text
-                        style={[
-                          styles.title,
-                          {
-                            color: this.state.fontColor,
-                            fontSize: this.state.verseFontSize + 1,
-                          },
-                        ]}
-                      >
-                        {verseValue.title}
-                      </Text>
-                    </View>
-                  ) : null}
-                  <View style={styles.verseLine}>
-                    <Text style={styles.idx}>{verseValue.idx}</Text>
-                    <Text
-                      style={[
-                        styles.verse,
-                        {
-                          color: this.state.fontColor,
-                          fontSize: this.state.verseFontSize,
-                          lineHeight: this.state.verseFontSize + 10,
-                        },
-                      ]}
-                    >
-                      {verseValue.content}
-                    </Text>
-                  </View>
-                </View>
+                <Verse
+                  title={verseValue.title}
+                  content={verseValue.content}
+                  index={verseValue.idx}
+                  fontColor={this.state.fontColor}
+                  fontSize={this.state.verseFontSize + 1}
+                />
               ))}
             </ScrollView>
           </View>,
@@ -760,7 +542,7 @@ class Dashboard extends Component {
           style={styles.checkIcon}
           onPress={() => {
             this.setState({
-              complte: false,
+              complete: false,
               showCalendar: false,
             });
           }}
@@ -793,48 +575,13 @@ class Dashboard extends Component {
     }
 
     renderCalendar = [
-      <View>
-        <Calendar
-          current={this.state.curDate}
-          // minDate={'2020-01-01'}
-          // maxDate={'2020-12-31'}
-          minDate={"2020-01-01"}
-          maxDate={"2022-12-31"}
-          hideExtraDays={true}
-          firstDay={0}
-          markedDates={this.getMarkedDates(this.state.checkedDates)}
-          style={{
-            width: Dimensions.get("window").width * 0.8,
-            alignContent: "center",
-            height: "100%",
-          }}
-          theme={{
-            // backgroundColor: '#ffffff',
-            calendarBackground: "#ffffff",
-            textSectionTitleColor: "#3CD3AD",
-            selectedDayBackgroundColor: "#3CD3AD",
-            selectedDayTextColor: "#ffffff",
-            todayTextColor: "#3CD3AD",
-            dayTextColor: "#2d4150",
-            textDisabledColor: "#777",
-            dotColor: "#00adf5",
-            selectedDotColor: "#ffffff",
-            arrowColor: "#3CD3AD",
-            monthTextColor: "#3CD3AD",
-            indicatorColor: "#3CD3AD",
-            textDayFontWeight: "300",
-            textMonthFontWeight: "bold",
-            textDayHeaderFontWeight: "bold",
-            textDayFontSize: 16,
-            textMonthFontSize: 16,
-            textDayHeaderFontSize: 16,
-          }}
-          // onDayPress={(day) => {this.setNextDate(day.dateString); this.goMain()}}
-          onDayPress={(day) => {
-            this.goToDate(day.dateString);
-          }}
-        />
-      </View>,
+      <CalendarView
+        current={this.state.curDate}
+        markedDates={this.getMarkedDates(this.state.checkedDates)}
+        onDayPress={(day) => {
+          this.goToDate(day.dateString);
+        }}
+      />,
     ];
 
     renderPages.push([
@@ -916,227 +663,14 @@ var styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 0,
   },
-  headerContainer: {
-    flex: 1,
-    padding: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 10,
-    borderRadius: 10,
-    borderColor: "#3CD3AD",
-  },
-  dateBox: {
-    flexDirection: "column",
-    flex: 1,
-    alignContent: "center",
-    justifyContent: "center",
-    width: "100%",
-    padding: 10,
-  },
-  dateView: {
-    flex: 4,
-    alignContent: "center",
-    justifyContent: "center",
-  },
-  arrowLeftView: {
-    flex: 6,
-    alignItems: "center",
-    justifyContent: "flex-end",
-    // paddingLeft: 10,
-  },
-  arrowRightView: {
-    flex: 6,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    // paddingRight: 10,
-  },
-  date: {
-    fontSize: Platform.OS === "ios" ? 42 : 32,
-    color: "#3CD3AD",
-    textAlign: "center",
-    textAlignVertical: "center",
-    margin: 12,
-    fontWeight: "bold",
-    // fontFamily: 'BMJUA',
-  },
-  chapter: {
-    fontSize: Platform.OS === "ios" ? 30 : 24,
-    color: "#3CD3AD",
-    textAlign: "center",
-    margin: 5,
-    // fontFamily: 'BMJUA',
-  },
-  settingsView: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "flex-end",
-  },
-  settingsIconView: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  settingsModalView: {
-    flex: 1,
-    fontSize: Platform.OS === "ios" ? 24 : 24,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    backgroundColor: "#77777777",
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  settingsModalTitle: {
-    flex: 2,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: "#FFFFFF",
-  },
-  settingsModalContents: {
-    flex: 6,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  settingsModalPlan: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  settingsModalPlanButton: {
-    flex: 2,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  settingsModalPlanTitle: {
-    flex: 3,
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    fontSize: Platform.OS === "ios" ? 24 : 24,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-  },
-  settingsModalPlanText: {
-    fontSize: Platform.OS === "ios" ? 24 : 24,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    borderRadius: 5,
-    borderWidth: 2,
-    borderColor: "#FFFFFF",
-  },
-  settingsModalLogout: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  settingsModalClose: {
-    flex: 1,
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-    marginRight: 10,
-  },
-  buttonInSettings: {
-    fontSize: Platform.OS === "ios" ? 24 : 24,
-    fontWeight: "normal",
-    color: "#FFFFFF",
-  },
-  settingsDummyView: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  customBackdrop: {
-    flex: 1,
-    backgroundColor: "#777777",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  customBackdropText: {
-    fontSize: Platform.OS === "ios" ? 36 : 36,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-  },
 
   // content page
   verseContainer: {
     flex: 1,
     padding: 0,
   },
-  chapterLineBox: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  chapterLineWrapper: {
-    flex: 8,
-    alignContent: "flex-start",
-    justifyContent: "flex-start",
-  },
-  fontSizerIconWrapper: {
-    flex: 1,
-    alignContent: "space-between",
-    justifyContent: "center",
-    padding: 0,
-    margin: 0,
-  },
   oneChaper: {
     marginBottom: 40,
-  },
-  chapterLine: {
-    fontSize: 23,
-    fontWeight: "bold",
-    margin: 10,
-    // color: '#000'
-    // color: '#3CD3AD',
-  },
-  verseContent: {
-    flex: 1,
-  },
-  titleLine: {
-    flex: 1,
-    flexDirection: "column",
-  },
-  verseLine: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  title: {
-    flex: 1,
-    fontSize: 20,
-    color: "#777",
-    fontWeight: "bold",
-    textAlign: "left",
-    margin: 10,
-  },
-  idx: {
-    flex: 2,
-    fontSize: 16,
-    color: "#777",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "right",
-    margin: 5,
-  },
-  verse: {
-    flex: 28,
-    fontSize: 20,
-    color: "#000",
-    padding: 5,
-    textAlign: "left",
-    // flexWrap: 'wrap',
-    lineHeight: 30,
-    fontWeight: "normal",
-    // textAlign: 'justify',
   },
 
   // closing page
