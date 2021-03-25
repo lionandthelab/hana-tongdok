@@ -24,7 +24,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import { logoutUser } from "../api/auth-api";
 import { dailyVerse } from "../data/DailyVerse";
-import IntroView from "../components/ IntroView";
+import IntroView from "../components/IntroView";
 
 const oneDay = 1000 * 60 * 60 * 24;
 const firstDay = new Date(new Date().getFullYear(), 0, 1);
@@ -57,6 +57,8 @@ class Dashboard extends Component {
       showsPagination: Platform.OS === "ios" ? false : true,
 
       progress: 0,
+
+      reading: false,
     };
 
     var increaseFontSize = this.increaseFontSize.bind(this);
@@ -321,6 +323,10 @@ class Dashboard extends Component {
     this.getDailyVerseContents();
   }
 
+  setReading(state) {
+    this.setState({ reading: state });
+  }
+
   setNextDate(dateString) {
     var _curDate = new Date(dateString);
     this.setState({
@@ -487,19 +493,7 @@ class Dashboard extends Component {
       />,
     ];
 
-    // intro page
     var renderPages = [];
-    renderPages.push([
-      <IntroView
-        plan={this.state.plan}
-        openSettings={this.openSettings.bind(this)}
-        previousDate={this.previousDate.bind(this)}
-        nextDate={this.nextDate.bind(this)}
-        curDate={this.state.curDate}
-        loadingDate={this.state.loadingDate}
-        todayVerse={this.state.todayVerse}
-      />,
-    ]);
 
     // content page
     this.state.todayContents.map((contentValues, i) =>
@@ -514,6 +508,7 @@ class Dashboard extends Component {
                 fontColor={this.state.fontColor}
                 fontSize={this.state.verseFontSize + 3}
                 chapterName={contentValue.chapter_name}
+                verseNum={contentValue.verse_num}
                 flipDarkMode={this.flipDarkMode.bind(this)}
                 increaseFontSize={this.increaseFontSize.bind(this)}
                 decreaseFontSize={this.decreaseFontSize.bind(this)}
@@ -524,6 +519,7 @@ class Dashboard extends Component {
                   title={verseValue.title}
                   content={verseValue.content}
                   index={verseValue.idx}
+                  bgColor={this.state.bgColor}
                   fontColor={this.state.fontColor}
                   fontSize={this.state.verseFontSize + 1}
                 />
@@ -614,6 +610,7 @@ class Dashboard extends Component {
               style={styles.goHomeText}
               onPress={() => {
                 this.goMain();
+                this.setReading(false);
               }}
             >
               {this.state.showCalendar ? (
@@ -627,31 +624,44 @@ class Dashboard extends Component {
 
     return (
       <View style={styles.mainContainer}>
-        <SafeAreaView
-          style={[
-            styles.mainContainer,
-            { backgroundColor: this.state.bgColor },
-          ]}
-        >
-          <Swiper
-            ref={(_swiper) => {
-              this.state.swiperRef = _swiper;
-            }}
-            loop={false}
-            loadMinimal={true}
-            loadMinimalSize={1}
-            bounces={true}
-            showsPagination={this.state.showsPagination}
-            paginationStyle={{
-              bottom: 10,
-              left: null,
-              right: 10,
-            }}
+        {!this.state.reading ? (
+          <IntroView
+            plan={this.state.plan}
+            openSettings={this.openSettings.bind(this)}
+            previousDate={this.previousDate.bind(this)}
+            nextDate={this.nextDate.bind(this)}
+            curDate={this.state.curDate}
+            loadingDate={this.state.loadingDate}
+            todayVerse={this.state.todayVerse}
+            setReading={this.setReading.bind(this)}
+          />
+        ) : (
+          <SafeAreaView
+            style={[
+              styles.mainContainer,
+              { backgroundColor: this.state.bgColor },
+            ]}
           >
-            {renderPages}
-          </Swiper>
-          {renderSettingsModal}
-        </SafeAreaView>
+            <Swiper
+              ref={(_swiper) => {
+                this.state.swiperRef = _swiper;
+              }}
+              loop={false}
+              loadMinimal={true}
+              loadMinimalSize={1}
+              bounces={true}
+              showsPagination={this.state.showsPagination}
+              paginationStyle={{
+                bottom: 10,
+                left: null,
+                right: 10,
+              }}
+            >
+              {renderPages}
+            </Swiper>
+            {renderSettingsModal}
+          </SafeAreaView>
+        )}
       </View>
     );
   }

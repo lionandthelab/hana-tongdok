@@ -1,14 +1,18 @@
 import React, { memo } from "react";
 import { Snackbar } from "react-native-paper";
 import {
+  SafeAreaView,
   Platform,
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-// import LinearGradient from "react-native-linear-gradient";
+import GDButton from "../components/GradientFilledButton";
+import LinearGradient from "react-native-linear-gradient";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 const IntroView = ({
   plan,
@@ -18,14 +22,15 @@ const IntroView = ({
   curDate,
   loadingDate,
   todayVerse,
+  setReading,
 }) => (
-  // <LinearGradient
-  //   colors={["purple", "white"]}
-  //   style={styles.container}
-  //   start={{ x: 0, y: 0 }}
-  //   end={{ x: 1, y: 1 }}
-  // >
-  <View key={0} style={styles.headerContainer}>
+  <LinearGradient
+    colors={["#4CE3BDFF", "#3CD3AD11"]}
+    style={styles.container}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 1 }}
+    style={styles.headerContainer}
+  >
     <View style={styles.dateBox}>
       <View style={styles.settingsView}>
         <Text style={styles.settingsTextView}>1년{plan}독</Text>
@@ -35,18 +40,18 @@ const IntroView = ({
             openSettings();
           }}
         >
-          <Icon name="cogs" size={40} color="#3CD3AD99" />
+          <Icon name="cogs" size={40} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        style={styles.arrowLeftView}
-        onPress={() => {
-          previousDate();
-        }}
-      >
-        <Icon name="angle-up" size={100} color="#3CD3AD99" />
-      </TouchableOpacity>
       <View style={styles.dateView}>
+        <TouchableOpacity
+          style={styles.arrowLeftView}
+          onPress={() => {
+            previousDate();
+          }}
+        >
+          <Icon name="angle-up" size={100} color="#FFFFFF" />
+        </TouchableOpacity>
         <Text style={styles.date}>
           {/* {todayVerse.date} */}
           {curDate.getMonth() + 1}월 {curDate.getDate()}일
@@ -58,22 +63,34 @@ const IntroView = ({
               </Text>
             ))
           : null}
+        <TouchableOpacity
+          style={styles.arrowRightView}
+          onPress={() => {
+            nextDate();
+          }}
+        >
+          <Icon name="angle-down" size={100} color="#FFFFFF" />
+        </TouchableOpacity>
+
+        <GDButton
+          style={styles.readButton}
+          text={"읽기"}
+          onPress={() => {
+            setReading(true);
+          }}
+        />
       </View>
-      <TouchableOpacity
-        style={styles.arrowRightView}
-        onPress={() => {
-          nextDate();
-        }}
-      >
-        <Icon name="angle-down" size={100} color="#3CD3AD99" />
-      </TouchableOpacity>
-      <View style={styles.settingsDummyView}></View>
+      <View style={styles.settingsView}></View>
     </View>
-  </View>
-  // </LinearGradient>
+  </LinearGradient>
 );
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 0,
+  },
   headerContainer: {
     flex: 1,
     padding: 0,
@@ -89,28 +106,24 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
     width: "100%",
-    padding: 10,
   },
   dateView: {
-    flex: 4,
-    alignContent: "center",
-    justifyContent: "center",
+    flex: 3,
   },
   arrowLeftView: {
-    flex: 6,
     alignItems: "center",
     justifyContent: "flex-end",
+    top: 10,
     // paddingLeft: 10,
   },
   arrowRightView: {
-    flex: 6,
     alignItems: "center",
     justifyContent: "flex-start",
     // paddingRight: 10,
   },
   date: {
     fontSize: Platform.OS === "ios" ? 42 : 32,
-    color: "#3CD3AD",
+    color: "#FFFFFF",
     textAlign: "center",
     textAlignVertical: "center",
     margin: 12,
@@ -119,7 +132,7 @@ const styles = StyleSheet.create({
   },
   chapter: {
     fontSize: Platform.OS === "ios" ? 30 : 24,
-    color: "#3CD3AD",
+    color: "#FFFFFF",
     textAlign: "center",
     margin: 5,
     // fontFamily: 'BMJUA',
@@ -131,6 +144,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "flex-end",
+    top: 5 + getStatusBarHeight(),
+    right: 20,
   },
   settingsTextView: {
     alignItems: "center",
@@ -138,11 +153,15 @@ const styles = StyleSheet.create({
     padding: 3,
     fontWeight: "bold",
     fontSize: 24,
-    color: "#3CD3AD99",
+    color: "#FFFFFF",
   },
   settingsIconView: {
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  readButton: {
+    padding: 10,
   },
 });
 

@@ -7,6 +7,7 @@ const PageHeader = ({
   fontColor,
   fontSize,
   chapterName,
+  verseNum,
   flipDarkMode,
   increaseFontSize,
   decreaseFontSize,
@@ -18,11 +19,20 @@ const PageHeader = ({
           styles.chapterLine,
           {
             color: fontColor,
-            fontSize: fontSize,
+            fontSize: fontSize + 5,
+            lineHeight: fontSize + 15,
           },
         ]}
       >
         {chapterName}
+      </Text>
+      <Text
+        style={[
+          styles.chapterBrief,
+          { color: fontColor, fontSize: fontSize - 5 },
+        ]}
+      >
+        | 총 {verseNum}절
       </Text>
     </View>
     <View style={styles.fontSizerIconWrapper}>
@@ -47,11 +57,20 @@ const styles = StyleSheet.create({
   chapterLineBox: {
     flex: 1,
     flexDirection: "row",
+    marginStart: 2,
+    marginEnd: 20,
   },
   chapterLineWrapper: {
     flex: 8,
+    flexDirection: "row",
     alignContent: "flex-start",
     justifyContent: "flex-start",
+  },
+  chapterBrief: {
+    fontSize: 13,
+    fontWeight: "400",
+    alignSelf: "flex-end",
+    margin: 3,
   },
   chapterLine: {
     fontSize: 23,

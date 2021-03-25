@@ -40,4 +40,6 @@ target 'hana_readthru' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
  
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
 end

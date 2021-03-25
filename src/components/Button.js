@@ -8,11 +8,11 @@ const Button = ({ mode, style, children, ...props }) => (
     style={[
       styles.button,
       mode === "outlined" && { backgroundColor: theme.colors.surface },
-      style
+      style,
     ]}
     labelStyle={[
       styles.text,
-      mode === "contained" && { color: theme.colors.surface }
+      mode === "contained" && { color: theme.colors.surface },
     ]}
     mode={mode}
     {...props}
@@ -24,13 +24,13 @@ const Button = ({ mode, style, children, ...props }) => (
 const styles = StyleSheet.create({
   button: {
     width: "100%",
-    marginVertical: 10
+    marginVertical: 10,
   },
   text: {
     fontWeight: "bold",
     fontSize: 15,
-    lineHeight: 26
-  }
+    lineHeight: 26,
+  },
 });
 
 export default memo(Button);
