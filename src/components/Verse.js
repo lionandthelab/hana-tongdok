@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentView: {
-    flex: 9,
+    flex: 10,
   },
   badge: {
     fontSize: 15,
