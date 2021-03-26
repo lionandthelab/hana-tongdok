@@ -32,7 +32,7 @@ const PageHeader = ({
           { color: fontColor, fontSize: fontSize - 5 },
         ]}
       >
-        | 총 {verseNum}절
+        총 {verseNum}절
       </Text>
     </View>
     <View style={styles.fontSizerIconWrapper}>
@@ -62,15 +62,15 @@ const styles = StyleSheet.create({
   },
   chapterLineWrapper: {
     flex: 8,
-    flexDirection: "row",
+    flexDirection: "column",
     alignContent: "flex-start",
     justifyContent: "flex-start",
   },
   chapterBrief: {
     fontSize: 13,
     fontWeight: "400",
-    alignSelf: "flex-end",
-    margin: 3,
+    alignSelf: "flex-start",
+    paddingLeft: 10,
   },
   chapterLine: {
     fontSize: 23,

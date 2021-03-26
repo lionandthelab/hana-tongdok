@@ -30,9 +30,15 @@ const Verse = ({ content, index, comments, bgColor, fontColor, fontSize }) => (
             },
           ]}
         >
-          {content}
+          {content} {comments && comments.map((c, i) => <Text style={[
+            styles.verse,
+            {
+              color: fontColor,
+              fontSize: fontSize - 5,
+              lineHeight: fontSize,
+            },
+          ]}>{c} </Text>)}
         </Paragraph>
-        {comments && comments.map((c, i) => <Paragraph>{c}</Paragraph>)}
       </View>
     </View>
   </View>
