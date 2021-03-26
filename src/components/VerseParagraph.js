@@ -16,10 +16,14 @@ import Verse from "../components/Verse";
 
 const VerseParagraph = ({
   index,
+  chapterName,
   paragraphData,
   bgColor,
   fontColor,
   fontSize,
+  storeMyVerse,
+  removeMyVerse,
+  setVisible,
 }) => (
   <View key={`para-${index}`} style={styles.verseContent}>
     <Card
@@ -45,12 +49,16 @@ const VerseParagraph = ({
       <Card.Content>
         {paragraphData.verses.map((verse, i) => (
           <Verse
+            chapterName={chapterName}
             content={verse.content}
             index={verse.index}
             comments={verse.comments}
             bgColor={bgColor}
             fontColor={fontColor}
             fontSize={fontSize}
+            storeMyVerse={storeMyVerse}
+            removeMyVerse={removeMyVerse}
+            setVisible={setVisible}
           />
         ))}
       </Card.Content>

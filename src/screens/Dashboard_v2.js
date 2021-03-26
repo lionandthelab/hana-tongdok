@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
+import {Snackbar} from "react-native-paper";
 import Button from "../components/Button";
 import Background from "../components/Background";
 import PageHeader from "../components/PageHeader";
@@ -25,6 +26,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { logoutUser } from "../api/auth-api";
 import { dailyVerse } from "../data/SAE_data";
 import IntroView from "../components/IntroView";
+import MyVerses from "../components/MyVerses";
 import VerseParagraph from "../components/VerseParagraph";
 import LinearGradient from "react-native-linear-gradient";
 
@@ -50,6 +52,7 @@ class Dashboard extends Component {
       todayVerse: [],
       todayContents: [],
       checkedDates: [],
+      myVerses: [],
       complete: false,
       showCalendar: false,
       isSettingsVisible: false,
@@ -60,7 +63,7 @@ class Dashboard extends Component {
 
       progress: 0,
 
-      reading: false,
+      reading: 0,
     };
 
     var increaseFontSize = this.increaseFontSize.bind(this);
@@ -74,6 +77,9 @@ class Dashboard extends Component {
     var closeSettings = this.closeSettings.bind(this);
     var previousDate = this.previousDate.bind(this);
     var nextDate = this.nextDate.bind(this);
+    var _storeMyVerse = this._storeMyVerse.bind(this);
+    var _removeMyVerse = this._removeMyVerse.bind(this);
+    var setVisible = this.setVisible.bind(this);
   }
 
   async componentWillMount() {
@@ -179,7 +185,8 @@ class Dashboard extends Component {
       // Error retrieving data
     }
 
-    this._retrievecheckedDates();
+    this._retrieveCheckedDates();
+    this._retrieveMyVerses();
   }
 
   async _storeCheckedDate(curDate) {
@@ -216,7 +223,7 @@ class Dashboard extends Component {
     }
   }
 
-  async _retrievecheckedDates() {
+  async _retrieveCheckedDates() {
     try {
       const _checkedDates = await AsyncStorage.getItem("@key_checked_dates");
       if (_checkedDates !== null) {
@@ -231,9 +238,63 @@ class Dashboard extends Component {
     this.calcProgress();
   }
 
+  async _storeMyVerse(chapterName, index, content) {
+    try {
+      var _tmp = this.state.myVerses;
+      _tmp.push(`${chapterName}#${index}#${content}`);
+      this.setState({
+        myVerses: _tmp,
+      });
+      await AsyncStorage.setItem(
+        "@key_my_verses",
+        JSON.stringify(this.state.myVerses)
+      );
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
+  // async _removeMyVerse(chapterName, index, content) {
+  async _removeMyVerse(key) {
+    try {
+      var array = [...this.state.myVerses]; // make a separate copy of the array
+      // var index = array.indexOf(`${chapterName}#${index}#${content}`)
+      var index = array.indexOf(key)
+
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({myVerses: array});
+      }
+
+      await AsyncStorage.setItem(
+        "@key_my_verses",
+        JSON.stringify(this.state.myVerses)
+      );
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
+  async _retrieveMyVerses() {
+    try {
+      const _myVerses = await AsyncStorage.getItem("@key_my_verses");
+      if (_myVerses !== null) {
+        // We have data!!
+        this.setState({ myVerses: JSON.parse(_myVerses) });
+      }
+    } catch (error) {
+      // Error retrieving data
+      this.state.myVerses = "err";
+    }
+  }
+
   //----------------------------------------
   // utils
   //----------------------------------------
+
+  setVisible(visible) { this.setState({visible: visible}) }
+
+  onDismissSnackBar() { this.setVisible(false); }
 
   isThisYear(date) {
     if (parseInt(date.substring(0, 4)) === this.state.curDate.getFullYear()) {
@@ -536,10 +597,14 @@ class Dashboard extends Component {
               {contentValue.paragraphs.map((paragraphData, i) => (
                 <VerseParagraph
                   index={i}
+                  chapterName={contentValue.chapter_name}
                   paragraphData={paragraphData}
                   bgColor={this.state.bgColor}
                   fontColor={this.state.fontColor}
                   fontSize={this.state.verseFontSize + 1}
+                  storeMyVerse={this._storeMyVerse.bind(this)}
+                  removeMyVerse={this._removeMyVerse.bind(this)}
+                  setVisible={this.setVisible.bind(this)}
                 />
               ))}
             </ScrollView>
@@ -593,7 +658,7 @@ class Dashboard extends Component {
         markedDates={this.getMarkedDates(this.state.checkedDates)}
         onDayPress={(day) => {
           this.goToDate(day.dateString);
-          this.setReading(false);
+          this.setReading(0);
         }}
       />,
     ];
@@ -628,7 +693,7 @@ class Dashboard extends Component {
               style={styles.goHomeText}
               onPress={() => {
                 this.goMain();
-                this.setReading(false);
+                this.setReading(0);
               }}
             >
               {this.state.showCalendar ? (
@@ -642,7 +707,7 @@ class Dashboard extends Component {
 
     return (
       <View style={styles.mainContainer}>
-        {!this.state.reading ? ([
+        {this.state.reading == 0 ? ([
           <IntroView
             plan={this.state.plan}
             openSettings={this.openSettings.bind(this)}
@@ -654,7 +719,7 @@ class Dashboard extends Component {
             setReading={this.setReading.bind(this)}
           />,
           renderSettingsModal]
-        ) : (
+        ) : this.state.reading == 1 ? (
           <SafeAreaView
             style={[
               styles.mainContainer,
@@ -679,7 +744,23 @@ class Dashboard extends Component {
               {renderPages}
             </Swiper>
           </SafeAreaView>
+        ) : (
+          <MyVerses 
+            verses={this.state.myVerses} 
+            setReading={this.setReading.bind(this)}
+            removeMyVerse={this._removeMyVerse.bind(this)}/>
         )}
+        <Snackbar
+          visible={this.state.visible}
+          onDismiss={() => this.setVisible(false)}
+          action={{
+            label: '확인',
+            onPress: () => {
+              this.setVisible(false)
+            },
+          }}>
+          말씀을 저장했습니다 :)
+        </Snackbar>
       </View>
     );
   }
@@ -705,7 +786,7 @@ var styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 50,
+    borderRadius: 70,
     // borderColor: "#3CD3AD",
   },
   progressView: {

@@ -13,34 +13,39 @@ import {
   Title,
 } from "react-native-paper";
 
-const Verse = ({ content, index, comments, bgColor, fontColor, fontSize }) => (
+const Verse = ({ chapterName, content, index, comments, bgColor, fontColor, fontSize, storeMyVerse, removeMyVerse, setVisible }) => (
   <View key={`verse-${index}`} style={styles.verseContent}>
-    <View style={styles.verseLine}>
-      <View style={styles.indexView}>
-        <Badge style={styles.badge}>{index}</Badge>
+    <TouchableOpacity onLongPress={() => {
+      storeMyVerse(chapterName, index, content)
+      setVisible(true)
+      }}>
+      <View style={styles.verseLine}>
+        <View style={styles.indexView}>
+          <Badge style={styles.badge}>{index}</Badge>
+        </View>
+        <View style={styles.contentView}>
+          <Paragraph
+            style={[
+              styles.verse,
+              {
+                color: fontColor,
+                fontSize: fontSize,
+                lineHeight: fontSize + 10,
+              },
+            ]}
+          >
+            {content} {comments && comments.map((c, i) => <Text style={[
+              styles.verse,
+              {
+                color: fontColor,
+                fontSize: fontSize - 5,
+                lineHeight: fontSize,
+              },
+            ]}>{c} </Text>)}
+          </Paragraph>
+        </View>
       </View>
-      <View style={styles.contentView}>
-        <Paragraph
-          style={[
-            styles.verse,
-            {
-              color: fontColor,
-              fontSize: fontSize,
-              lineHeight: fontSize + 10,
-            },
-          ]}
-        >
-          {content} {comments && comments.map((c, i) => <Text style={[
-            styles.verse,
-            {
-              color: fontColor,
-              fontSize: fontSize - 5,
-              lineHeight: fontSize,
-            },
-          ]}>{c} </Text>)}
-        </Paragraph>
-      </View>
-    </View>
+    </TouchableOpacity>
   </View>
 );
 

@@ -75,7 +75,14 @@ const IntroView = ({
           style={styles.readButton}
           text={"읽기"}
           onPress={() => {
-            setReading(true);
+            setReading(1);
+          }}
+        />
+        <GDButton
+          style={styles.readButton}
+          text={"나의 말씀"}
+          onPress={() => {
+            setReading(2);
           }}
         />
       </View>
