@@ -4,32 +4,33 @@ import { theme } from "../core/theme";
 import LinearGradient from "react-native-linear-gradient";
 
 const GDButton = ({ text, onPress }) => (
-  <TouchableOpacity onPress={onPress} style={styles.linearGradient}>
-    <LinearGradient
-      //   start={{ x: 0, y: 0 }}
-      //   end={{ x: 1, y: 1 }}
-      //   colors={["red", "yellow", "green"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      colors={["#5851DB", "#C13584", "#E1306C", "#FD1D1D", "#F77737"]}
-      style={{
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 10,
-      }}
-    >
+  <LinearGradient
+    //   start={{ x: 0, y: 0 }}
+    //   end={{ x: 1, y: 1 }}
+    //   colors={["red", "yellow", "green"]}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 1 }}
+    // colors={["#5851DB", "#C13584", "#E1306C", "#FD1D1D", "#F77737"]}
+    colors={["#5851DB", "#3CD3AD", "#5851DB", "#3CD3AD", "#5851DB"]}
+    style={styles.linearGradient}
+  >
+    <TouchableOpacity onPress={onPress} style={styles.outlined}>
       <Text style={styles.buttonText}>{text}</Text>
-    </LinearGradient>
-  </TouchableOpacity>
+    </TouchableOpacity>
+  </LinearGradient>
 );
 
 const styles = StyleSheet.create({
   // gradient filled button
   linearGradient: {
-    paddingHorizontal: 40,
-    paddingVertical: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
     borderRadius: 10,
-    margin: 20,
+    marginHorizontal: 50,
+    marginVertical: 30,
+    // alignItems: "center",
+    // justifyContent: "center",
+    // borderRadius: 10,
   },
   outlined: {
     margin: 1,
@@ -41,12 +42,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: "bold",
-    fontSize: 20,
-    lineHeight: 26,
+    fontSize: 24,
+    lineHeight: 30,
     fontFamily: "Gill Sans",
     textAlign: "center",
-    margin: 10,
-    color: "#ffffff",
+    color: "#3CD3AD",
     backgroundColor: "transparent",
   },
 });

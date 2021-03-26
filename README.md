@@ -15,3 +15,5 @@ paragraph gathering
 voice
 eng
 chinese
+
+의문의 엔터 처리

@@ -27,17 +27,20 @@ const VerseParagraph = ({
       style={[styles.card, { backgroundColor: bgColor }]}
     >
       {paragraphData.title ? (
-        <Card.Title
-          title={paragraphData.title}
-          titleStyle={[
-            styles.title,
-            {
-              color: fontColor,
-              fontSize: fontSize + 2,
-              lineHeight: fontSize + 5,
-            },
-          ]}
-        />
+        <Card.Content>
+          <Paragraph
+            style={[
+              styles.title,
+              {
+                color: fontColor,
+                fontSize: fontSize + 2,
+                lineHeight: fontSize + 5,
+              },
+            ]}
+          >
+            {paragraphData.title}
+          </Paragraph>
+        </Card.Content>
       ) : null}
       <Card.Content>
         {paragraphData.verses.map((verse, i) => (
