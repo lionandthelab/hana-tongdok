@@ -68,7 +68,7 @@ const CalendarView = ({ current, markedDates, onDayPress }) => (
         height: "100%",
       }}
       theme={{
-        calendarBackground: "#ffffff",
+        calendarBackground: "#ffffff00",
         textSectionTitleColor: "#3CD3AD",
         selectedDayBackgroundColor: "#3CD3AD",
         selectedDayTextColor: "#ffffff",

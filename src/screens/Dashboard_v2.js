@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
+import Button from "../components/Button";
 import Background from "../components/Background";
 import PageHeader from "../components/PageHeader";
 import CalendarView from "../components/CalendarView";
@@ -25,6 +26,7 @@ import { logoutUser } from "../api/auth-api";
 import { dailyVerse } from "../data/SAE_data";
 import IntroView from "../components/IntroView";
 import VerseParagraph from "../components/VerseParagraph";
+import LinearGradient from "react-native-linear-gradient";
 
 const oneDay = 1000 * 60 * 60 * 24;
 const firstDay = new Date(new Date().getFullYear(), 0, 1);
@@ -180,13 +182,31 @@ class Dashboard extends Component {
     this._retrievecheckedDates();
   }
 
-  async _storecheckedDate(curDate) {
+  async _storeCheckedDate(curDate) {
     try {
       var _tmp = this.state.checkedDates;
       _tmp.push(this.yyyymmdd(curDate));
       this.setState({
         checkedDates: _tmp,
       });
+      await AsyncStorage.setItem(
+        "@key_checked_dates",
+        JSON.stringify(this.state.checkedDates)
+      );
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
+  async _removeCheckedDate(curDate) {
+    try {
+      var array = [...this.state.checkedDates]; // make a separate copy of the array
+      var index = array.indexOf(this.yyyymmdd(curDate))
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({checkedDates: array});
+      }
+
       await AsyncStorage.setItem(
         "@key_checked_dates",
         JSON.stringify(this.state.checkedDates)
@@ -301,16 +321,14 @@ class Dashboard extends Component {
   goToDate(dateString) {
     var _curDate = new Date(dateString);
     this.setState(
-      {
-        curDate: _curDate,
-        complete: false,
-        showCalendar: false,
-      },
-      function() {
-        this.getDailyVerseContents();
-        this.state.swiperRef.scrollBy(-(this.state.pageCount + 1), true);
-      }
-    );
+    {
+      curDate: _curDate,
+      complete: false,
+      showCalendar: false,
+    })
+
+    this.getDailyVerseContents();
+    this.state.swiperRef.scrollBy(-(this.state.pageCount + 1), true);
   }
 
   goMain() {
@@ -523,14 +541,6 @@ class Dashboard extends Component {
                   fontColor={this.state.fontColor}
                   fontSize={this.state.verseFontSize + 1}
                 />
-                // <Verse
-                //   title={verseValue.title}
-                //   content={verseValue.content}
-                //   index={verseValue.idx}
-                //   bgColor={this.state.bgColor}
-                //   fontColor={this.state.fontColor}
-                //   fontSize={this.state.verseFontSize + 1}
-                // />
               ))}
             </ScrollView>
           </View>,
@@ -541,40 +551,38 @@ class Dashboard extends Component {
     // complete page
     if (this.state.complete == true) {
       renderCheckButton = [
-        <TouchableOpacity
-          key={0}
-          style={styles.checkIcon}
-          onPress={() => {
+        <Button mode="contained" onPress={() => {
             this.setState({
               complete: false,
               showCalendar: false,
             });
+            this._removeCheckedDate(this.state.curDate);
+            this.calcProgress();
           }}
         >
-          <Icon name="check" size={120} color="#3CD3AD" />
-        </TouchableOpacity>,
+          {/* <Icon name="check" size={120} color="#3CD3AD" /> */}
+          <Text> 읽음 취소 </Text>
+        </Button>,
       ];
     } else {
       renderCheckButton = [
-        <TouchableOpacity
-          key={0}
-          style={styles.checkIcon}
-          onPress={() => {
+        <Button mode="outlined" onPress={() => {
             this.setState({
               complete: true,
             });
-            this._storecheckedDate(this.state.curDate);
+            this._storeCheckedDate(this.state.curDate);
             this.calcProgress();
 
-            _interval = setTimeout(() => {
-              this.setState({
-                showCalendar: true,
-              });
-            }, 1000);
+            // _interval = setTimeout(() => {
+            //   this.setState({
+            //     showCalendar: true,
+            //   });
+            // }, 1000);
           }}
         >
-          <Icon name="check" size={120} color="#777" />
-        </TouchableOpacity>,
+          {/* <Icon name="check" size={120} color="#777" /> */}
+          <Text> 읽음 표시 </Text>
+        </Button>,
       ];
     }
 
@@ -585,13 +593,19 @@ class Dashboard extends Component {
         markedDates={this.getMarkedDates(this.state.checkedDates)}
         onDayPress={(day) => {
           this.goToDate(day.dateString);
+          this.setReading(false);
         }}
       />,
     ];
 
     renderPages.push([
+      <LinearGradient
+        colors={["#3CD3AD11", "#4CE3BDFF"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.lastContainer}
+      >
       <View key={100} style={styles.lastContainer}>
-        <Background>
           <View style={styles.checkIconView}>{renderCheckButton}</View>
           <View style={styles.calendarView}>{renderCalendar}</View>
           {/* <View style={styles.checkUpperView}> */}
@@ -609,11 +623,6 @@ class Dashboard extends Component {
                 {this.state.progress.toFixed(2)}%
               </Text>
             </ProgressCircle>
-            <Text style={{ fontSize: 14 }}>
-              {this.state.curDate.getFullYear()}년
-            </Text>
-
-            {/* <Text style={styles.goHomeText}> {this.wholeProgress()} </Text> */}
 
             <TouchableOpacity
               style={styles.goHomeText}
@@ -627,8 +636,8 @@ class Dashboard extends Component {
               ) : null}
             </TouchableOpacity>
           </View>
-        </Background>
-      </View>,
+      </View>
+      </LinearGradient>,
     ]);
 
     return (
@@ -694,12 +703,10 @@ var styles = StyleSheet.create({
   // closing page
   lastContainer: {
     flex: 1,
-    padding: 0,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 10,
-    borderRadius: 10,
-    borderColor: "#3CD3AD",
+    borderRadius: 50,
+    // borderColor: "#3CD3AD",
   },
   progressView: {
     flex: 2,
