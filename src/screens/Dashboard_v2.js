@@ -59,7 +59,8 @@ class Dashboard extends Component {
       needRefresh: false,
       loadingDate: false,
       swiperRef: null,
-      showsPagination: Platform.OS === "ios" ? false : true,
+      // showsPagination: Platform.OS === "ios" ? false : true,
+      showsPagination: false,
 
       progress: 0,
 

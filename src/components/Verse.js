@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Snackbar } from "react-native-paper";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
   Badge,
@@ -10,7 +10,7 @@ import {
   Card,
   IconButton,
   List,
-  Title,
+  Text, Title,
 } from "react-native-paper";
 
 const Verse = ({ chapterName, content, index, comments, bgColor, fontColor, fontSize, storeMyVerse, removeMyVerse, setVisible }) => (
@@ -30,18 +30,32 @@ const Verse = ({ chapterName, content, index, comments, bgColor, fontColor, font
               {
                 color: fontColor,
                 fontSize: fontSize,
-                lineHeight: fontSize + 10,
+                lineHeight: fontSize * 1.5,
               },
             ]}
           >
-            {content} {comments && comments.map((c, i) => <Text style={[
+            {content}
+            {comments && comments.map((c, i) => <Text style={[
               styles.verse,
               {
                 color: fontColor,
                 fontSize: fontSize - 5,
-                lineHeight: fontSize,
+                lineHeight: fontSize * 1.5,
               },
-            ]}>{c} </Text>)}
+            ]}>
+              {c }
+            </Text> )}
+            {/* {comments && 
+            <Text style={[
+              styles.verse,
+              {
+                color: fontColor,
+                fontSize: fontSize - 5,
+                lineHeight: fontSize * 1.5,
+              },
+            ]}>
+              {comments.map((c, i) => {c })}
+            </Text> */}
           </Paragraph>
         </View>
       </View>
