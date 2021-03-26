@@ -633,7 +633,7 @@ class Dashboard extends Component {
 
     return (
       <View style={styles.mainContainer}>
-        {!this.state.reading ? (
+        {!this.state.reading ? ([
           <IntroView
             plan={this.state.plan}
             openSettings={this.openSettings.bind(this)}
@@ -643,7 +643,8 @@ class Dashboard extends Component {
             loadingDate={this.state.loadingDate}
             todayVerse={this.state.todayVerse}
             setReading={this.setReading.bind(this)}
-          />
+          />,
+          renderSettingsModal]
         ) : (
           <SafeAreaView
             style={[
@@ -668,7 +669,6 @@ class Dashboard extends Component {
             >
               {renderPages}
             </Swiper>
-            {renderSettingsModal}
           </SafeAreaView>
         )}
       </View>
