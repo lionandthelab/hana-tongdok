@@ -13,26 +13,8 @@ import {
   Title,
 } from "react-native-paper";
 
-const Verse = ({ title, content, index, bgColor, fontColor, fontSize }) => (
-  <View key={index} style={styles.verseContent}>
-    {title ? (
-      <Card style={[styles.card, { backgroundColor: bgColor }]}>
-        <Card.Content>
-          <Paragraph
-            style={[
-              styles.title,
-              {
-                color: fontColor,
-                fontSize: fontSize + 2,
-                lineHeight: fontSize + 2,
-              },
-            ]}
-          >
-            {title}
-          </Paragraph>
-        </Card.Content>
-      </Card>
-    ) : null}
+const Verse = ({ content, index, comments, bgColor, fontColor, fontSize }) => (
+  <View key={`verse-${index}`} style={styles.verseContent}>
     <View style={styles.verseLine}>
       <View style={styles.indexView}>
         <Badge style={styles.badge}>{index}</Badge>
@@ -50,6 +32,7 @@ const Verse = ({ title, content, index, bgColor, fontColor, fontSize }) => (
         >
           {content}
         </Paragraph>
+        {comments && comments.map((c, i) => <Paragraph>{c}</Paragraph>)}
       </View>
     </View>
   </View>
@@ -58,14 +41,14 @@ const Verse = ({ title, content, index, bgColor, fontColor, fontSize }) => (
 const styles = StyleSheet.create({
   verseContent: {
     flex: 1,
-    marginEnd: 5,
+    marginEnd: 1,
   },
   verseLine: {
     flex: 1,
     flexDirection: "row",
     borderRightColor: "#4CE3BD77",
     borderRightWidth: 2,
-    margin: 4,
+    margin: 1,
   },
   indexView: {
     flex: 1,
@@ -78,7 +61,7 @@ const styles = StyleSheet.create({
   },
   badge: {
     fontSize: 15,
-    backgroundColor: "#4CE3BD11",
+    backgroundColor: "#4CE3BD",
     color: "white",
   },
   card: {
