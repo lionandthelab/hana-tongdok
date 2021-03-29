@@ -16,10 +16,11 @@ import {
   Card,
   IconButton,
   Title,
+  Button,
+  Colors
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import GDButton from "../components/GradientFilledButton";
-import Button from "../components/Button";
 import Toast from "../components/Toast";
 import LinearGradient from "react-native-linear-gradient";
 import { getStatusBarHeight } from "react-native-status-bar-height";
@@ -51,13 +52,22 @@ const MyVerses = ({
             <Card.Title
               title={`${verse.split('#')[0]} ${verse.split('#')[1]}절`}/>
             <Card.Content>
-              <Paragraph>
+            <View style={{flexDirection:'row'}}>
+            <View style={{flex: 9}}>
+              <Paragraph style={styles.texts}>
                 {verse.split('#')[2]}
               </Paragraph>
+            </View>
+            <View style={{flex: 1, alignSelf: "center"}}>
+              <IconButton
+                icon="close-circle"
+                color={Colors.red500}
+                size={20}
+                onPress={() => removeMyVerse(verse)}
+              />
+            </View>
+            </View>
             </Card.Content>
-            <Card.Actions>
-              <Button onPress={() => removeMyVerse(verse)}>삭제</Button>
-            </Card.Actions>
           </Card>
         ))}
       <View style={{padding: 30, marginVertical: 20}}>
@@ -93,6 +103,10 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     width: "100%",
   },
+  texts: {
+    fontSize: 15,
+    lineHeight: 20,
+  },
   header: {
     flex: 1,
     padding: 30,
@@ -121,6 +135,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     // borderBottomColor: "#47000033",
     // borderBottomWidth: 1,
+  },
+  removeButton: {
   },
 
   readButton: {

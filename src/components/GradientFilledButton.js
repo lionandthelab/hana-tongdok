@@ -7,11 +7,13 @@ const GDButton = ({ text, onPress }) => (
   <LinearGradient
     //   start={{ x: 0, y: 0 }}
     //   end={{ x: 1, y: 1 }}
-    //   colors={["red", "yellow", "green"]}
+      // colors={["red", "yellow", "green"]}
     start={{ x: 0, y: 0 }}
     end={{ x: 1, y: 1 }}
-    // colors={["#5851DB", "#C13584", "#E1306C", "#FD1D1D", "#F77737"]}
-    colors={["#5851DB", "#3CD3AD", "#5851DB", "#3CD3AD", "#5851DB"]}
+    colors={["#5851DB", "#5851DB", "purple"]}
+    // colors={["#5851DB", "#3CD3AD", "#5851DB", "#3CD3AD", "#5851DB"]}
+
+    // colors={["#5851DB11"]}
     style={styles.linearGradient}
   >
     <TouchableOpacity onPress={onPress} style={styles.outlined}>
@@ -23,10 +25,10 @@ const GDButton = ({ text, onPress }) => (
 const styles = StyleSheet.create({
   // gradient filled button
   linearGradient: {
-    paddingHorizontal: 5,
-    paddingVertical: 5,
+    paddingHorizontal: 1,
+    paddingVertical: 1,
     borderRadius: 10,
-    marginHorizontal: 30,
+    marginHorizontal: 100,
     marginVertical: 10,
     // alignItems: "center",
     // justifyContent: "center",
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: "#FFFFFF",
   },
   buttonText: {
     fontWeight: "bold",
@@ -47,6 +49,7 @@ const styles = StyleSheet.create({
     fontFamily: "Gill Sans",
     textAlign: "center",
     color: "#3CD3AD",
+    // color: "#FFFFFF",
     backgroundColor: "transparent",
   },
 });

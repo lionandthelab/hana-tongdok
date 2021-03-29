@@ -26,8 +26,12 @@ const IntroView = ({
 }) => (
   <LinearGradient
     colors={["#4CE3BDFF", "#3CD3AD11"]}
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 1 }}
+    // colors={["#4CE3BDFF", "#3CD3AD11", "#5851DBFF"]}
+    // colors={["#3CD3AD11", "#4CE3BDFF", "#3CD3AD11", "#5851DBFF"]}
+    // start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }}
+    start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}}
+    locations={[0,0.5,0.6]}
+    
     style={styles.headerContainer}
   >
     <View style={styles.dateBox}>
@@ -55,13 +59,15 @@ const IntroView = ({
           {/* {todayVerse.date} */}
           {curDate.getMonth() + 1}월 {curDate.getDate()}일
         </Text>
-        {!loadingDate
+        {!loadingDate && todayVerse
           ? todayVerse.map((verse, i) => (
               <Text key={i} style={styles.chapter}>
                 {verse.chapter}
               </Text>
             ))
-          : null}
+          : <Text style={styles.chapter}>
+              로딩중...
+            </Text>}
         <TouchableOpacity
           style={styles.arrowRightView}
           onPress={() => {
@@ -70,7 +76,8 @@ const IntroView = ({
         >
           <Icon name="angle-down" size={100} color="#FFFFFF" />
         </TouchableOpacity>
-
+      </View>
+      <View>
         <GDButton
           style={styles.readButton}
           text={"읽기"}
@@ -167,7 +174,7 @@ const styles = StyleSheet.create({
   },
 
   readButton: {
-    padding: 10,
+    padding: 5,
   },
 });
 

@@ -10,8 +10,9 @@ import {
   Easing,
   TouchableOpacity,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
-import {Snackbar} from "react-native-paper";
+import { Snackbar } from "react-native-paper";
 import Button from "../components/Button";
 import Background from "../components/Background";
 import PageHeader from "../components/PageHeader";
@@ -65,6 +66,7 @@ class Dashboard extends Component {
       progress: 0,
 
       reading: 0,
+      loading: true,
     };
 
     var increaseFontSize = this.increaseFontSize.bind(this);
@@ -209,10 +211,10 @@ class Dashboard extends Component {
   async _removeCheckedDate(curDate) {
     try {
       var array = [...this.state.checkedDates]; // make a separate copy of the array
-      var index = array.indexOf(this.yyyymmdd(curDate))
+      var index = array.indexOf(this.yyyymmdd(curDate));
       if (index !== -1) {
         array.splice(index, 1);
-        this.setState({checkedDates: array});
+        this.setState({ checkedDates: array });
       }
 
       await AsyncStorage.setItem(
@@ -260,11 +262,11 @@ class Dashboard extends Component {
     try {
       var array = [...this.state.myVerses]; // make a separate copy of the array
       // var index = array.indexOf(`${chapterName}#${index}#${content}`)
-      var index = array.indexOf(key)
+      var index = array.indexOf(key);
 
       if (index !== -1) {
         array.splice(index, 1);
-        this.setState({myVerses: array});
+        this.setState({ myVerses: array });
       }
 
       await AsyncStorage.setItem(
@@ -293,9 +295,13 @@ class Dashboard extends Component {
   // utils
   //----------------------------------------
 
-  setVisible(visible) { this.setState({visible: visible}) }
+  setVisible(visible) {
+    this.setState({ visible: visible });
+  }
 
-  onDismissSnackBar() { this.setVisible(false); }
+  onDismissSnackBar() {
+    this.setVisible(false);
+  }
 
   isThisYear(date) {
     if (parseInt(date.substring(0, 4)) === this.state.curDate.getFullYear()) {
@@ -382,14 +388,14 @@ class Dashboard extends Component {
 
   goToDate(dateString) {
     var _curDate = new Date(dateString);
-    this.setState(
-    {
+    this.setState({
       curDate: _curDate,
       complete: false,
       showCalendar: false,
-    })
+    });
 
-    this.getDailyVerseContents();
+    // alert(`curDate: ${this.state.curDate}, ${_curDate}, ${dateString}`)
+    this.getDailyVerseContents(_curDate);
     this.state.swiperRef.scrollBy(-(this.state.pageCount + 1), true);
   }
 
@@ -400,7 +406,7 @@ class Dashboard extends Component {
       complete: false,
       showCalendar: false,
     });
-    this.getDailyVerseContents();
+    this.getDailyVerseContents(this.state.curDate);
   }
 
   setReading(state) {
@@ -423,7 +429,7 @@ class Dashboard extends Component {
     this.setState({
       curDate: _curDate,
     });
-    this.getDailyVerseContents();
+    this.getDailyVerseContents(_curDate);
     this.setState({
       complete: false,
       showCalendar: false,
@@ -439,7 +445,7 @@ class Dashboard extends Component {
     this.setState({
       curDate: _curDate,
     });
-    this.getDailyVerseContents();
+    this.getDailyVerseContents(_curDate);
     this.setState({
       complete: false,
       showCalendar: false,
@@ -474,7 +480,7 @@ class Dashboard extends Component {
     this.setState({
       isSettingsVisible: false,
     });
-    this.getDailyVerseContents();
+    this.getDailyVerseContents(this.state.curDate);
   }
 
   setPlan1() {
@@ -482,7 +488,7 @@ class Dashboard extends Component {
       plan: 1,
     });
     this._storePlan("1");
-    this.getDailyVerseContents();
+    this.getDailyVerseContents(this.state.curDate);
   }
 
   setPlan2() {
@@ -490,7 +496,7 @@ class Dashboard extends Component {
       plan: 2,
     });
     this._storePlan("2");
-    this.getDailyVerseContents();
+    this.getDailyVerseContents(this.state.curDate);
   }
 
   setPlan3() {
@@ -498,7 +504,7 @@ class Dashboard extends Component {
       plan: 3,
     });
     this._storePlan("3");
-    this.getDailyVerseContents();
+    this.getDailyVerseContents(this.state.curDate);
   }
 
   flipDarkMode() {
@@ -514,11 +520,11 @@ class Dashboard extends Component {
     StatusBar.setBackgroundColor(_bgColor);
   }
 
-  getDailyVerseContents() {
+  getDailyVerseContents(_curDate) {
     this.setState({
       loadingDate: true,
+      todayVerse: [],
     });
-    var _curDate = this.state.curDate;
     var _firstDay = new Date(_curDate.getFullYear(), 0, 1);
     var _lastDay = new Date(_curDate.getFullYear(), 11, 31);
     var curDateIdx = (_curDate.getTime() - _firstDay.getTime()) / oneDay;
@@ -617,7 +623,9 @@ class Dashboard extends Component {
     // complete page
     if (this.state.complete == true) {
       renderCheckButton = [
-        <Button mode="contained" onPress={() => {
+        <Button
+          mode="contained"
+          onPress={() => {
             this.setState({
               complete: false,
               showCalendar: false,
@@ -632,7 +640,9 @@ class Dashboard extends Component {
       ];
     } else {
       renderCheckButton = [
-        <Button mode="outlined" onPress={() => {
+        <Button
+          mode="outlined"
+          onPress={() => {
             this.setState({
               complete: true,
             });
@@ -658,20 +668,22 @@ class Dashboard extends Component {
         current={this.state.curDate}
         markedDates={this.getMarkedDates(this.state.checkedDates)}
         onDayPress={(day) => {
-          this.goToDate(day.dateString);
           this.setReading(0);
+          this.goToDate(day.dateString);
         }}
       />,
     ];
 
     renderPages.push([
       <LinearGradient
-        colors={["#3CD3AD11", "#4CE3BDFF"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+        colors={["#4CE3BDFF", "#3CD3AD11"]}
+        // start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }}
+        start={{ x: 0.0, y: 0.025 }}
+        end={{ x: 0.0, y: 1.0 }}
+        locations={[0, 0.01, 0.02]}
         style={styles.lastContainer}
       >
-      <View key={100} style={styles.lastContainer}>
+        <View key={100} style={styles.lastContainer}>
           <View style={styles.checkIconView}>{renderCheckButton}</View>
           <View style={styles.calendarView}>{renderCalendar}</View>
           {/* <View style={styles.checkUpperView}> */}
@@ -682,10 +694,12 @@ class Dashboard extends Component {
               radius={50}
               borderWidth={8}
               color="#3CD3AD"
-              shadowColor="#ddd"
+              shadowColor="#eee"
               bgColor="#fff"
             >
-              <Text style={{ fontSize: 18 }}>
+              <Text
+                style={{ color: "#3CD3AD", fontWeight: "bold", fontSize: 18 }}
+              >
                 {this.state.progress.toFixed(2)}%
               </Text>
             </ProgressCircle>
@@ -702,24 +716,33 @@ class Dashboard extends Component {
               ) : null}
             </TouchableOpacity>
           </View>
-      </View>
+        </View>
       </LinearGradient>,
     ]);
 
     return (
       <View style={styles.mainContainer}>
-        {this.state.reading == 0 ? ([
-          <IntroView
-            plan={this.state.plan}
-            openSettings={this.openSettings.bind(this)}
-            previousDate={this.previousDate.bind(this)}
-            nextDate={this.nextDate.bind(this)}
-            curDate={this.state.curDate}
-            loadingDate={this.state.loadingDate}
-            todayVerse={this.state.todayVerse}
-            setReading={this.setReading.bind(this)}
-          />,
-          renderSettingsModal]
+        {!this.state.loading ? (
+          <ActivityIndicator
+            style={{ paddingTop: 400 }}
+            size="large"
+            color="#3CD3AD"
+            animating={true}
+          />
+        ) : this.state.reading == 0 ? (
+          [
+            <IntroView
+              plan={this.state.plan}
+              openSettings={this.openSettings.bind(this)}
+              previousDate={this.previousDate.bind(this)}
+              nextDate={this.nextDate.bind(this)}
+              curDate={this.state.curDate}
+              loadingDate={this.state.loadingDate}
+              todayVerse={this.state.todayVerse}
+              setReading={this.setReading.bind(this)}
+            />,
+            renderSettingsModal,
+          ]
         ) : this.state.reading == 1 ? (
           <SafeAreaView
             style={[
@@ -746,20 +769,22 @@ class Dashboard extends Component {
             </Swiper>
           </SafeAreaView>
         ) : (
-          <MyVerses 
-            verses={this.state.myVerses} 
+          <MyVerses
+            verses={this.state.myVerses}
             setReading={this.setReading.bind(this)}
-            removeMyVerse={this._removeMyVerse.bind(this)}/>
+            removeMyVerse={this._removeMyVerse.bind(this)}
+          />
         )}
         <Snackbar
           visible={this.state.visible}
           onDismiss={() => this.setVisible(false)}
           action={{
-            label: '확인',
+            label: "확인",
             onPress: () => {
-              this.setVisible(false)
+              this.setVisible(false);
             },
-          }}>
+          }}
+        >
           말씀을 저장했습니다 :)
         </Snackbar>
       </View>

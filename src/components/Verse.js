@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Snackbar } from "react-native-paper";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, useState } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
   Badge,
@@ -21,7 +21,7 @@ const Verse = ({ chapterName, content, index, comments, bgColor, fontColor, font
       }}>
       <View style={styles.verseLine}>
         <View style={styles.indexView}>
-          <Badge style={styles.badge}>{index}</Badge>
+          <Badge style={[styles.badge]}>{index}</Badge>
         </View>
         <View style={styles.contentView}>
           <Paragraph
@@ -43,7 +43,7 @@ const Verse = ({ chapterName, content, index, comments, bgColor, fontColor, font
                 lineHeight: fontSize * 1.5,
               },
             ]}>
-              {c }
+              { c}
             </Text> )}
             {/* {comments && 
             <Text style={[
