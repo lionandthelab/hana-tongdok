@@ -1,6 +1,6 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { Snackbar } from "react-native-paper";
-import { StyleSheet, View, TouchableOpacity, useState } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
   Badge,
@@ -10,58 +10,82 @@ import {
   Card,
   IconButton,
   List,
-  Text, Title,
+  Text,
+  Title,
 } from "react-native-paper";
 
-const Verse = ({ chapterName, content, index, comments, bgColor, fontColor, fontSize, storeMyVerse, removeMyVerse, setVisible }) => (
-  <View key={`verse-${index}`} style={styles.verseContent}>
-    <TouchableOpacity onLongPress={() => {
-      storeMyVerse(chapterName, index, content)
-      setVisible(true)
-      }}>
-      <View style={styles.verseLine}>
+const Verse = ({
+  chapterName,
+  content,
+  index,
+  comments,
+  bgColor,
+  fontColor,
+  fontSize,
+  storeMyVerse,
+  removeMyVerse,
+  setVisible,
+}) => {
+  const [kept, setKept] = useState(false);
+  const [bg, setBg] = useState("");
+
+  const toggle = () => {
+    setKept(!kept);
+    if (kept) {
+      setBg("#4CE3BD77");
+    } else {
+      setBg("#FFFFFF");
+    }
+  };
+
+  return (
+    <View key={`verse-${index}`} style={styles.verseContent}>
+      <View style={[styles.verseLine, (backgroundColor = `${bg}`)]}>
         <View style={styles.indexView}>
-          <Badge style={[styles.badge]}>{index}</Badge>
+          <TouchableOpacity
+            onLongPress={() => {
+              storeMyVerse(chapterName, index, content);
+              setVisible(true);
+              setBg(!kept ? "#4CE3BD" : fontColor);
+              setKept(!kept);
+            }}
+          >
+            <Badge style={[styles.badge]}>{index}</Badge>
+          </TouchableOpacity>
         </View>
-        <View style={styles.contentView}>
+        <View style={[styles.contentView, (backgroundColor = `${bg}`)]}>
           <Paragraph
             style={[
               styles.verse,
               {
-                color: fontColor,
+                color: bg == "" ? fontColor : bg,
                 fontSize: fontSize,
                 lineHeight: fontSize * 1.5,
               },
             ]}
           >
             {content}
-            {comments && comments.map((c, i) => <Text style={[
-              styles.verse,
-              {
-                color: fontColor,
-                fontSize: fontSize - 5,
-                lineHeight: fontSize * 1.5,
-              },
-            ]}>
-              { c}
-            </Text> )}
-            {/* {comments && 
-            <Text style={[
-              styles.verse,
-              {
-                color: fontColor,
-                fontSize: fontSize - 5,
-                lineHeight: fontSize * 1.5,
-              },
-            ]}>
-              {comments.map((c, i) => {c })}
-            </Text> */}
+            {comments &&
+              comments.map((c, i) => (
+                <Text
+                  style={[
+                    styles.verse,
+                    {
+                      color: fontColor,
+                      fontSize: fontSize - 5,
+                      lineHeight: fontSize * 1.5,
+                    },
+                  ]}
+                >
+                  {` ${c}`}
+                </Text>
+              ))}
           </Paragraph>
         </View>
       </View>
-    </TouchableOpacity>
-  </View>
-);
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   verseContent: {
@@ -119,4 +143,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(Verse);
+// export default memo(Verse);
+export default Verse;

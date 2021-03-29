@@ -17,7 +17,7 @@ import {
   IconButton,
   Title,
   Button,
-  Colors
+  Colors,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import GDButton from "../components/GradientFilledButton";
@@ -25,11 +25,7 @@ import Toast from "../components/Toast";
 import LinearGradient from "react-native-linear-gradient";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 
-const MyVerses = ({
-  verses,
-  setReading,
-  removeMyVerse
-}) => (
+const MyVerses = ({ verses, setReading, removeMyVerse }) => (
   <LinearGradient
     colors={["#4CE3BDFF", "#3CD3AD11"]}
     start={{ x: 0, y: 0 }}
@@ -38,47 +34,46 @@ const MyVerses = ({
   >
     <ScrollView style={styles.dateBox}>
       <View style={styles.header}>
-      <Title style={styles.title}>
-        나의 말씀
-      </Title>
-      <Divider/>
-      <Text style={styles.titleExplanation}>
-        말씀을 길게 누르면 말씀을 간직할 수 있습니다.
-      </Text>
+        <Title style={styles.title}>나의 말씀</Title>
+        <Divider />
+        <Text style={styles.titleExplanation}>
+          각 구절의 숫자를 길게 누르면 말씀을 간직할 수 있습니다.
+        </Text>
       </View>
       <View style={styles.body}>
         {verses.map((verse, i) => (
           <Card key={i} style={styles.card}>
-            <Card.Title
-              title={`${verse.split('#')[0]} ${verse.split('#')[1]}절`}/>
             <Card.Content>
-            <View style={{flexDirection:'row'}}>
-            <View style={{flex: 9}}>
-              <Paragraph style={styles.texts}>
-                {verse.split('#')[2]}
-              </Paragraph>
-            </View>
-            <View style={{flex: 1, alignSelf: "center"}}>
-              <IconButton
-                icon="close-circle"
-                color={Colors.red500}
-                size={20}
-                onPress={() => removeMyVerse(verse)}
-              />
-            </View>
-            </View>
+              <View style={{ flexDirection: "row" }}>
+                <View style={{ flex: 9 }}>
+                  <Paragraph style={styles.texts}>
+                    {verse.split("#")[2]}
+                  </Paragraph>
+                  <Paragraph style={styles.versetexts}>
+                    {`${verse.split("#")[0]} ${verse.split("#")[1]}절`}
+                  </Paragraph>
+                </View>
+                <View style={{ flex: 1, alignSelf: "center" }}>
+                  <IconButton
+                    icon="close-circle"
+                    color={"#4CE3BDFF"}
+                    size={20}
+                    onPress={() => removeMyVerse(verse)}
+                  />
+                </View>
+              </View>
             </Card.Content>
           </Card>
         ))}
-      <View style={{padding: 30, marginVertical: 20}}>
-        <GDButton
-          style={styles.readButton}
-          text={"돌아가기"}
-          onPress={() => {
-            setReading(0);
-          }}
-        />
-      </View>
+        <View style={{ padding: 30, marginVertical: 20 }}>
+          <GDButton
+            style={styles.readButton}
+            text={"돌아가기"}
+            onPress={() => {
+              setReading(0);
+            }}
+          />
+        </View>
       </View>
     </ScrollView>
   </LinearGradient>
@@ -92,7 +87,8 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flex: 1,
-    paddingVertical: 30,
+    paddingTop: 30,
+    paddingBottom: 50,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -105,7 +101,12 @@ const styles = StyleSheet.create({
   },
   texts: {
     fontSize: 15,
-    lineHeight: 20,
+    lineHeight: 25,
+  },
+  versetexts: {
+    fontSize: 16,
+    lineHeight: 25,
+    fontWeight: "bold",
   },
   header: {
     flex: 1,
@@ -115,13 +116,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 25,
-    fontWeight: 'bold',
-    color: 'white'
+    fontWeight: "bold",
+    color: "white",
   },
   titleExplanation: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: 'white'
+    fontWeight: "bold",
+    color: "white",
   },
   body: {
     flex: 9,
@@ -130,14 +131,14 @@ const styles = StyleSheet.create({
     shadowColor: "#470000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
-    elevation: 3,
-    margin: 10,
-    borderRadius: 30,
+    elevation: 5,
+    marginBottom: 15,
+    marginHorizontal: 15,
+    // borderRadius: 30,
     // borderBottomColor: "#47000033",
     // borderBottomWidth: 1,
   },
-  removeButton: {
-  },
+  removeButton: {},
 
   readButton: {
     fontSize: 20,

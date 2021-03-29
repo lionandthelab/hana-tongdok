@@ -676,11 +676,11 @@ class Dashboard extends Component {
 
     renderPages.push([
       <LinearGradient
-        colors={["#4CE3BDFF", "#3CD3AD11"]}
+        colors={["#4CE3BD", "#FFFFFFFF"]}
         // start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }}
-        start={{ x: 0.0, y: 0.025 }}
-        end={{ x: 0.0, y: 1.0 }}
-        locations={[0, 0.01, 0.02]}
+        start={{ x: 0.2, y: 1.0 }}
+        end={{ x: 1.0, y: 0.0 }}
+        locations={[0, 0.5, 0.8]}
         style={styles.lastContainer}
       >
         <View key={100} style={styles.lastContainer}>
