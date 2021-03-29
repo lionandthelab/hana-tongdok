@@ -24,6 +24,7 @@ import GDButton from "../components/GradientFilledButton";
 import Toast from "../components/Toast";
 import LinearGradient from "react-native-linear-gradient";
 import { getStatusBarHeight } from "react-native-status-bar-height";
+import Swiper from "react-native-swiper";
 
 const MyVerses = ({ verses, setReading, removeMyVerse }) => (
   <LinearGradient
@@ -65,15 +66,15 @@ const MyVerses = ({ verses, setReading, removeMyVerse }) => (
             </Card.Content>
           </Card>
         ))}
-        <View style={{ padding: 30, marginVertical: 20 }}>
-          <GDButton
-            style={styles.readButton}
-            text={"돌아가기"}
-            onPress={() => {
-              setReading(0);
-            }}
-          />
-        </View>
+      </View>
+      <View style={styles.backButton}>
+        <GDButton
+          style={styles.readButton}
+          text={"돌아가기"}
+          onPress={() => {
+            setReading(0);
+          }}
+        />
       </View>
     </ScrollView>
   </LinearGradient>
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     // justifyContent: "center",
     width: "100%",
+    height: "100%",
   },
   texts: {
     fontSize: 15,
@@ -124,9 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
-  body: {
-    flex: 9,
-  },
+  body: {},
   card: {
     shadowColor: "#470000",
     shadowOffset: { width: 0, height: 1 },
@@ -134,6 +134,10 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 15,
     marginHorizontal: 15,
+    // flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     // borderRadius: 30,
     // borderBottomColor: "#47000033",
     // borderBottomWidth: 1,
@@ -143,6 +147,11 @@ const styles = StyleSheet.create({
   readButton: {
     fontSize: 20,
     padding: 30,
+  },
+  backButton: {
+    flex: 1,
+    padding: 30,
+    marginVertical: 20,
   },
 });
 

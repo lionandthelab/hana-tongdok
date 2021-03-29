@@ -101,7 +101,7 @@ class Dashboard extends Component {
     StatusBar.setHidden(true);
     StatusBar.setBackgroundColor(_bgColor);
 
-    this.calcProgress();
+    this.calcProgress(this.state.checkedDates);
   }
 
   componentWillUpdate() {
@@ -199,10 +199,11 @@ class Dashboard extends Component {
       this.setState({
         checkedDates: _tmp,
       });
-      await AsyncStorage.setItem(
-        "@key_checked_dates",
-        JSON.stringify(this.state.checkedDates)
-      );
+
+      _tmp = [...new Set(_tmp)];
+      this.calcProgress(_tmp);
+
+      await AsyncStorage.setItem("@key_checked_dates", JSON.stringify(_tmp));
     } catch (error) {
       // Error saving data
     }
@@ -211,16 +212,16 @@ class Dashboard extends Component {
   async _removeCheckedDate(curDate) {
     try {
       var array = [...this.state.checkedDates]; // make a separate copy of the array
+      array = [...new Set(array)];
       var index = array.indexOf(this.yyyymmdd(curDate));
       if (index !== -1) {
         array.splice(index, 1);
         this.setState({ checkedDates: array });
       }
 
-      await AsyncStorage.setItem(
-        "@key_checked_dates",
-        JSON.stringify(this.state.checkedDates)
-      );
+      this.calcProgress(array);
+
+      await AsyncStorage.setItem("@key_checked_dates", JSON.stringify(array));
     } catch (error) {
       // Error saving data
     }
@@ -238,7 +239,7 @@ class Dashboard extends Component {
       // Error retrieving data
       this.state.checkedDates = "err";
     }
-    this.calcProgress();
+    this.calcProgress(this.state.checkedDates);
   }
 
   async _storeMyVerse(chapterName, index, content) {
@@ -311,7 +312,7 @@ class Dashboard extends Component {
 
   animate() {
     let progress = 0;
-    this.setState({ progress });
+    this.setState({ progress: 0 });
     setTimeout(() => {
       this.setState({ indeterminate: false });
       setInterval(() => {
@@ -319,15 +320,15 @@ class Dashboard extends Component {
         if (progress > 1) {
           progress = 1;
         }
-        this.setState({ progress });
+        this.setState({ progress: progress });
       }, 500);
     }, 1500);
   }
 
-  calcProgress() {
+  calcProgress(checkedDates) {
     var percent = 0.0;
 
-    var unique = [...new Set(this.state.checkedDates)];
+    var unique = [...new Set(checkedDates)];
     var readThisYearDayNum = unique.filter((x) => {
       return parseInt(x.substring(0.4)) == this.state.curDate.getFullYear();
     });
@@ -554,7 +555,7 @@ class Dashboard extends Component {
       loadingDate: false,
     });
 
-    this.calcProgress();
+    this.calcProgress(this.state.checkedDates);
   }
 
   scaleCheckmark(value) {
@@ -631,7 +632,6 @@ class Dashboard extends Component {
               showCalendar: false,
             });
             this._removeCheckedDate(this.state.curDate);
-            this.calcProgress();
           }}
         >
           {/* <Icon name="check" size={120} color="#3CD3AD" /> */}
@@ -647,7 +647,7 @@ class Dashboard extends Component {
               complete: true,
             });
             this._storeCheckedDate(this.state.curDate);
-            this.calcProgress();
+            this.calcProgress(this.state.checkedDates);
 
             // _interval = setTimeout(() => {
             //   this.setState({
@@ -680,7 +680,7 @@ class Dashboard extends Component {
         // start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }}
         start={{ x: 0.2, y: 1.0 }}
         end={{ x: 1.0, y: 0.0 }}
-        locations={[0, 0.5, 0.8]}
+        locations={[0, 0.5]}
         style={styles.lastContainer}
       >
         <View key={100} style={styles.lastContainer}>
