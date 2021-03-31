@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   StatusBar,
   ActivityIndicator,
+  BackHandler,
 } from "react-native";
 import { Snackbar } from "react-native-paper";
 import Button from "../components/Button";
@@ -70,6 +71,8 @@ class Dashboard extends Component {
 
       reading: 0,
       loading: true,
+
+      backCnt: 0,
     };
 
     var increaseFontSize = this.increaseFontSize.bind(this);
@@ -88,6 +91,27 @@ class Dashboard extends Component {
     var setVisible = this.setVisible.bind(this);
   }
 
+  backAction = () => {
+    if (this.state.reading == 0) {
+      this.setState({ backCnt: this.state.backCnt + 1 });
+      if (this.state.backCnt > 2 && this.state.reading == 0) {
+        BackHandler.exitApp();
+      }
+    } else {
+      this.setReading(0);
+      this.setState({ backCnt: 0 });
+    }
+    // Alert.alert("Hold on!", "Are you sure you want to go back?", [
+    //   {
+    //     text: "Cancel",
+    //     onPress: () => null,
+    //     style: "cancel",
+    //   },
+    //   { text: "YES", onPress: () => BackHandler.exitApp() },
+    // ]);
+    return true;
+  };
+
   async componentWillMount() {
     this._retrieveData();
   }
@@ -105,6 +129,12 @@ class Dashboard extends Component {
     StatusBar.setBackgroundColor(_bgColor);
 
     this.calcProgress(this.state.checkedDates);
+
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
   }
 
   componentWillUpdate() {
