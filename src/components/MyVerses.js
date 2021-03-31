@@ -125,6 +125,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
   body: {},
   card: {

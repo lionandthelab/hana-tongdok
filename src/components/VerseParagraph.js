@@ -124,4 +124,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// export default memo(VerseParagraph);
 export default memo(VerseParagraph);

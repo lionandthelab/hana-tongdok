@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     marginEnd: 1,
   },
   verseLine: {
-    flex: 1,
+    flexGrow: 1,
     flexDirection: "row",
     borderRightColor: "#4CE3BD77",
     borderRightWidth: 2,

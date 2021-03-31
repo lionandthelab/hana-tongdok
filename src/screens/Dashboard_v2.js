@@ -38,6 +38,9 @@ const lastDay = new Date(new Date().getFullYear(), 11, 31);
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+    Text.defaultProps = Text.defaultProps || {};
+    Text.defaultProps.allowFontScaling = false;
+
     this.state = {
       curDate: firstDay,
       nextDateToRead: new Date(),
@@ -455,7 +458,7 @@ class Dashboard extends Component {
 
   increaseFontSize() {
     var newSize = this.state.verseFontSize + 2;
-    if (newSize > 30) newSize = this.state.verseFontSize;
+    if (newSize > 50) newSize = this.state.verseFontSize;
     this.setState({
       verseFontSize: newSize,
     });
@@ -528,25 +531,26 @@ class Dashboard extends Component {
     });
     var _firstDay = new Date(_curDate.getFullYear(), 0, 1);
     var _lastDay = new Date(_curDate.getFullYear(), 11, 31);
-    var curDateIdx = (_curDate.getTime() - _firstDay.getTime()) / oneDay;
+    var curDateIdx = Math.floor(
+      (_curDate.getTime() - _firstDay.getTime()) / oneDay
+    );
     var _todayVerse = [];
     var _todayContents = [];
     var _pageCount = 0;
+    var dateToProceed = curDateIdx * this.state.plan;
     for (let i = 0; i < this.state.plan; i++) {
-      // _date.setDate(firstDay.getDate() + (curDateIdx * plan + i + 1))
-      var dateToProceed = 0;
-      if (_curDate.getFullYear() % 4 == 0) {
-        dateToProceed = (curDateIdx * this.state.plan + i) % 366;
-      } else {
-        dateToProceed = (curDateIdx * this.state.plan + i) % 365;
-      }
       var _date = new Date(_firstDay.getTime() + dateToProceed * oneDay);
       var _dateToReadKey = "m" + (_date.getMonth() + 1) + "d" + _date.getDate();
-      // alert(_dateToReadKey)
 
       _todayVerse = [..._todayVerse, dailyVerse[_dateToReadKey]];
       _todayContents = [..._todayContents, dailyVerse[_dateToReadKey].contents];
       _pageCount = _pageCount + dailyVerse[_dateToReadKey].contents.length;
+
+      if (_curDate.getFullYear() % 4 == 0) {
+        dateToProceed = (dateToProceed + 1) % 366;
+      } else {
+        dateToProceed = (dateToProceed + 1) % 365;
+      }
     }
     this.setState({
       todayVerse: _todayVerse,
