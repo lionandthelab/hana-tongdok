@@ -45,7 +45,7 @@ const Verse = ({
           <TouchableOpacity
             onLongPress={() => {
               storeMyVerse(chapterName, index, content);
-              setVisible(true);
+              setVisible(!kept ? true : false);
               setBg(!kept ? "#4CE3BD" : fontColor);
               setKept(!kept);
             }}
@@ -102,7 +102,9 @@ const styles = StyleSheet.create({
   indexView: {
     flex: 1,
     flexDirection: "row",
-    alignSelf: "center",
+    // alignSelf: "center",
+    marginTop: 11,
+    alignSelf: "flex-start",
     justifyContent: "center",
   },
   contentView: {

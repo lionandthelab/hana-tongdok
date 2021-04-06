@@ -811,6 +811,7 @@ class Dashboard extends Component {
         )}
         <Snackbar
           visible={this.state.visible}
+          duration={2000}
           onDismiss={() => this.setVisible(false)}
           action={{
             label: "확인",
