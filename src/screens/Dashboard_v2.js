@@ -616,6 +616,20 @@ class Dashboard extends Component {
 
     var renderPages = [];
 
+    renderPages.push([
+      <IntroView
+        plan={this.state.plan}
+        openSettings={this.openSettings.bind(this)}
+        previousDate={this.previousDate.bind(this)}
+        nextDate={this.nextDate.bind(this)}
+        curDate={this.state.curDate}
+        loadingDate={this.state.loadingDate}
+        todayVerse={this.state.todayVerse}
+        setReading={this.setReading.bind(this)}
+      />,
+      renderSettingsModal,
+    ]);
+
     // content page
     this.state.todayContents.map((contentValues, i) =>
       contentValues.map((contentValue, j) =>
@@ -658,8 +672,7 @@ class Dashboard extends Component {
     // complete page
     if (this.state.complete == true) {
       renderCheckButton = [
-        <Button
-          mode="contained"
+        <TouchableOpacity
           onPress={() => {
             this.setState({
               complete: false,
@@ -668,14 +681,12 @@ class Dashboard extends Component {
             this._removeCheckedDate(this.state.curDate);
           }}
         >
-          {/* <Icon name="check" size={120} color="#3CD3AD" /> */}
-          <Text> 읽음 취소 </Text>
-        </Button>,
+          <Icon name="check" size={120} color="#3CD3AD" />
+        </TouchableOpacity>,
       ];
     } else {
       renderCheckButton = [
-        <Button
-          mode="outlined"
+        <TouchableOpacity
           onPress={() => {
             this.setState({
               complete: true,
@@ -683,16 +694,16 @@ class Dashboard extends Component {
             this._storeCheckedDate(this.state.curDate);
             this.calcProgress(this.state.checkedDates);
 
-            // _interval = setTimeout(() => {
-            //   this.setState({
-            //     showCalendar: true,
-            //   });
-            // }, 1000);
+            _interval = setTimeout(() => {
+              this.setState({
+                showCalendar: true,
+              });
+            }, 1000);
           }}
         >
-          {/* <Icon name="check" size={120} color="#777" /> */}
-          <Text> 읽음 표시 </Text>
-        </Button>,
+          <Icon name="check" size={120} color="#777" />
+          {/* <Text> 읽음 표시 </Text> */}
+        </TouchableOpacity>,
       ];
     }
 
@@ -764,20 +775,6 @@ class Dashboard extends Component {
             animating={true}
           />
         ) : this.state.reading == 0 ? (
-          [
-            <IntroView
-              plan={this.state.plan}
-              openSettings={this.openSettings.bind(this)}
-              previousDate={this.previousDate.bind(this)}
-              nextDate={this.nextDate.bind(this)}
-              curDate={this.state.curDate}
-              loadingDate={this.state.loadingDate}
-              todayVerse={this.state.todayVerse}
-              setReading={this.setReading.bind(this)}
-            />,
-            renderSettingsModal,
-          ]
-        ) : this.state.reading == 1 ? (
           <SafeAreaView
             style={[
               styles.mainContainer,
@@ -847,11 +844,11 @@ var styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 70,
+    borderRadius: Platform.ios ? 70 : 0,
     // borderColor: "#3CD3AD",
   },
   progressView: {
-    flex: 2,
+    flex: 3,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -884,7 +881,7 @@ var styles = StyleSheet.create({
     fontSize: Platform.OS === "ios" ? 20 : 20,
     fontWeight: "bold",
     marginTop: 10,
-    color: "#3CD3AD",
+    color: "#FFFFFF",
   },
   logoutButton: {
     flex: 1,

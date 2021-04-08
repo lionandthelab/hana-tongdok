@@ -418,9 +418,9 @@
 				CODE_SIGN_ENTITLEMENTS = hana_readthru/hana_readthruDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 204;
+				CURRENT_PROJECT_VERSION = 206;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5A4WASTGS5;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -431,7 +431,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/hana_readthru\"",
 				);
-				MARKETING_VERSION = 2.0.4;
+				MARKETING_VERSION = 2.0.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -453,8 +453,8 @@
 				CODE_SIGN_ENTITLEMENTS = hana_readthru/hana_readthruRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 204;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 206;
+				DEVELOPMENT_TEAM = 5A4WASTGS5;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -465,7 +465,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/hana_readthru\"",
 				);
-				MARKETING_VERSION = 2.0.4;
+				MARKETING_VERSION = 2.0.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

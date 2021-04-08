@@ -11,7 +11,8 @@ const GDButton = ({ text, onPress }) => (
     start={{ x: 0, y: 0 }}
     end={{ x: 1, y: 1 }}
     // colors={["#5851DB", "#5851DB", "purple"]}
-    colors={["#4CD3AD77", "#3CD3AD77", "#3CD3ADAA"]}
+    // colors={["#4CD3AD77", "#3CD3AD77", "#3CD3ADAA"]}
+    colors={["#FFFFFFAA", "#FFFFFFCC", "#FFFFFFAA"]}
     // colors={["#5851DB", "#3CD3AD", "#5851DB", "#3CD3AD", "#5851DB"]}
 
     // colors={["#5851DB11"]}
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "transparent",
   },
   buttonText: {
     fontWeight: "bold",
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     fontFamily: "Gill Sans",
     textAlign: "center",
-    color: "#3CD3AD",
+    color: "#3CD3ADAA",
     // color: "#FFFFFF",
     backgroundColor: "transparent",
   },
