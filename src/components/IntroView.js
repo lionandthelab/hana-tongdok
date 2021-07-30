@@ -1,13 +1,11 @@
 import React, { memo } from "react";
-import { Snackbar } from "react-native-paper";
+import { FAB, Portal } from "react-native-paper";
 import {
-  SafeAreaView,
   Platform,
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
-  StatusBar,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import GDButton from "../components/GradientFilledButton";
@@ -23,64 +21,98 @@ const IntroView = ({
   loadingDate,
   todayVerse,
   setReading,
-}) => (
-  <View style={styles.headerContainer}>
-    <View style={styles.dateBox}>
-      <View style={styles.settingsView}>
-        {/* <Text style={styles.settingsTextView}>1년{plan}독</Text> */}
-        <TouchableOpacity
-          style={styles.settingsIconView}
+}) => {
+  const [state, setState] = React.useState({ open: false });
+  const onStateChange = ({ open }) => setState({ open });
+  const { open } = state;
+
+  return (
+    <View style={styles.headerContainer}>
+      <Portal>
+        <FAB.Group
+          small={false}
+          color="#3CD3AD"
+          // style={{ padding: 10 }}
+          fabStyle={{ bottom: 10, right: 10, backgroundColor: "#FFFFFF" }}
+          open={open}
+          icon={open ? "arrow-up-drop-circle-outline" : "arrow-up-drop-circle"}
+          actions={[
+            {
+              icon: "book",
+              label: "나의 말씀",
+              onPress: () => setReading(1),
+            },
+            {
+              icon: "settings",
+              label: "설정",
+              onPress: () => openSettings(),
+            },
+          ]}
+          onStateChange={onStateChange}
           onPress={() => {
-            setReading(1);
+            if (open) {
+              // do something if the speed dial is open
+            }
           }}
-        >
-          <Icon name="book" size={40} color="#3CD3AD" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.settingsIconView}
-          onPress={() => {
-            openSettings();
-          }}
-        >
-          <Icon name="cogs" size={40} color="#3CD3AD" />
-        </TouchableOpacity>
+        />
+      </Portal>
+      <View style={styles.dateBox}>
+        <View style={styles.settingsView}>
+          {/* <Text style={styles.settingsTextView}>1년{plan}독</Text>
+          <TouchableOpacity
+            style={styles.settingsIconView}
+            onPress={() => {
+              setReading(1);
+            }}
+          >
+            <Icon name="book" size={40} color="#3CD3AD" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.settingsIconView}
+            onPress={() => {
+              openSettings();
+            }}
+          >
+            <Icon name="cogs" size={40} color="#3CD3AD" />
+          </TouchableOpacity> */}
+        </View>
+        <View style={styles.dateView}>
+          <TouchableOpacity
+            style={styles.arrowLeftView}
+            onPress={() => {
+              previousDate();
+            }}
+          >
+            <Icon name="angle-up" size={100} color="#3CD3AD" />
+          </TouchableOpacity>
+          <Text style={styles.date}>
+            {/* {todayVerse.date} */}
+            {curDate.getYear() + 1900}년 {curDate.getMonth() + 1}월{" "}
+            {curDate.getDate()}일
+          </Text>
+          {!loadingDate && todayVerse ? (
+            todayVerse.map((verse, i) => (
+              <Text key={i} style={styles.chapter}>
+                {verse.chapter}
+              </Text>
+            ))
+          ) : (
+            <Text style={styles.chapter}>로딩중...</Text>
+          )}
+          <TouchableOpacity
+            style={styles.arrowRightView}
+            onPress={() => {
+              nextDate();
+            }}
+          >
+            <Icon name="angle-down" size={100} color="#3CD3AD" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.settingsView}></View>
       </View>
-      <View style={styles.dateView}>
-        <TouchableOpacity
-          style={styles.arrowLeftView}
-          onPress={() => {
-            previousDate();
-          }}
-        >
-          <Icon name="angle-up" size={100} color="#3CD3AD" />
-        </TouchableOpacity>
-        <Text style={styles.date}>
-          {/* {todayVerse.date} */}
-          {curDate.getYear() + 1900}년 {curDate.getMonth() + 1}월{" "}
-          {curDate.getDate()}일
-        </Text>
-        {!loadingDate && todayVerse ? (
-          todayVerse.map((verse, i) => (
-            <Text key={i} style={styles.chapter}>
-              {verse.chapter}
-            </Text>
-          ))
-        ) : (
-          <Text style={styles.chapter}>로딩중...</Text>
-        )}
-        <TouchableOpacity
-          style={styles.arrowRightView}
-          onPress={() => {
-            nextDate();
-          }}
-        >
-          <Icon name="angle-down" size={100} color="#3CD3AD" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.settingsView}></View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -91,6 +123,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
     padding: 0,
+    margin: 0,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 10,

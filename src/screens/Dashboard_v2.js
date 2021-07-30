@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect, Component } from "react";
 import {
+  Dimensions,
   Platform,
   View,
   Text,
@@ -39,6 +40,12 @@ const lastDay = new Date(new Date().getFullYear(), 11, 31);
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+
+    Dimensions.addEventListener("change", () => {
+      // this.state.swiperRef.scrollBy(-(this.state.pageCount + 1), true);
+      this.state.swiperRef.scrollBy(-this.state.swiperIndex);
+    });
+
     Text.defaultProps = Text.defaultProps || {};
     Text.defaultProps.allowFontScaling = false;
 
@@ -64,6 +71,7 @@ class Dashboard extends Component {
       needRefresh: false,
       loadingDate: false,
       swiperRef: null,
+      swiperIndex: 0,
       // showsPagination: Platform.OS === "ios" ? false : true,
       showsPagination: false,
 
@@ -430,11 +438,11 @@ class Dashboard extends Component {
 
     // alert(`curDate: ${this.state.curDate}, ${_curDate}, ${dateString}`)
     this.getDailyVerseContents(_curDate);
-    this.state.swiperRef.scrollBy(-(this.state.pageCount + 1), true);
+    this.state.swiperRef.scrollBy(-this.state.swiperIndex, true);
   }
 
   goMain() {
-    this.state.swiperRef.scrollBy(-(this.state.pageCount + 1), true);
+    this.state.swiperRef.scrollBy(-this.state.swiperIndex, true);
     this.nextDate();
     this.setState({
       complete: false,
@@ -673,6 +681,7 @@ class Dashboard extends Component {
     if (this.state.complete == true) {
       renderCheckButton = [
         <TouchableOpacity
+          style={{ alignItems: "center" }}
           onPress={() => {
             this.setState({
               complete: false,
@@ -681,12 +690,17 @@ class Dashboard extends Component {
             this._removeCheckedDate(this.state.curDate);
           }}
         >
-          <Icon name="check" size={120} color="#3CD3AD" />
+          <Icon name="check-square-o" size={60} color="#3CD3AD" />
+          <Text style={{ fontSize: 18, fontWeight: "600", color: "#3CD3AD" }}>
+            {this.state.curDate.getMonth() + 1}월 {this.state.curDate.getDate()}
+            일
+          </Text>
         </TouchableOpacity>,
       ];
     } else {
       renderCheckButton = [
         <TouchableOpacity
+          style={{ alignItems: "center" }}
           onPress={() => {
             this.setState({
               complete: true,
@@ -701,7 +715,11 @@ class Dashboard extends Component {
             }, 1000);
           }}
         >
-          <Icon name="check" size={120} color="#777" />
+          <Icon name="check-square-o" size={60} color="#777" />
+          <Text style={{ fontSize: 18, fontWeight: "600", color: "#777" }}>
+            {this.state.curDate.getMonth() + 1}월 {this.state.curDate.getDate()}
+            일
+          </Text>
           {/* <Text> 읽음 표시 </Text> */}
         </TouchableOpacity>,
       ];
@@ -787,7 +805,7 @@ class Dashboard extends Component {
               }}
               loop={false}
               loadMinimal={true}
-              loadMinimalSize={1}
+              loadMinimalSize={0}
               bounces={true}
               showsPagination={this.state.showsPagination}
               paginationStyle={{
@@ -795,6 +813,7 @@ class Dashboard extends Component {
                 left: null,
                 right: 10,
               }}
+              onIndexChanged={(idx) => this.setState({ swiperIndex: idx })}
             >
               {renderPages}
             </Swiper>
