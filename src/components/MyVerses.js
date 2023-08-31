@@ -26,7 +26,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import Swiper from "react-native-swiper";
 
-const MyVerses = ({ verses, setReading, removeMyVerse }) => (
+const MyVerses = ({ verses, page, setPage, setReading, removeMyVerse }) => (
   <LinearGradient
     colors={["#4CE3BDFF", "#3CD3AD11"]}
     start={{ x: 0, y: 0 }}
@@ -40,9 +40,25 @@ const MyVerses = ({ verses, setReading, removeMyVerse }) => (
         <Text style={styles.titleExplanation}>
           각 구절의 숫자를 길게 누르면 말씀을 간직할 수 있습니다.
         </Text>
+        <View style={{ flexDirection: "row" }}>
+        <IconButton
+          icon="arrow-left"
+          color={"#FFFFFF"}
+          size={20}
+          onPress={() => setPage(page-1)}
+        />
+        <Text style={styles.title}>
+        </Text>
+        <IconButton
+          icon="arrow-right"
+          color={"#FFFFFF"}
+          size={20}
+          onPress={() => setPage(page+1)}
+        />
+        </View>
       </View>
       <View style={styles.body}>
-        {verses.map((verse, i) => (
+        {verses.slice(page*10, page*10+9).map((verse, i) => (
           <Card key={i} style={styles.card}>
             <Card.Content>
               <View style={{ flexDirection: "row" }}>

@@ -58,7 +58,7 @@ const CalendarView = ({ current, markedDates, onDayPress }) => (
     <Calendar
       current={current}
       minDate={"2020-01-01"}
-      maxDate={"2022-12-31"}
+      maxDate={"2050-12-31"}
       hideExtraDays={true}
       firstDay={0}
       markedDates={markedDates}

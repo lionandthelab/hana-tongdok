@@ -22,7 +22,7 @@ import CalendarView from "../components/CalendarView";
 import Settings from "../components/Settings";
 
 import Swiper from "react-native-swiper";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressCircle from "react-native-progress-circle";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -77,6 +77,7 @@ class Dashboard extends Component {
 
       progress: 0,
 
+      page: 0,
       reading: 0,
       loading: true,
 
@@ -286,7 +287,7 @@ class Dashboard extends Component {
   async _storeMyVerse(chapterName, index, content) {
     try {
       var _tmp = this.state.myVerses;
-      _tmp.push(`${chapterName}#${index}#${content}`);
+      _tmp.unshift(`${chapterName}#${index}#${content}`);
       this.setState({
         myVerses: _tmp,
       });
@@ -449,6 +450,10 @@ class Dashboard extends Component {
       showCalendar: false,
     });
     this.getDailyVerseContents(this.state.curDate);
+  }
+
+  setPage(state) {
+    this.setState({ page: state });
   }
 
   setReading(state) {
@@ -821,6 +826,8 @@ class Dashboard extends Component {
         ) : (
           <MyVerses
             verses={this.state.myVerses}
+            page={this.state.page}
+            setPage={this.setPage.bind(this)}
             setReading={this.setReading.bind(this)}
             removeMyVerse={this._removeMyVerse.bind(this)}
           />
