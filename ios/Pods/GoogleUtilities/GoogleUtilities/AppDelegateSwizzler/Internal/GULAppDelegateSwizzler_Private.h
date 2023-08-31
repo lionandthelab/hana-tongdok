@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
 #import <GoogleUtilities/GULAppDelegateSwizzler.h>
 #import <GoogleUtilities/GULMutableDictionary.h>
 
-#if ((TARGET_OS_IOS || TARGET_OS_TV) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= 130000))
-#define UISCENE_SUPPORTED 1
-#endif
-
-@class GULApplication;
+@class UIApplication;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,9 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** ISA Swizzles the given appDelegate as the original app delegate would be.
  *
  *  @param appDelegate The object that needs to be isa swizzled. This should conform to the
- *      application delegate protocol.
+ *      UIApplicationDelegate protocol.
  */
-+ (void)proxyAppDelegate:(id<GULApplicationDelegate>)appDelegate;
++ (void)proxyAppDelegate:(id<UIApplicationDelegate>)appDelegate;
 
 /** Returns a dictionary containing interceptor IDs mapped to a GULZeroingWeakContainer.
  *
@@ -41,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
  *      the interceptorID.
  */
 + (GULMutableDictionary *)interceptors;
+
+#ifdef GUL_APP_DELEGATE_TESTING  // Methods only used in tests.
 
 /** Deletes all the registered interceptors. */
 + (void)clearInterceptors;
@@ -52,18 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The original app delegate instance that was proxied.
  */
-+ (id<GULApplicationDelegate>)originalDelegate;
++ (id<UIApplicationDelegate>)originalDelegate;
 
-#if UISCENE_SUPPORTED
-
-/** ISA Swizzles the given appDelegate as the original app delegate would be.
- *
- *  @param scene The scene whose delegate needs to be isa swizzled. This should conform to the
- *      scene delegate protocol.
- */
-+ (void)proxySceneDelegateIfNeeded:(UIScene *)scene API_AVAILABLE(ios(13.0), tvos(13.0));
-
-#endif  // UISCENE_SUPPORTED
+#endif  // GUL_APP_DELEGATE_TESTING
 
 @end
 

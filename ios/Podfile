@@ -32,8 +32,8 @@ target 'hana_readthru' do
   pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
   # Required by RNFirebase
-  pod 'Firebase/Core'
-  pod 'Firebase/Messaging'
+  pod 'Firebase/Core', '~> 6.3.0'
+  pod 'Firebase/Messaging', '~> 6.3.0'
   
   use_unimodules!
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
