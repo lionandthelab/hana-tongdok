@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "192180947367",
+    "project_id": "hana-tongdok2",
+    "storage_bucket": "hana-tongdok2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192180947367:android:65ab5b2548a783fda1ce82",
+        "android_client_info": {
+          "package_name": "com.example.starter_architecture_flutter_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192180947367-u0pgne2jilab7v9c3ot2b773vltkoh3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd6t_IkRSln5QkQvltsovHzW6oDMHI7Dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192180947367-qijr0clqpsgd8mc17kps93kdec8v5k7p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "192180947367-4eqgs13jbalm38na23idso7ld9ppe1tb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.starterArchitectureFlutterFirebase.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

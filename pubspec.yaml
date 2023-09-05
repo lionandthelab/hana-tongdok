@@ -25,6 +25,8 @@ dependencies:
   shared_preferences: ^2.1.1
   # the annotation package containing @riverpod
   riverpod_annotation: 2.1.1
+  table_calendar: ^3.0.9
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:
@@ -45,3 +47,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/time-tracking.svg
+    - assets/lalab_logo.png
