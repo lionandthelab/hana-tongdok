@@ -1,4 +1,4 @@
-#Tue Sep 05 23:12:59 KST 2023
+#Thu Sep 07 01:15:36 KST 2023
 base.0=D\:\\Lalab\\hana-tongdok\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=D\:\\Lalab\\hana-tongdok\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
 base.2=D\:\\Lalab\\hana-tongdok\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
