@@ -1,0 +1,5 @@
+#HomeTitle {
+  background-color: rgb(255, 0, 0);
+  flex: 1;
+  overflow: auto;
+}
