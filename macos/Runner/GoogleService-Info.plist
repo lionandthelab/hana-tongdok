@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>192180947367-4eqgs13jbalm38na23idso7ld9ppe1tb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.192180947367-4eqgs13jbalm38na23idso7ld9ppe1tb</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDSWqq6wSvHCUDd0dfmp7s8cO6BTCR1KFM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>192180947367</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.starterArchitectureFlutterFirebase.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>hana-tongdok2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hana-tongdok2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:192180947367:ios:8d53a7406f361f8ca1ce82</string>
+</dict>
+</plist>

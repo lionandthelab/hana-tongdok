@@ -1,0 +1,858 @@
+The Dart VM service is listening on http://127.0.0.1:54597/cyrbROONjEM=/
+The Dart DevTools debugger and profiler is available at: http://127.0.0.1:54597/cyrbROONjEM=/devtools?uri=ws://127.0.0.1:54597/cyrbROONjEM=/ws
+The Dart VM service is listening on http://127.0.0.1:55776/1xBhilooJl4=/
+The Dart DevTools debugger and profiler is available at: http://127.0.0.1:55776/1xBhilooJl4=/devtools?uri=ws://127.0.0.1:55776/1xBhilooJl4=/ws
+The Dart VM service is listening on http://127.0.0.1:56206/EkASPt4aH1I=/
+The Dart DevTools debugger and profiler is available at: http://127.0.0.1:56206/EkASPt4aH1I=/devtools?uri=ws://127.0.0.1:56206/EkASPt4aH1I=/ws
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_riverpod-2.3.6\lib\src\consumer.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_ui_firestore-1.5.1\lib\src\query_builder.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_riverpod-2.3.6\lib\src\consumer.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The Dart VM service is listening on http://127.0.0.1:51654/RFId2QuCUl8=/
+The Dart DevTools debugger and profiler is available at: http://127.0.0.1:51654/RFId2QuCUl8=/devtools?uri=ws://127.0.0.1:51654/RFId2QuCUl8=/ws
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\go_router-7.1.1\lib\src\configuration.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\go_router-7.1.1\lib\src\configuration.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\effects\worm_effect.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\effects\worm_effect.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\flutter\packages\flutter\lib\src\widgets\page_view.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\flutter\packages\flutter\lib\src\widgets\page_view.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\flutter\packages\flutter\lib\src\widgets\page_view.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\flutter\packages\flutter\lib\src\widgets\page_view.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\Users\hyung\AppData\Local\Pub\Cache\hosted\pub.dev\smooth_page_indicator-1.1.0\lib\src\smooth_page_indicator.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\flutter\packages\flutter\lib\src\widgets\page_view.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\flutter\packages\flutter\lib\src\widgets\scroll_controller.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+
+The request edit.getAssists failed with the following error:
+RequestErrorCode.PLUGIN_ERROR
+A request throw the exception:Bad state: Unable to find the context to C:\flutter\packages\flutter\lib\src\widgets\scroll_controller.dart
+#0      AnalysisContextCollectionImpl.contextFor (package:analyzer/src/dart/analysis/analysis_context_collection.dart:143:5)
+#1      _ClientAnalyzerPlugin.handleEditGetAssists (package:custom_lint_builder/src/client.dart:406:47)
+<asynchronous suspension>
+#2      ServerPlugin._getResponse (package:analyzer_plugin/plugin/plugin.dart:564:18)
+<asynchronous suspension>
+#3      ServerPlugin._onRequest (package:analyzer_plugin/plugin/plugin.dart:611:18)
+<asynchronous suspension>
+
+at:
+#0      SocketCustomLintServerToClientChannel.sendCustomLintRequest.<anonymous closure> (package:custom_lint/src/v2/server_to_client_channel.dart:267:11)
+#1      _$_CustomLintResponseAnalyzerPluginResponse.map (package:custom_lint/src/v2/protocol.freezed.dart:924:34)
+#2      SocketCustomLintServerToClientChannel.sendCustomLintRequest (package:custom_lint/src/v2/server_to_client_channel.dart:261:14)
+<asynchronous suspension>
+#3      SocketCustomLintServerToClientChannel.sendAnalyzerPluginRequest (package:custom_lint/src/v2/server_to_client_channel.dart:238:22)
+<asynchronous suspension>
+#4      CustomLintServer._handleRequest.<anonymous closure>.<anonymous closure> (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:177:17)
+<asynchronous suspension>
+#5      PendingOperation.run (package:custom_lint/src/async_operation.dart:22:14)
+<asynchronous suspension>
+#6      CustomLintServer._handleRequest (package:custom_lint/src/v2/custom_lint_analyzer_plugin.dart:160:22)
+<asynchronous suspension>
+

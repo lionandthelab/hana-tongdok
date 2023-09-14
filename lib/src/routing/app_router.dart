@@ -15,6 +15,7 @@ import 'package:starter_architecture_flutter_firebase/src/features/onboarding/da
 import 'package:starter_architecture_flutter_firebase/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/go_router_refresh_stream.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/scaffold_with_nested_navigation.dart';
+import '../features/jobs/presentation/jobs_screen/pick_date_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -162,7 +163,7 @@ GoRouter goRouter(GoRouterRef ref) {
                           final job = state.extra as Job?;
                           return MaterialPage(
                             fullscreenDialog: true,
-                            child: EditJobScreen(jobId: jobId, job: job),
+                            child: EditJobScreen(jobId: jobId, job: job)
                           );
                         },
                       ),
