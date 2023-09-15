@@ -326,6 +326,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "flutter_calendar_carousel",
+      "rootUri": "file:///C:/Users/hyung/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_calendar_carousel-2.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_lints",
       "rootUri": "file:///C:/Users/hyung/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.1",
       "packageUri": "lib/",
@@ -848,7 +854,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-09-14T04:19:29.439373Z",
+  "generated": "2023-09-15T04:50:04.950539Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }
