@@ -183,8 +183,8 @@ class _HomePageState extends State<HomePage> {
       selectedDayTextStyle: TextStyle(
         color: Colors.yellow,
       ),
-      minSelectedDate: _currentDate.subtract(Duration(days: 360)),
-      maxSelectedDate: _currentDate.add(Duration(days: 360)),
+      minSelectedDate: _currentDate.subtract(Duration(days: 36500)),
+      maxSelectedDate: _currentDate.add(Duration(days: 36500)),
       prevDaysTextStyle: TextStyle(
         fontSize: 16,
         color: Colors.pinkAccent,
