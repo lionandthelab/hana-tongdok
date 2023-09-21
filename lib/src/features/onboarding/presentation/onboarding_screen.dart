@@ -8,6 +8,7 @@ import 'package:starter_architecture_flutter_firebase/src/constants/app_sizes.da
 import 'package:starter_architecture_flutter_firebase/src/features/onboarding/presentation/onboarding_controller.dart';
 import 'package:starter_architecture_flutter_firebase/src/localization/string_hardcoded.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart' show CalendarCarousel;
 
 class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({super.key});
@@ -24,20 +25,42 @@ class OnboardingScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Track your time.\nBecause time counts.',
+              '하나통독\n말씀으로 하루를 시작하세요.',
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             gapH16,
             SvgPicture.asset(
-              'assets/time-tracking.svg',
+              'assets/Open-Bible.svg',
               width: 200,
               height: 200,
-              semanticsLabel: 'Time tracking logo',
+              semanticsLabel: 'hntd logo',
             ),
             gapH16,
+            
+            CalendarCarousel(
+              // current: DateTime.now(),
+              // onDayPressed: (DateTime date) {
+              //   this.setState(() => _currentDate = date);
+              // },
+              thisMonthDayBorderColor: Colors.grey,
+              height: 420.0,
+              // selectedDateTime: _currentDate,
+              daysHaveCircularBorder: null, /// null for not rendering any border, true for circular border, false for rectangular border
+              // markedDatesMap: _markedDateMap,
+              headerTextStyle: TextStyle(
+                color: Colors.cyan,
+              ),
+              weekdayTextStyle: TextStyle(
+                color: Colors.cyan,
+              ),
+              weekendTextStyle: TextStyle(
+                color: Colors.cyan,
+              ),
+              // weekDays: null, /// for pass null when you do not want to render weekDays
+            ),
             PrimaryButton(
-              text: 'Get Started'.hardcoded,
+              text: '시작하기'.hardcoded,
               isLoading: state.isLoading,
               onPressed: state.isLoading
                   ? null

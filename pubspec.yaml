@@ -25,6 +25,9 @@ dependencies:
   shared_preferences: ^2.1.1
   # the annotation package containing @riverpod
   riverpod_annotation: 2.1.1
+  # calendar
+  flutter_calendar_carousel: ^2.4.2
+  card_swiper: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -45,3 +48,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/time-tracking.svg
+    - assets/Open-Bible.svg

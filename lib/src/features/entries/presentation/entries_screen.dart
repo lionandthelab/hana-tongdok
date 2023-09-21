@@ -5,6 +5,7 @@ import 'package:starter_architecture_flutter_firebase/src/constants/strings.dart
 import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entries_list_tile_model.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/entries/application/entries_service.dart';
 import 'package:starter_architecture_flutter_firebase/src/common_widgets/list_items_builder.dart';
+import 'package:card_swiper/card_swiper.dart';
 
 class EntriesScreen extends ConsumerWidget {
   const EntriesScreen({super.key});
@@ -15,18 +16,27 @@ class EntriesScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(Strings.entries),
       ),
-      body: Consumer(
-        builder: (context, ref, child) {
-          // * This data is combined from two streams, so it can't be returned
-          // * directly as a Query object from the repository.
-          // * As a result, we can't use FirestoreListView here.
-          final entriesTileModelStream =
-              ref.watch(entriesTileModelStreamProvider);
-          return ListItemsBuilder<EntriesListTileModel>(
-            data: entriesTileModelStream,
-            itemBuilder: (context, model) => EntriesListTile(model: model),
-          );
+      // body: Consumer(
+      //   builder: (context, ref, child) {
+      //     // * This data is combined from two streams, so it can't be returned
+      //     // * directly as a Query object from the repository.
+      //     // * As a result, we can't use FirestoreListView here.
+      //     final entriesTileModelStream =
+      //         ref.watch(entriesTileModelStreamProvider);
+      //     return ListItemsBuilder<EntriesListTileModel>(
+      //       data: entriesTileModelStream,
+      //       itemBuilder: (context, model) => EntriesListTile(model: model),
+      //     );
+      //   },
+      // ),
+      body: Swiper(
+        itemBuilder: (BuildContext context, int index){
+          // return Image.network("https://via.placeholder.com/350x150", fit: BoxFit.fill,);
+          return Text(index.toString(), style: TextStyle(fontSize: 50.0),);
         },
+        itemCount: 100,
+        pagination: SwiperPagination(),
+        control: SwiperControl(),
       ),
     );
   }

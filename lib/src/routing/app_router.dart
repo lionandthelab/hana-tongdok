@@ -44,7 +44,8 @@ GoRouter goRouter(GoRouterRef ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final onboardingRepository = ref.watch(onboardingRepositoryProvider);
   return GoRouter(
-    initialLocation: '/signIn',
+    // initialLocation: '/signIn',
+    initialLocation: '/entries',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     redirect: (context, state) {
