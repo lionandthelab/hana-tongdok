@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\lalab_project\\hana-tongdok\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "D:\\Lalab\\flutter\\hana-tongdok\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "C:\\lalab_project\\hana-tongdok\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "D:\\Lalab\\flutter\\hana-tongdok\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

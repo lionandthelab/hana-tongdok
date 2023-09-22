@@ -62,92 +62,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    /// Add more events to _markedDateMap EventList
-    _markedDateMap.add(
-        new DateTime(2019, 2, 25),
-        new Event(
-          date: new DateTime(2019, 2, 25),
-          title: 'Event 5',
-          icon: _eventIcon,
-        ));
-
-    _markedDateMap.add(
-        new DateTime(2019, 2, 10),
-        new Event(
-          date: new DateTime(2019, 2, 10),
-          title: 'Event 4',
-          icon: _eventIcon,
-        ));
-
-    _markedDateMap.addAll(new DateTime(2019, 2, 11), [
-      new Event(
-        date: new DateTime(2019, 2, 11),
-        title: 'Event 1',
-        icon: _eventIcon,
-      ),
-      new Event(
-        date: new DateTime(2019, 2, 11),
-        title: 'Event 2',
-        icon: _eventIcon,
-      ),
-      new Event(
-        date: new DateTime(2019, 2, 11),
-        title: 'Event 3',
-        icon: _eventIcon,
-      ),
-    ]);
     super.initState();
   }
-  final PageController controller = PageController(viewportFraction: 0.8, keepPage: true);
+  final PageController controller = PageController(viewportFraction: 1, keepPage: true);
 
 
   final idx = 4;
   @override
   Widget build(BuildContext context) {
-    final pages = List.generate(
-        idx-1,
-            (index) => Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: Colors.transparent,
-          ),
-          // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Center(
-                child: Text(
-                  "Page $index",
-                  style: TextStyle(color: Colors.indigo),
-                )),
-          ),
-        ));
-    pages.insert(0, Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.transparent,
-      ),
-      // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-            child: DateTimePicker(
-              labelText: 'date',
-              selectedDate: DateTime.now(),
-              selectedTime: TimeOfDay.now(),
-            )
-        ),
-        )
-      )
-    );
-
-
-
-    /// Example Calendar Carousel without header and custom prev & next button
     final _calendarCarouselNoHeader = CalendarCarousel<Event>(
       todayBorderColor: Colors.green,
       onDayPressed: (date, events) {
         this.setState(() => _currentDate2 = date);
         events.forEach((event) => print(event.title));
+        print('pressed date ' + _currentDate2.month.toString());
       },
       daysHaveCircularBorder: true,
       showOnlyCurrentMonthDate: false,
@@ -197,74 +125,105 @@ class _HomePageState extends State<HomePage> {
         this.setState(() {
           _targetDateTime = date;
           _currentMonth = DateFormat.yMMM().format(_targetDateTime);
+          print(_targetDateTime);
         });
       },
       onDayLongPressed: (DateTime date) {
         print('long pressed date $date');
       },
     );
+    final pages = List.generate(
+        idx-1,
+            (index) => Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width * 0.8,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: Colors.transparent,
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              child: Container(
+                child: Center(
+                    child: Text(
+                      "Page $index",
+                      style: TextStyle(color: Colors.indigo),
+                    )),
+              ),
+        ));
+    pages.insert(0,
+        Container(
+
+          child: Column(
+            children: [
+              SizedBox(height:20),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      children: <Widget>[
+                        TextButton(
+                          child: Text('PREV'),
+                          onPressed: () {
+                            setState(() {
+                              _targetDateTime = DateTime(
+                                  _targetDateTime.year, _targetDateTime.month - 1);
+                              _currentMonth =
+                                  DateFormat.yMMM().format(_targetDateTime);
+                            });
+                          },
+                        ),
+                        Expanded(
+                            child: Center(
+                              child: Text(
+                                _currentMonth,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24.0,
+                                ),
+                              ),
+                            )),
+                        TextButton(
+                          child: Text('NEXT'),
+                          onPressed: () {
+                            setState(() {
+                              _targetDateTime = DateTime(
+                                  _targetDateTime.year, _targetDateTime.month + 1);
+                              _currentMonth =
+                                  DateFormat.yMMM().format(_targetDateTime);
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: _calendarCarouselNoHeader,
+              ),
+              TextButton(
+                child: Text('읽으러 가기'),
+                onPressed: () {
+                  setState(() {
+                    controller.nextPage(
+                        duration: Duration(milliseconds: 1000),
+                        curve: Curves.easeIn
+                    );
+                  });
+                },
+              ), //
+          ],
+        ),
+        )
+
+    );
+
+
+
+    /// Example Calendar Carousel without header and custom prev & next button
+
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              //custom icon
-// This trailing comma makes auto-formatting nicer for build methods.
-              //custom icon without header
-              Container(
-                margin: EdgeInsets.only(
-                  top: 30.0,
-                  bottom: 16.0,
-                  left: 16.0,
-                  right: 16.0,
-                ),
-                child: new Row(
-                  children: <Widget>[
-                    TextButton(
-                      child: Text('PREV'),
-                      onPressed: () {
-                        setState(() {
-                          _targetDateTime = DateTime(
-                              _targetDateTime.year, _targetDateTime.month - 1);
-                          _currentMonth =
-                              DateFormat.yMMM().format(_targetDateTime);
-                        });
-                      },
-                    ),
-                    Expanded(
-                        child: Center(
-                          child: Text(
-                            _currentMonth,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24.0,
-                            ),
-                          ),
-                        )),
-                    TextButton(
-                      child: Text('NEXT'),
-                      onPressed: () {
-                        setState(() {
-                          _targetDateTime = DateTime(
-                              _targetDateTime.year, _targetDateTime.month + 1);
-                          _currentMonth =
-                              DateFormat.yMMM().format(_targetDateTime);
-                        });
-                      },
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: _calendarCarouselNoHeader,
-              ), //
-              SizedBox(height: 16),
-              SizedBox(
-
-                height: MediaQuery.of(context).size.height - 250,
-                child: PageView.builder(
+        left: false,
+        child: PageView.builder(
                   onPageChanged: (page){
                     setState(() {
                       currentPage=page;
@@ -276,25 +235,7 @@ class _HomePageState extends State<HomePage> {
                     return pages[index % pages.length];
                   },
                 ),
-              ),
-              SizedBox(height: 16),
-              SmoothPageIndicator(
-                controller: controller,
-                count: pages.length - 1,
-                effect: currentPage==0?const WormEffect(
-                  dotHeight: 0,
-                  dotWidth: 0,
-                  type: WormType.thinUnderground,
-                ):const WormEffect(
-                  dotHeight: 5,
-                  dotWidth: 5,
-                  type: WormType.thinUnderground,
-                ),
 
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

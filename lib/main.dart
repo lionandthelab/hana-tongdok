@@ -10,6 +10,8 @@ import 'package:starter_architecture_flutter_firebase/src/localization/string_ha
 import 'package:starter_architecture_flutter_firebase/src/features/onboarding/data/onboarding_repository.dart';
 // ignore:depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:provider/provider.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/jobs/data/pick_date_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
