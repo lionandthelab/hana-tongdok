@@ -11,7 +11,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       routerConfig: goRouter,
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primarySwatch: Colors.cyan,
         unselectedWidgetColor: Colors.grey,
         appBarTheme: const AppBarTheme(
           elevation: 2.0,
@@ -22,7 +22,7 @@ class MyApp extends ConsumerWidget {
         // https://github.com/firebase/flutterfire/blob/master/packages/firebase_ui_auth/doc/theming.md
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.indigo),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.cyan),
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
           ),
         ),

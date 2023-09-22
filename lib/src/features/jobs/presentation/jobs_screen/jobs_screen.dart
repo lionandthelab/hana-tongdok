@@ -8,6 +8,7 @@ import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/j
 import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/jobs_screen/jobs_screen_controller.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
 import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class JobsScreen extends StatelessWidget {
   const JobsScreen({super.key});
@@ -72,10 +73,15 @@ class JobListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(job.name),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: onTap,
-    );
+    return CachedNetworkImage(
+        imageUrl: "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${job?.name}_${job?.ratePerHour}_port.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1",
+        placeholder: (context, url) => CircularProgressIndicator(),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      );
+    // return ListTile(
+    //   title: Text(job.name),
+    //   trailing: const Icon(Icons.chevron_right),
+    //   onTap: onTap,
+    // );
   }
 }

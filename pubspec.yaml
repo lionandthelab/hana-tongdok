@@ -28,6 +28,9 @@ dependencies:
   # calendar
   flutter_calendar_carousel: ^2.4.2
   card_swiper: ^3.0.1
+  carousel_slider: ^4.2.1
+  provider: ^6.0.5
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
@@ -47,5 +50,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/time-tracking.svg
     - assets/Open-Bible.svg
+    - assets/json/
+    - assets/images/

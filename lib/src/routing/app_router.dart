@@ -13,6 +13,7 @@ import 'package:starter_architecture_flutter_firebase/src/features/jobs/presenta
 import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/jobs_screen/jobs_screen.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/onboarding/data/onboarding_repository.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/read/presentation/read_screen.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/go_router_refresh_stream.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/scaffold_with_nested_navigation.dart';
 
@@ -20,6 +21,7 @@ part 'app_router.g.dart';
 
 // private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _readNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'read');
 final _jobsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'jobs');
 final _entriesNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'entries');
 final _accountNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'account');
@@ -36,6 +38,7 @@ enum AppRoute {
   editEntry,
   entries,
   profile,
+  read
 }
 
 @riverpod
@@ -44,8 +47,7 @@ GoRouter goRouter(GoRouterRef ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final onboardingRepository = ref.watch(onboardingRepositoryProvider);
   return GoRouter(
-    // initialLocation: '/signIn',
-    initialLocation: '/entries',
+    initialLocation: '/signIn',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     redirect: (context, state) {
@@ -60,11 +62,12 @@ GoRouter goRouter(GoRouterRef ref) {
       final isLoggedIn = authRepository.currentUser != null;
       if (isLoggedIn) {
         if (state.location.startsWith('/signIn')) {
-          return '/jobs';
+          return '/read';
         }
       } else {
-        if (state.location.startsWith('/jobs') ||
-            state.location.startsWith('/entries') ||
+        if (state.location.startsWith('/read') ||
+            state.location.startsWith('/jobs') ||
+            // state.location.startsWith('/entries') ||
             state.location.startsWith('/account')) {
           return '/signIn';
         }
@@ -94,6 +97,18 @@ GoRouter goRouter(GoRouterRef ref) {
           return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
         },
         branches: [
+          StatefulShellBranch(
+            navigatorKey: _readNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/read',
+                name: AppRoute.read.name,
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: ReadScreen(),
+                ),
+              ),
+            ],
+          ),
           StatefulShellBranch(
             navigatorKey: _jobsNavigatorKey,
             routes: [
@@ -173,18 +188,19 @@ GoRouter goRouter(GoRouterRef ref) {
               ),
             ],
           ),
-          StatefulShellBranch(
-            navigatorKey: _entriesNavigatorKey,
-            routes: [
-              GoRoute(
-                path: '/entries',
-                name: AppRoute.entries.name,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: EntriesScreen(),
-                ),
-              ),
-            ],
-          ),
+
+          // StatefulShellBranch(
+          //   navigatorKey: _entriesNavigatorKey,
+          //   routes: [
+          //     GoRoute(
+          //       path: '/entries',
+          //       name: AppRoute.entries.name,
+          //       pageBuilder: (context, state) => const NoTransitionPage(
+          //         child: EntriesScreen(),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           StatefulShellBranch(
             navigatorKey: _accountNavigatorKey,
             routes: [
