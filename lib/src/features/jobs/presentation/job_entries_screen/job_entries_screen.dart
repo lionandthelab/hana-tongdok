@@ -29,7 +29,7 @@ class JobEntriesPageContents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(job.name),
+        title: Text(job.book),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.edit, color: Colors.white),

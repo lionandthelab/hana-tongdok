@@ -44,7 +44,7 @@ class EntryListItem extends StatelessWidget {
     final endTime = TimeOfDay.fromDateTime(entry.end).format(context);
     final durationFormatted = Format.hours(entry.durationInHours);
 
-    final pay = job.ratePerHour * entry.durationInHours;
+    final pay = job.page * entry.durationInHours;
     final payFormatted = Format.currency(pay);
 
     return Column(
@@ -55,7 +55,7 @@ class EntryListItem extends StatelessWidget {
               style: const TextStyle(fontSize: 18.0, color: Colors.grey)),
           gapW16,
           Text(startDate, style: const TextStyle(fontSize: 18.0)),
-          if (job.ratePerHour > 0.0) ...<Widget>[
+          if (job.page > 0.0) ...<Widget>[
             Expanded(child: Container()),
             Text(
               payFormatted,

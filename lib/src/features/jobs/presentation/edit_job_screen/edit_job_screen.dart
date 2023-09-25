@@ -21,15 +21,15 @@ class EditJobScreen extends ConsumerStatefulWidget {
 class _EditJobPageState extends ConsumerState<EditJobScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String? _name;
-  int? _ratePerHour;
+  String? _book;
+  int? _page;
 
   @override
   void initState() {
     super.initState();
     if (widget.job != null) {
-      _name = widget.job?.name;
-      _ratePerHour = widget.job?.ratePerHour;
+      _book = widget.job?.book;
+      _page = widget.job?.page;
     }
   }
 
@@ -48,8 +48,8 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
           await ref.read(editJobScreenControllerProvider.notifier).submit(
                 jobId: widget.jobId,
                 oldJob: widget.job,
-                name: _name ?? '',
-                ratePerHour: _ratePerHour ?? 0,
+                book: _book ?? '',
+                page: _page ?? 0,
               );
       if (success && mounted) {
         context.pop();
@@ -111,20 +111,20 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
       TextFormField(
         decoration: const InputDecoration(labelText: 'Job name'),
         keyboardAppearance: Brightness.light,
-        initialValue: _name,
+        initialValue: _book,
         validator: (value) =>
             (value ?? '').isNotEmpty ? null : 'Name can\'t be empty',
-        onSaved: (value) => _name = value,
+        onSaved: (value) => _book = value,
       ),
       TextFormField(
         decoration: const InputDecoration(labelText: 'Rate per hour'),
         keyboardAppearance: Brightness.light,
-        initialValue: _ratePerHour != null ? '$_ratePerHour' : null,
+        initialValue: _page != null ? '$_page' : null,
         keyboardType: const TextInputType.numberWithOptions(
           signed: false,
           decimal: false,
         ),
-        onSaved: (value) => _ratePerHour = int.tryParse(value ?? '') ?? 0,
+        onSaved: (value) => _page = int.tryParse(value ?? '') ?? 0,
       ),
     ];
   }

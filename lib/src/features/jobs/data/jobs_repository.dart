@@ -14,6 +14,8 @@ class JobsRepository {
   const JobsRepository(this._firestore);
   final FirebaseFirestore _firestore;
 
+  static String proclaimPath(String proclaimId) => 'proclaims/$proclaimId';
+  static String proclaimsPath() => 'proclaims/';
   static String jobPath(String uid, String jobId) => 'users/$uid/jobs/$jobId';
   static String jobsPath(String uid) => 'users/$uid/jobs';
   static String entriesPath(String uid) => EntriesRepository.entriesPath(uid);
@@ -22,10 +24,10 @@ class JobsRepository {
   Future<void> addJob(
           {required UserID uid,
           required String name,
-          required int ratePerHour}) =>
+          required int page}) =>
       _firestore.collection(jobsPath(uid)).add({
         'name': name,
-        'ratePerHour': ratePerHour,
+        'page': page,
       });
 
   // update
@@ -64,8 +66,14 @@ class JobsRepository {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
+  // Query<Job> queryJobs({required UserID uid}) =>
+  //     _firestore.collection(jobsPath(uid)).withConverter(
+  //           fromFirestore: (snapshot, _) =>
+  //               Job.fromMap(snapshot.data()!, snapshot.id),
+  //           toFirestore: (job, _) => job.toMap(),
+  //         );
   Query<Job> queryJobs({required UserID uid}) =>
-      _firestore.collection(jobsPath(uid)).withConverter(
+      _firestore.collection(proclaimsPath()).withConverter(
             fromFirestore: (snapshot, _) =>
                 Job.fromMap(snapshot.data()!, snapshot.id),
             toFirestore: (job, _) => job.toMap(),
@@ -74,6 +82,30 @@ class JobsRepository {
   Future<List<Job>> fetchJobs({required UserID uid}) async {
     final jobs = await queryJobs(uid: uid).get();
     return jobs.docs.map((doc) => doc.data()).toList();
+  }
+
+  // Custom methods for the Hana Proclaim feature
+  Stream<Proclaim> watchProclaim(ProclaimID proclaimID) =>
+    _firestore
+        .doc(proclaimPath(proclaimID))
+        .withConverter<Proclaim>(
+          fromFirestore: (snapshot, _) =>
+              Proclaim.fromMap(snapshot.data()!, snapshot.id),
+          toFirestore: (proclaim, _) => proclaim.toMap(),
+        )
+        .snapshots()
+        .map((snapshot) => snapshot.data()!);
+
+  Query<Proclaim> queryProclaims() =>
+    _firestore.collection(proclaimPath as String).withConverter(
+          fromFirestore: (snapshot, _) =>
+              Proclaim.fromMap(snapshot.data()!, snapshot.id),
+          toFirestore: (proclaim, _) => proclaim.toMap(),
+        );
+
+  Future<List<Proclaim>> fetchProclaims() async {
+    final proclaims = await queryProclaims().get();
+    return proclaims.docs.map((doc) => doc.data()).toList();
   }
 }
 
@@ -101,3 +133,13 @@ Stream<Job> jobStream(JobStreamRef ref, JobID jobId) {
   final repository = ref.watch(jobsRepositoryProvider);
   return repository.watchJob(uid: user.uid, jobId: jobId);
 }
+
+// @riverpod
+// Query<Proclaim> proclaimsQuery(ProclaimsQueryRef ref) {
+//   // final user = ref.watch(firebaseAuthProvider).currentUser;
+//   // if (user == null) {
+//   //   throw AssertionError('User can\'t be null');
+//   // }
+//   final repository = ref.watch(jobsRepositoryProvider);
+//   return repository.queryProclaims();
+// }
