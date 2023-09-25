@@ -32,8 +32,10 @@ class _ReadScreenState extends State<ReadScreen> {
     _verseKey = "m${m}d$d";
     _fontSize = 24.0;
     _loadJsonData();
+    _loadJsonData();
   }
 
+  final userSettings = rootBundle.loadString('assets/json/userdata.json');
   void _increaseFontSize() {
     setState(() {
       _fontSize += 2.0;
@@ -45,7 +47,11 @@ class _ReadScreenState extends State<ReadScreen> {
       _fontSize -= 2.0;
     });
   }
-
+  Future<void> _loadUsetSettings() async{
+    final jsonString =
+    await rootBundle.loadString('assets/json/userdata.json');
+    _fontSize = json.decode(jsonString);
+  }
   Future<void> _loadJsonData() async {
     final jsonString =
         await rootBundle.loadString('assets/json/bible-RNKSV.json');
@@ -63,7 +69,7 @@ class _ReadScreenState extends State<ReadScreen> {
       // print("@@@_bibleList: $_bibleList");
       // yourJsonData = jsonDecode(_bibleList) as List<Map<String, dynamic>>;
       print("yourJsonData: $yourJsonData");
-
+      print("your read number: $userSettings");
       // _bibleText = "";
       // for (int i = 0; i < _bibleList.length; i++) {
       //   List<dynamic> book = _bibleList[i]["paragraphs"][0];

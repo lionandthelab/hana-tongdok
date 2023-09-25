@@ -44,7 +44,7 @@ class SignInAnonymouslyFooter extends ConsumerWidget {
         ),
         TextButton(
           onPressed: () => ref.read(firebaseAuthProvider).signInAnonymously(),
-          child: const Text('Sign in anonymously'),
+          child: const Text('비회원으로 이용하기'),
         ),
       ],
     );
