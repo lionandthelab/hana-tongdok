@@ -25,40 +25,46 @@ class OnboardingScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              '하나통독\n말씀으로 하루를 시작하세요.',
-              style: Theme.of(context).textTheme.headlineSmall,
+              '하나통독',
+              style: Theme.of(context).textTheme.headlineLarge,
               textAlign: TextAlign.center,
             ),
             gapH16,
+            Text(
+              '말씀으로 하루를 시작하세요.',
+              style: Theme.of(context).textTheme.headlineSmall,
+              textAlign: TextAlign.center,
+            ),
+            gapH64,
             SvgPicture.asset(
               'assets/Open-Bible.svg',
               width: 200,
               height: 200,
               semanticsLabel: 'hntd logo',
             ),
-            gapH16,
+            gapH64,
             
-            CalendarCarousel(
-              // current: DateTime.now(),
-              // onDayPressed: (DateTime date) {
-              //   this.setState(() => _currentDate = date);
-              // },
-              thisMonthDayBorderColor: Colors.grey,
-              height: 420.0,
-              // selectedDateTime: _currentDate,
-              daysHaveCircularBorder: null, /// null for not rendering any border, true for circular border, false for rectangular border
-              // markedDatesMap: _markedDateMap,
-              headerTextStyle: TextStyle(
-                color: Colors.cyan,
-              ),
-              weekdayTextStyle: TextStyle(
-                color: Colors.cyan,
-              ),
-              weekendTextStyle: TextStyle(
-                color: Colors.cyan,
-              ),
-              // weekDays: null, /// for pass null when you do not want to render weekDays
-            ),
+            // CalendarCarousel(
+            //   // current: DateTime.now(),
+            //   // onDayPressed: (DateTime date) {
+            //   //   this.setState(() => _currentDate = date);
+            //   // },
+            //   thisMonthDayBorderColor: Colors.grey,
+            //   height: 420.0,
+            //   // selectedDateTime: _currentDate,
+            //   daysHaveCircularBorder: null, /// null for not rendering any border, true for circular border, false for rectangular border
+            //   // markedDatesMap: _markedDateMap,
+            //   headerTextStyle: TextStyle(
+            //     color: Colors.cyan,
+            //   ),
+            //   weekdayTextStyle: TextStyle(
+            //     color: Colors.cyan,
+            //   ),
+            //   weekendTextStyle: TextStyle(
+            //     color: Colors.cyan,
+            //   ),
+            //   // weekDays: null, /// for pass null when you do not want to render weekDays
+            // ),
             PrimaryButton(
               text: '시작하기'.hardcoded,
               isLoading: state.isLoading,
