@@ -16,15 +16,18 @@ class JobsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MediaQuery.of(context).orientation == Orientation.portrait ? AppBar(        
-        title: const Text(Strings.jobs),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: const Icon(Icons.add, color: Colors.white),
-        //     onPressed: () => context.goNamed(AppRoute.addJob.name),
-        //   ),
-        // ],
-      ): null,
+      appBar: MediaQuery.of(context).orientation == Orientation.portrait
+          ? AppBar(
+              leading: Icon(Icons.flag_rounded),
+              title: const Text(Strings.jobs),
+              // actions: <Widget>[
+              //   IconButton(
+              //     icon: const Icon(Icons.add, color: Colors.white),
+              //     onPressed: () => context.goNamed(AppRoute.addJob.name),
+              //   ),
+              // ],
+            )
+          : null,
       body: Consumer(
         builder: (context, ref, child) {
           ref.listen<AsyncValue>(
@@ -38,8 +41,8 @@ class JobsScreen extends StatelessWidget {
             errorBuilder: (context, error, stackTrace) => Center(
               child: Text(error.toString()),
             ),
-            loadingBuilder: (context) =>
-                const Center(child: CircularProgressIndicator()),
+            loadingBuilder: (context) => const Center(
+                child: SizedBox(child: CircularProgressIndicator())),
             itemBuilder: (context, doc) {
               final proclaim = doc.data();
               print("proclaim: ${proclaim?.book}_${proclaim?.page}");
@@ -86,16 +89,23 @@ class ProclaimListTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CachedNetworkImage(
-              width: MediaQuery.of(context).orientation == Orientation.portrait ?
-           null: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).orientation == Orientation.portrait ?
-           MediaQuery.of(context).size.height * 0.8: null,
-                imageUrl: MediaQuery.of(context).orientation == Orientation.portrait ?
-                    "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${proclaim?.book}_${proclaim?.page}_port.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1":
-                    "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${proclaim?.book}_${proclaim?.page}_land.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1",
-                placeholder: (context, url) => CircularProgressIndicator(),
+                width:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? null
+                        : MediaQuery.of(context).size.width * 0.8,
+                height:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? MediaQuery.of(context).size.height * 0.8
+                        : null,
+                imageUrl: MediaQuery.of(context).orientation ==
+                        Orientation.portrait
+                    ? "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${proclaim?.book}_${proclaim?.page}_port.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1"
+                    : "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${proclaim?.book}_${proclaim?.page}_land.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1",
+                // placeholder: (context, url) => SizedBox(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => Icon(Icons.error),
-                fit: MediaQuery.of(context).orientation == Orientation.landscape ? BoxFit.fitHeight: BoxFit.fitWidth,
+                fit: MediaQuery.of(context).orientation == Orientation.landscape
+                    ? BoxFit.fitHeight
+                    : BoxFit.fitWidth,
                 alignment: Alignment.center),
             // Padding(
             //   padding: const EdgeInsets.all(16.0),

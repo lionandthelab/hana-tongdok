@@ -17,8 +17,8 @@ class _ReadScreenState extends State<ReadScreen> {
   late List<dynamic> yourJsonData = [];
   late DateTime? _selectedDate = null;
   late String _verseKey = "";
-  double _fontSize = 16.0; // Initial font size
-  
+  double _fontSize = 24.0; // Initial font size
+
   @override
   void initState() {
     super.initState();
@@ -26,7 +26,7 @@ class _ReadScreenState extends State<ReadScreen> {
     String m = _selectedDate!.month.toString();
     String d = _selectedDate!.day.toString();
     _verseKey = "m${m}d$d";
-    _fontSize = 16.0;
+    _fontSize = 24.0;
     _loadJsonData();
   }
 
@@ -97,7 +97,9 @@ class _ReadScreenState extends State<ReadScreen> {
             icon: Icon(Icons.calendar_today),
             onPressed: () => _selectDate(context),
           ),
-          FontSizeAdjusterButton(increaseFontSize: _increaseFontSize, decreaseFontSize: _decreaseFontSize),
+          FontSizeAdjusterButton(
+              increaseFontSize: _increaseFontSize,
+              decreaseFontSize: _decreaseFontSize),
         ],
       ),
       body: TextSizeAdjusterWidget(jsonData: yourJsonData, fontSize: _fontSize),
@@ -122,7 +124,6 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
     print("initState: jsondata: ${widget.jsonData}");
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -133,67 +134,83 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
         final numOfVerses = chapter['num_of_verses'];
         final paragraphs = List<dynamic>.from(chapter['paragraphs']);
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              title: Text(
-                '$chapterName - $numOfVerses절',
-                style: TextStyle(
-                  fontSize: widget.fontSize,
-                  fontWeight: FontWeight.bold,
+        return Center(
+            child: Container(
+                margin: EdgeInsets.all(4.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: paragraphs.length,
-              itemBuilder: (context, paragraphIndex) {
-                final paragraph = paragraphs[paragraphIndex];
-                final title = paragraph['title'];
-                final verses =
-                    List<Map<String, dynamic>>.from(paragraph['verses']);
-
-                return Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (title != null && title.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                            fontSize: widget.fontSize - 2,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    ListTile(
+                      title: Text(
+                        '$chapterName - $numOfVerses절',
+                        style: TextStyle(
+                          fontSize: widget.fontSize,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    for (var verse in verses)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${verse['index']}. ${verse['content']}',
-                          style: TextStyle(fontSize: widget.fontSize - 4),
-                        ),
-                      ),
-                    for (var verse in verses)
-                      if (verse['comments'] != null)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '${verse['comments']}',
-                            style: TextStyle(
-                                fontSize: widget.fontSize - 6,
-                                fontStyle: FontStyle.italic),
-                          ),
-                        ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: paragraphs.length,
+                      itemBuilder: (context, paragraphIndex) {
+                        final paragraph = paragraphs[paragraphIndex];
+                        final title = paragraph['title'];
+                        final verses = List<Map<String, dynamic>>.from(
+                            paragraph['verses']);
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (title != null && title.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  title,
+                                  style: TextStyle(
+                                    fontSize: widget.fontSize - 2,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            for (var verse in verses)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '${verse['index']}. ${verse['content']}',
+                                  style:
+                                      TextStyle(fontSize: widget.fontSize - 4),
+                                ),
+                              ),
+                            for (var verse in verses)
+                              if (verse['comments'] != null)
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '${verse['comments']}',
+                                    style: TextStyle(
+                                        fontSize: widget.fontSize - 6,
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                          ],
+                        );
+                      },
+                    ),
                   ],
-                );
-              },
-            ),
-          ],
-        );
+                )));
       },
     );
   }
@@ -203,12 +220,18 @@ class FontSizeAdjusterButton extends StatelessWidget {
   final VoidCallback increaseFontSize; // Define a callback property
   final VoidCallback decreaseFontSize; // Define a callback property
 
-  const FontSizeAdjusterButton({required this.increaseFontSize, required this.decreaseFontSize}); // Constructor to receive the callback
+  const FontSizeAdjusterButton(
+      {required this.increaseFontSize,
+      required this.decreaseFontSize}); // Constructor to receive the callback
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: increaseFontSize,
+        ),
         IconButton(
           icon: Icon(Icons.remove),
           onPressed: () {
@@ -218,10 +241,6 @@ class FontSizeAdjusterButton extends StatelessWidget {
             // ));
             decreaseFontSize();
           },
-        ),
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: increaseFontSize,
         ),
       ],
     );
