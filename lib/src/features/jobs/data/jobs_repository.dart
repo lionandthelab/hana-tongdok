@@ -83,30 +83,6 @@ class JobsRepository {
     final jobs = await queryJobs(uid: uid).get();
     return jobs.docs.map((doc) => doc.data()).toList();
   }
-
-  // Custom methods for the Hana Proclaim feature
-  Stream<Proclaim> watchProclaim(ProclaimID proclaimID) =>
-    _firestore
-        .doc(proclaimPath(proclaimID))
-        .withConverter<Proclaim>(
-          fromFirestore: (snapshot, _) =>
-              Proclaim.fromMap(snapshot.data()!, snapshot.id),
-          toFirestore: (proclaim, _) => proclaim.toMap(),
-        )
-        .snapshots()
-        .map((snapshot) => snapshot.data()!);
-
-  Query<Proclaim> queryProclaims() =>
-    _firestore.collection(proclaimPath as String).withConverter(
-          fromFirestore: (snapshot, _) =>
-              Proclaim.fromMap(snapshot.data()!, snapshot.id),
-          toFirestore: (proclaim, _) => proclaim.toMap(),
-        );
-
-  Future<List<Proclaim>> fetchProclaims() async {
-    final proclaims = await queryProclaims().get();
-    return proclaims.docs.map((doc) => doc.data()).toList();
-  }
 }
 
 @Riverpod(keepAlive: true)

@@ -9,6 +9,7 @@ import 'package:starter_architecture_flutter_firebase/src/features/jobs/presenta
 import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
 import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class JobsScreen extends StatelessWidget {
   const JobsScreen({super.key});
@@ -16,8 +17,7 @@ class JobsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MediaQuery.of(context).orientation == Orientation.portrait
-          ? AppBar(
+      appBar: AppBar(
               leading: Icon(Icons.flag_rounded),
               title: const Text(Strings.jobs),
               // actions: <Widget>[
@@ -26,8 +26,19 @@ class JobsScreen extends StatelessWidget {
               //     onPressed: () => context.goNamed(AppRoute.addJob.name),
               //   ),
               // ],
-            )
-          : null,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('저장된 이미지를 삭제했습니다.'),
+                    ));
+                    new DefaultCacheManager().emptyCache();
+                  }, 
+                  icon: Icon(Icons.delete_forever)
+                )
+              ]
+            ),
       body: Consumer(
         builder: (context, ref, child) {
           ref.listen<AsyncValue>(
@@ -42,7 +53,7 @@ class JobsScreen extends StatelessWidget {
               child: Text(error.toString()),
             ),
             loadingBuilder: (context) => const Center(
-                child: SizedBox(child: CircularProgressIndicator())),
+                child: CircularProgressIndicator()),
             itemBuilder: (context, doc) {
               final proclaim = doc.data();
               print("proclaim: ${proclaim?.book}_${proclaim?.page}");
@@ -74,7 +85,7 @@ class ProclaimListTile extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          // color: Colors.white,
           borderRadius: BorderRadius.circular(12.0),
           boxShadow: [
             BoxShadow(
@@ -89,19 +100,11 @@ class ProclaimListTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CachedNetworkImage(
-                width:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? null
-                        : MediaQuery.of(context).size.width * 0.8,
-                height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? MediaQuery.of(context).size.height * 0.8
-                        : null,
                 imageUrl: MediaQuery.of(context).orientation ==
                         Orientation.portrait
                     ? "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${proclaim?.book}_${proclaim?.page}_port.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1"
                     : "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${proclaim?.book}_${proclaim?.page}_land.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1",
-                // placeholder: (context, url) => SizedBox(child: CircularProgressIndicator()),
+                placeholder: (context, url) => CircularProgressIndicator(),
                 errorWidget: (context, url, error) => Icon(Icons.error),
                 fit: MediaQuery.of(context).orientation == Orientation.landscape
                     ? BoxFit.fitHeight

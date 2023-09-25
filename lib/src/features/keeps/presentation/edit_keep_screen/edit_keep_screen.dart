@@ -5,33 +5,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:starter_architecture_flutter_firebase/src/common_widgets/responsive_center.dart';
 import 'package:starter_architecture_flutter_firebase/src/constants/breakpoints.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/edit_job_screen/edit_job_screen_controller.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/keeps/presentation/edit_keep_screen/edit_keep_screen_controller.dart';
 import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
 
 // TODO (ikess): It is Keep Screen (Temporal implemenation)
-class EditJobScreen extends ConsumerStatefulWidget {
-  const EditJobScreen({super.key, this.jobId, this.job});
-  final JobID? jobId;
-  final Job? job;
+class EditKeepScreen extends ConsumerStatefulWidget {
+  const EditKeepScreen({super.key, this.keepId, this.keep});
+  final KeepID? keepId;
+  final Keep? keep;
 
   @override
-  ConsumerState<EditJobScreen> createState() => _EditJobPageState();
+  ConsumerState<EditKeepScreen> createState() => _EditKeepScreenState();
 }
 
-class _EditJobPageState extends ConsumerState<EditJobScreen> {
+class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String? _book;
-  int? _page;
+  String? _title;
+  String? _verse;
+  String? _note;
 
   @override
   void initState() {
     super.initState();
-    if (widget.job != null) {
-      _book = widget.job?.book;
-      _page = widget.job?.page;
-    }
+    print("widget.keep: ${widget.keep}");
+    // if (widget.keep != null) {
+      _title = widget.keep?.title;
+      _verse = widget.keep?.verse;
+      _note = widget.keep?.note;
+    // }
   }
 
   bool _validateAndSaveForm() {
@@ -46,11 +49,12 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       final success =
-          await ref.read(editJobScreenControllerProvider.notifier).submit(
-                jobId: widget.jobId,
-                oldJob: widget.job,
-                book: _book ?? '',
-                page: _page ?? 0,
+          await ref.read(editKeepScreenControllerProvider.notifier).submit(
+                keepId: widget.keepId,
+                oldKeep: widget.keep,
+                title: _title ?? '',
+                verse: _verse ?? '',
+                note: _note ?? '',
               );
       if (success && mounted) {
         context.pop();
@@ -61,18 +65,18 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(
-      editJobScreenControllerProvider,
+      editKeepScreenControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final state = ref.watch(editJobScreenControllerProvider);
+    final state = ref.watch(editKeepScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.job == null ? 'New Job' : 'Edit Job'),
+        title: Text(widget.keep == null ? '말씀 노트' : '말씀 간직하기'),
         actions: <Widget>[
           TextButton(
             onPressed: state.isLoading ? null : _submit,
             child: const Text(
-              'Save',
+              '닫기',
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
@@ -110,22 +114,32 @@ class _EditJobPageState extends ConsumerState<EditJobScreen> {
   List<Widget> _buildFormChildren() {
     return [
       TextFormField(
-        decoration: const InputDecoration(labelText: 'Job name'),
+        decoration: const InputDecoration(labelText: '제목'),
         keyboardAppearance: Brightness.light,
-        initialValue: _book,
+        initialValue: _title,
         validator: (value) =>
             (value ?? '').isNotEmpty ? null : 'Name can\'t be empty',
-        onSaved: (value) => _book = value,
+        onSaved: (value) => _title = value,
       ),
       TextFormField(
-        decoration: const InputDecoration(labelText: 'Rate per hour'),
+        decoration: const InputDecoration(labelText: '구절'),
         keyboardAppearance: Brightness.light,
-        initialValue: _page != null ? '$_page' : null,
+        initialValue: _verse != null ? '$_verse' : null,
         keyboardType: const TextInputType.numberWithOptions(
           signed: false,
           decimal: false,
         ),
-        onSaved: (value) => _page = int.tryParse(value ?? '') ?? 0,
+        onSaved: (value) => _verse = value,
+      ),
+      TextFormField(
+        decoration: const InputDecoration(labelText: '노트'),
+        keyboardAppearance: Brightness.light,
+        initialValue: _note != null ? '$_note' : null,
+        keyboardType: const TextInputType.numberWithOptions(
+          signed: false,
+          decimal: false,
+        ),
+        onSaved: (value) => _note = value,
       ),
     ];
   }

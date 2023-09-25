@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'edit_job_screen_controller.dart';
+part of 'edit_keep_screen_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$editJobScreenControllerHash() =>
-    r'50a1a3591eb3d58a443393237f4ff4b4eeca34be';
+String _$editKeepScreenControllerHash() =>
+    r'11f2dc8ea967612a7345307e64e27a9e6bb4c3e9';
 
-/// See also [EditJobScreenController].
-@ProviderFor(EditJobScreenController)
-final editJobScreenControllerProvider =
-    AutoDisposeAsyncNotifierProvider<EditJobScreenController, void>.internal(
-  EditJobScreenController.new,
-  name: r'editJobScreenControllerProvider',
+/// See also [EditKeepScreenController].
+@ProviderFor(EditKeepScreenController)
+final editKeepScreenControllerProvider =
+    AutoDisposeAsyncNotifierProvider<EditKeepScreenController, void>.internal(
+  EditKeepScreenController.new,
+  name: r'editKeepScreenControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$editJobScreenControllerHash,
+      : _$editKeepScreenControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$EditJobScreenController = AutoDisposeAsyncNotifier<void>;
+typedef _$EditKeepScreenController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

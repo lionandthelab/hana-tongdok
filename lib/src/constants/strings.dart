@@ -27,6 +27,7 @@ class Strings {
 
   // Read page
   static const String read = '하나통독';
+  static const String keeps = '나의 구절';
 
   // Proclaim page
   static const String proclaim = '하나선포';

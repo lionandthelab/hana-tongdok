@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:starter_architecture_flutter_firebase/src/constants/strings.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
+import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
 
 class ReadScreen extends StatefulWidget {
   const ReadScreen({super.key});
@@ -100,6 +104,13 @@ class _ReadScreenState extends State<ReadScreen> {
           FontSizeAdjusterButton(
               increaseFontSize: _increaseFontSize,
               decreaseFontSize: _decreaseFontSize),
+          IconButton(
+            icon: Icon(Icons.history_edu_rounded),
+            onPressed: () => context.goNamed(
+              AppRoute.keep.name,
+              // pathParameters: {'id': proclaim.id},
+            ),
+          ),
         ],
       ),
       body: TextSizeAdjusterWidget(jsonData: yourJsonData, fontSize: _fontSize),
@@ -188,10 +199,19 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                             for (var verse in verses)
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '${verse['index']}. ${verse['content']}',
-                                  style:
-                                      TextStyle(fontSize: widget.fontSize - 4),
+                                child: TextButton(
+                                  child: Text(
+                                    '${verse['index']}. ${verse['content']}',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: widget.fontSize - 4),
+                                  ),
+                                  onPressed: () {
+                                    context.goNamed(AppRoute.editKeep.name,
+                                        pathParameters: {},
+                                        queryParameters: {'title': "$chapterName ${verse['index']}절", 'verse': verse['content'], 'note':'', 'id': Random.secure().nextInt(1000000).toString()}
+                                    );
+                                  },
                                 ),
                               ),
                             for (var verse in verses)

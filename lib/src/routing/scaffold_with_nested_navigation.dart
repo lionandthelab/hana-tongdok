@@ -60,6 +60,7 @@ class ScaffoldWithBottomNavBar extends StatelessWidget {
     return Scaffold(
       body: body,
       bottomNavigationBar: NavigationBar(
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         selectedIndex: currentIndex,
         destinations: [
           // products
@@ -69,8 +70,8 @@ class ScaffoldWithBottomNavBar extends StatelessWidget {
             label: 'Read'.hardcoded,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.work_outline),
-            selectedIcon: const Icon(Icons.work),
+            icon: const Icon(Icons.flag_outlined),
+            selectedIcon: const Icon(Icons.flag),
             label: 'Jobs'.hardcoded,
           ),
           // NavigationDestination(
