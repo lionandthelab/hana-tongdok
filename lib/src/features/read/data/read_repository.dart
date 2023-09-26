@@ -7,8 +7,7 @@ import 'package:starter_architecture_flutter_firebase/src/features/authenticatio
 import 'package:starter_architecture_flutter_firebase/src/features/read/domain/read.dart';
 
 class ReadRepository{
-  const ReadRepository(this._firestore);
-  final FirebaseFirestore _firestore;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   static String datesPath(String uid) => 'users/$uid/dates';
 
@@ -19,19 +18,5 @@ class ReadRepository{
         'date': date,
       });
 
-  // delete
-  Future<void> deleteDate({required UserID uid, required String date}) async {
-    // delete where keep.keepId == keep.keepId
-    final datesRef = _firestore.collection(datesPath(uid));
-    final dates = await datesRef.get();
-    for (final snapshot in dates.docs) {
-      final date = date.fromMap(snapshot.data(), 'date');
-      if (date.id == date) {
-        await snapshot.reference.delete();
-      }
-    }
-    // delete keep
-    final keepRef = _firestore.doc(keepPath(uid, keepId));
-    await keepRef.delete();
-  }
+
 }

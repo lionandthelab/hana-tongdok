@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:starter_architecture_flutter_firebase/src/constants/strings.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/read/data/read_repository.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
 
 class ReadScreen extends StatefulWidget {
@@ -24,6 +26,9 @@ class _ReadScreenState extends State<ReadScreen> {
   late String _verseKey = "";
   double _fontSize = 24.0; // Initial font size
 
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final ReadRepository  readRepository = new ReadRepository();
+
   @override
   void initState() {
     super.initState();
@@ -33,10 +38,14 @@ class _ReadScreenState extends State<ReadScreen> {
     _verseKey = "m${m}d$d";
     //_fontSize = 24.0;
     _loadJsonData();
-    _loadUsetSettings();
+    _loadUserSettings();
+    _loadDatesData();
+    _loadUserDates();
   }
 
   final userSettings = rootBundle.loadString('assets/json/userdata.json');
+
+
   void _increaseFontSize() {
     setState(() {
       _fontSize += 2.0;
@@ -48,7 +57,36 @@ class _ReadScreenState extends State<ReadScreen> {
       _fontSize -= 2.0;
     });
   }
-  Future<void> _loadUsetSettings() async{
+  Future<void> _loadDatesData() async{
+    print('hello');
+    final user = FirebaseAuth.instance.currentUser;
+    final path = 'users/${user!.uid}/dates';
+
+    if(user != null){
+      readRepository.addDate(
+          uid:user.uid,
+          date:"09/13"
+      );
+      print(path);
+      QuerySnapshot querySnapshot = await _firestore.collection(path).get();
+      print(querySnapshot);
+    }
+
+  }
+  Future<void> _loadUserDates() async{
+    final user = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('Document exists on the database');
+      }
+    });
+    print('firestore read - ');
+  }
+  Future<void> _loadUserSettings() async{
     final jsonString =
     await rootBundle.loadString('assets/json/userdata.json');
     final jsonData = json.decode(jsonString);

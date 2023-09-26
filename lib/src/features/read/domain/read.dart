@@ -1,19 +1,31 @@
 // TODO Implement this library.
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+
 
 typedef KeepID = String;
 
-class Read extends Equatable{
+class Dates extends Equatable{
 
-  const Read({required this.date});
-  final date;
+  const Dates({required this.id,required this.date});
+  final String date;
+  final String id;
 
   @override
   // TODO: implement props
-  List<Object?> get props => date;
+  List<Object?> get props => [date];
 
-  
+
+  @override
+  bool get stringify => true;
+
+  factory Dates.fromMap(Map<String, dynamic> data, String id) {
+    final date = data['date'] as String;
+
+    return Dates(
+      id: id,
+      date: date,
+    );
+  }
 
 }
