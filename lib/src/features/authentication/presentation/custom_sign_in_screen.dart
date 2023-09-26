@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,12 +16,47 @@ class CustomSignInScreen extends ConsumerWidget {
     final authProviders = ref.watch(authProvidersProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign in'),
+        title: const Text('로그인'),
       ),
-      body: SignInScreen(
-        providers: authProviders,
-        footerBuilder: (context, action) => const SignInAnonymouslyFooter(),
-      ),
+      body:
+          SignInScreen(
+            providers: authProviders,
+
+            footerBuilder: (context, action) => const SignInAnonymouslyFooter(),
+          ),
+      );
+  }
+}
+
+class LogoSubtitle extends ConsumerWidget {
+  const LogoSubtitle({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        SizedBox(height: 10,),
+        Image(
+          image: AssetImage('assets/images/logo.png'),
+          width: 200,
+          height: 200,
+          fit: BoxFit.contain,
+        ),
+      ],
+    );
+  }
+}
+
+class LogoSubtitle1 extends ConsumerWidget {
+  const LogoSubtitle1({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return         Image(
+      image: AssetImage('assets/images/logo.png'),
+      width: 200,
+      height: 150,
+      fit: BoxFit.fill,
     );
   }
 }

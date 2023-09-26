@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:starter_architecture_flutter_firebase/src/constants/strings.dart';
@@ -30,9 +31,9 @@ class _ReadScreenState extends State<ReadScreen> {
     String m = _selectedDate!.month.toString();
     String d = _selectedDate!.day.toString();
     _verseKey = "m${m}d$d";
-    _fontSize = 24.0;
+    //_fontSize = 24.0;
     _loadJsonData();
-    _loadJsonData();
+    _loadUsetSettings();
   }
 
   final userSettings = rootBundle.loadString('assets/json/userdata.json');
@@ -50,7 +51,8 @@ class _ReadScreenState extends State<ReadScreen> {
   Future<void> _loadUsetSettings() async{
     final jsonString =
     await rootBundle.loadString('assets/json/userdata.json');
-    _fontSize = json.decode(jsonString);
+    final jsonData = json.decode(jsonString);
+    _fontSize = jsonData.read_number;
   }
   Future<void> _loadJsonData() async {
     final jsonString =
@@ -116,6 +118,12 @@ class _ReadScreenState extends State<ReadScreen> {
               AppRoute.keep.name,
               // pathParameters: {'id': proclaim.id},
             ),
+          ),
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: (){
+              print(DateFormat('MM/dd').format(_selectedDate!));
+            },
           ),
         ],
       ),
