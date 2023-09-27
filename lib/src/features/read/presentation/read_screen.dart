@@ -25,9 +25,11 @@ class _ReadScreenState extends State<ReadScreen> {
   late DateTime? _selectedDate = null;
   late String _verseKey = "";
   double _fontSize = 24.0; // Initial font size
+  final today = DateUtils.dateOnly(DateTime.now());
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final ReadRepository  readRepository = new ReadRepository();
+  CollectionReference product = FirebaseFirestore.instance.collection("users");
 
   @override
   void initState() {
@@ -121,7 +123,7 @@ class _ReadScreenState extends State<ReadScreen> {
     });
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, List<DateTime> dates) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -145,7 +147,7 @@ class _ReadScreenState extends State<ReadScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.calendar_today),
-            onPressed: () => _selectDate(context),
+            onPressed: () => _selectDate(context, [DateTime(2023,09,01)]),
           ),
           FontSizeAdjusterButton(
               increaseFontSize: _increaseFontSize,
@@ -165,10 +167,22 @@ class _ReadScreenState extends State<ReadScreen> {
           ),
         ],
       ),
-      body: TextSizeAdjusterWidget(jsonData: yourJsonData, fontSize: _fontSize),
+      body: StreamBuilder(
+        stream: product.snapshots(),
+        builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> streamSnapshot){
+          if(streamSnapshot.hasData){
+            return TextSizeAdjusterWidget(jsonData: yourJsonData, fontSize: _fontSize);
+          }
+          return CircularProgressIndicator();
+        },
+      )
+      //,
     );
   }
 }
+
+
 
 class TextSizeAdjusterWidget extends StatefulWidget {
   final List<dynamic> jsonData;
