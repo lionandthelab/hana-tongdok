@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:starter_architecture_flutter_firebase/src/constants/strings.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/read/data/read_repository.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
@@ -28,7 +29,7 @@ class _ReadScreenState extends State<ReadScreen> {
   final today = DateUtils.dateOnly(DateTime.now());
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final ReadRepository  readRepository = new ReadRepository();
+  final ReadRepository readRepository = new ReadRepository();
   CollectionReference product = FirebaseFirestore.instance.collection("users");
 
   @override
@@ -47,7 +48,6 @@ class _ReadScreenState extends State<ReadScreen> {
 
   final userSettings = rootBundle.loadString('assets/json/userdata.json');
 
-
   void _increaseFontSize() {
     setState(() {
       _fontSize += 2.0;
@@ -59,23 +59,38 @@ class _ReadScreenState extends State<ReadScreen> {
       _fontSize -= 2.0;
     });
   }
-  Future<void> _loadDatesData() async{
+
+  Future<void> _submitAddDate(DateTime selectedDate) async {
+    if (selectedDate != null) {
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        final path = 'users/${user!.uid}/dates';
+        readRepository.addDate(uid: user.uid, date: selectedDate.toString());
+        print("selectedDate.toString(): ${selectedDate.toString()}");
+
+        QuerySnapshot querySnapshot = await _firestore.collection(path).get();
+        print("after addDate: $querySnapshot");
+      }
+    }
+  }
+
+  Future<void> _loadDatesData() async {
     print('hello');
     final user = FirebaseAuth.instance.currentUser;
     final path = 'users/${user!.uid}/dates';
 
-    if(user != null){
-      readRepository.addDate(
-          uid:user.uid,
-          date:"09/13"
-      );
-      print(path);
+    if (user != null) {
+      // readRepository.addDate(uid: user.uid, date: "09/13");
       QuerySnapshot querySnapshot = await _firestore.collection(path).get();
-      print(querySnapshot);
+      print("_loadDatesData: $querySnapshot");
+      querySnapshot.docs.forEach((doc) {
+        print(doc["date"]);
+      });
     }
-
   }
-  Future<void> _loadUserDates() async{
+
+  Future<void> _loadUserDates() async {
     final user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection('users')
@@ -88,12 +103,17 @@ class _ReadScreenState extends State<ReadScreen> {
     });
     print('firestore read - ');
   }
-  Future<void> _loadUserSettings() async{
-    final jsonString =
-    await rootBundle.loadString('assets/json/userdata.json');
-    final jsonData = json.decode(jsonString);
-    _fontSize = jsonData.read_number;
+
+  Future<void> _loadUserSettings() async {
+    // final jsonString = await rootBundle.loadString('assets/json/userdata.json');
+    // final jsonData = json.decode(jsonString);
+    final sharedPreferences = await SharedPreferences.getInstance();
+
+    _fontSize = sharedPreferences.getDouble("fontSize") ?? 24.0;
+
+    // _fontSize = jsonData.read_number;
   }
+
   Future<void> _loadJsonData() async {
     final jsonString =
         await rootBundle.loadString('assets/json/bible-RNKSV.json');
@@ -110,7 +130,7 @@ class _ReadScreenState extends State<ReadScreen> {
       yourJsonData = jsonData[_verseKey]["contents"] as List<dynamic>;
       // print("@@@_bibleList: $_bibleList");
       // yourJsonData = jsonDecode(_bibleList) as List<Map<String, dynamic>>;
-      print("yourJsonData: $yourJsonData");
+      // print("yourJsonData: $yourJsonData");
       print("your read number: $userSettings");
       // _bibleText = "";
       // for (int i = 0; i < _bibleList.length; i++) {
@@ -142,47 +162,47 @@ class _ReadScreenState extends State<ReadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.book_rounded),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.calendar_today),
-            onPressed: () => _selectDate(context, [DateTime(2023,09,01)]),
-          ),
-          FontSizeAdjusterButton(
-              increaseFontSize: _increaseFontSize,
-              decreaseFontSize: _decreaseFontSize),
-          IconButton(
-            icon: Icon(Icons.history_edu_rounded),
-            onPressed: () => context.goNamed(
-              AppRoute.keep.name,
-              // pathParameters: {'id': proclaim.id},
+        appBar: AppBar(
+          leading: Icon(Icons.book_rounded),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.calendar_today),
+              onPressed: () => _selectDate(context, [DateTime(2023, 09, 01)]),
             ),
-          ),
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: (){
-              print(DateFormat('MM/dd').format(_selectedDate!));
-            },
-          ),
-        ],
-      ),
-      body: StreamBuilder(
-        stream: product.snapshots(),
-        builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> streamSnapshot){
-          if(streamSnapshot.hasData){
-            return TextSizeAdjusterWidget(jsonData: yourJsonData, fontSize: _fontSize);
-          }
-          return CircularProgressIndicator();
-        },
-      )
-      //,
-    );
+            FontSizeAdjusterButton(
+                increaseFontSize: _increaseFontSize,
+                decreaseFontSize: _decreaseFontSize),
+            IconButton(
+              icon: Icon(Icons.history_edu_rounded),
+              onPressed: () => context.goNamed(
+                AppRoute.keep.name,
+                // pathParameters: {'id': proclaim.id},
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.check),
+              onPressed: () {
+                if (_selectedDate != null) _submitAddDate(_selectedDate!);
+                print(_selectedDate.toString());
+              },
+            ),
+          ],
+        ),
+        body: StreamBuilder(
+          stream: product.snapshots(),
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+            if (streamSnapshot.hasData) {
+              return TextSizeAdjusterWidget(
+                  jsonData: yourJsonData, fontSize: _fontSize);
+            }
+            return CircularProgressIndicator();
+          },
+        )
+        //,
+        );
   }
 }
-
-
 
 class TextSizeAdjusterWidget extends StatefulWidget {
   final List<dynamic> jsonData;
@@ -198,7 +218,7 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
   @override
   void initState() {
     super.initState();
-    print("initState: jsondata: ${widget.jsonData}");
+    // print("initState: jsondata: ${widget.jsonData}");
   }
 
   @override
@@ -275,8 +295,15 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                                   onPressed: () {
                                     context.goNamed(AppRoute.editKeep.name,
                                         pathParameters: {},
-                                        queryParameters: {'title': "$chapterName ${verse['index']}절", 'verse': verse['content'], 'note':'', 'id': Random.secure().nextInt(1000000).toString()}
-                                    );
+                                        queryParameters: {
+                                          'title':
+                                              "$chapterName ${verse['index']}절",
+                                          'verse': verse['content'],
+                                          'note': '',
+                                          'id': Random.secure()
+                                              .nextInt(1000000)
+                                              .toString()
+                                        });
                                   },
                                 ),
                               ),
