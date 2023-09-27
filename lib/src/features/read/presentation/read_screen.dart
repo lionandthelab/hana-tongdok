@@ -119,7 +119,7 @@ class _ReadScreenState extends State<ReadScreen> {
             DateTime.parse(doc["date"]),
             new Event(
               date: DateTime.parse(doc["date"]),
-              icon: Icon(Icons.book_rounded),
+              icon: Icon(Icons.check_circle_outline_outlined),
               dot: Container(
                 margin: EdgeInsets.symmetric(horizontal: 5.0),
                 color: Colors.black,
