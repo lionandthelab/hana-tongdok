@@ -8,6 +8,7 @@ import 'package:starter_architecture_flutter_firebase/src/constants/breakpoints.
 import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/keeps/presentation/edit_keep_screen/edit_keep_screen_controller.dart';
 import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 // TODO (ikess): It is Keep Screen (Temporal implemenation)
 class EditKeepScreen extends ConsumerStatefulWidget {
@@ -31,9 +32,9 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
     super.initState();
     print("widget.keep: ${widget.keep}");
     // if (widget.keep != null) {
-      _title = widget.keep?.title;
-      _verse = widget.keep?.verse;
-      _note = widget.keep?.note;
+    _title = widget.keep?.title;
+    _verse = widget.keep?.verse;
+    _note = widget.keep?.note;
     // }
   }
 
@@ -46,7 +47,23 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
     return false;
   }
 
-  Future<void> _submit() async {
+  Future<void> _submit_edit() async {
+    if (_validateAndSaveForm()) {
+      final success =
+          await ref.read(editKeepScreenControllerProvider.notifier).submit(
+                keepId: widget.keep?.id,
+                oldKeep: widget.keep,
+                title: _title ?? '',
+                verse: _verse ?? '',
+                note: _note ?? '',
+              );
+      if (success && mounted) {
+        context.pop();
+      }
+    }
+  }
+
+  Future<void> _submit_add() async {
     if (_validateAndSaveForm()) {
       final success =
           await ref.read(editKeepScreenControllerProvider.notifier).submit(
@@ -64,6 +81,10 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool is_editting = false;
+    if (widget.keep?.note != "") {
+      is_editting = true;
+    }
     ref.listen<AsyncValue>(
       editKeepScreenControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
@@ -71,12 +92,25 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
     final state = ref.watch(editKeepScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.keep == null ? '말씀 노트' : '말씀 간직하기'),
+        title: Text(!is_editting ? '말씀 노트 추가' : '말씀 노트 수정'),
         actions: <Widget>[
           TextButton(
-            onPressed: state.isLoading ? null : _submit,
+            onPressed: () async {
+              state.isLoading
+                  ? null
+                  : is_editting
+                      ? await _submit_edit()
+                      : await _submit_add();
+              Fluttertoast.showToast(
+                msg: "반영되었습니다.",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.CENTER,
+                backgroundColor: Colors.green,
+                textColor: Colors.black87,
+              );
+            },
             child: const Text(
-              '닫기',
+              '완료',
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
@@ -90,10 +124,10 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
     return SingleChildScrollView(
       child: ResponsiveCenter(
         maxContentWidth: Breakpoint.tablet,
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(4.0),
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(4.0),
             child: _buildForm(),
           ),
         ),
@@ -104,10 +138,10 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
   Widget _buildForm() {
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: _buildFormChildren(),
-      ),
+      child: Container(
+          padding: const EdgeInsets.only(
+              left: 16.0, right: 16.0, top: 4.0, bottom: 4.0),
+          child: Column(children: _buildFormChildren())),
     );
   }
 
@@ -117,6 +151,7 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
         decoration: const InputDecoration(labelText: '제목'),
         keyboardAppearance: Brightness.light,
         initialValue: _title,
+        enabled: false, // Set enabled to false
         validator: (value) =>
             (value ?? '').isNotEmpty ? null : 'Name can\'t be empty',
         onSaved: (value) => _title = value,
@@ -125,6 +160,7 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
         decoration: const InputDecoration(labelText: '구절'),
         keyboardAppearance: Brightness.light,
         initialValue: _verse != null ? '$_verse' : null,
+        enabled: false, // Set enabled to false
         keyboardType: const TextInputType.numberWithOptions(
           signed: false,
           decimal: false,

@@ -20,8 +20,7 @@ class EditKeepScreenController extends _$EditKeepScreenController {
       Keep? oldKeep,
       required String title,
       required String verse,
-      required String note
-      }) async {
+      required String note}) async {
     final currentUser = ref.read(authRepositoryProvider).currentUser;
     if (currentUser == null) {
       throw AssertionError('User can\'t be null');
@@ -31,14 +30,13 @@ class EditKeepScreenController extends _$EditKeepScreenController {
     // check if name is already in use
     final repository = ref.read(keepsRepositoryProvider);
     final keeps = await repository.fetchKeeps(uid: currentUser.uid);
-    final allLowerCaseTitles =
-        keeps.map((keep) => keep.title.toLowerCase()).toList();
+    final allLowerCaseIds = keeps.map((keep) => keep.id.toLowerCase()).toList();
     // it's ok to use the same name as the old keep
     if (oldKeep != null) {
-      allLowerCaseTitles.remove(oldKeep.title.toLowerCase());
+      allLowerCaseIds.remove(oldKeep.id.toLowerCase());
     }
     // check if name is already used
-    if (allLowerCaseTitles.contains(title.toLowerCase())) {
+    if (allLowerCaseIds.contains(keepId?.toLowerCase())) {
       state = AsyncError(KeepSubmitException(), StackTrace.current);
       return false;
     } else {

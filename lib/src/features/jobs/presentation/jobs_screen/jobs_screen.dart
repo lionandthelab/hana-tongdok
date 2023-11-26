@@ -11,34 +11,82 @@ import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.d
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-class JobsScreen extends StatelessWidget {
-  const JobsScreen({super.key});
+class JobsScreen extends StatefulWidget {
+  @override
+  _JobsScreenState createState() => _JobsScreenState();
+}
+
+class _JobsScreenState extends State<JobsScreen> {
+  bool _isOverlayVisible = false;
+  OverlayEntry?
+      overlayEntry; // Declare the OverlayEntry as an instance variable
+
+  void showOverlay(BuildContext context) {
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: kToolbarHeight,
+        right: 0,
+        child: Container(
+          margin: EdgeInsets.all(16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Cache cleared.'),
+                ),
+              );
+              new DefaultCacheManager().emptyCache();
+            },
+            child: Text('Clear Cache'),
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context)?.insert(overlayEntry!);
+  }
+
+  void toggleOverlayVisibility() {
+    setState(() {
+      _isOverlayVisible = !_isOverlayVisible;
+
+      if (!_isOverlayVisible && overlayEntry != null) {
+        overlayEntry!.remove(); // Remove the overlay
+        overlayEntry = null; // Set overlayEntry to null
+      } else {
+        showOverlay(context);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-              leading: Icon(Icons.flag_rounded),
-              title: const Text(Strings.jobs),
-              // actions: <Widget>[
-              //   IconButton(
-              //     icon: const Icon(Icons.add, color: Colors.white),
-              //     onPressed: () => context.goNamed(AppRoute.addJob.name),
-              //   ),
-              // ],
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('저장된 이미지를 삭제했습니다.'),
-                    ));
-                    new DefaultCacheManager().emptyCache();
-                  }, 
-                  icon: Icon(Icons.delete_forever)
-                )
-              ]
-            ),
+        leading: Icon(Icons.flag_rounded),
+        title: const Text(Strings.jobs),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              toggleOverlayVisibility(); // Toggle the overlay visibility
+            },
+          ),
+        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //         content: Text('캐시 이미지를 삭제했습니다.'),
+        //       ));
+        //       new DefaultCacheManager().emptyCache();
+        //     },
+        //     icon: Icon(Icons.delete_forever)
+        //   )
+        // ]
+      ),
       body: Consumer(
         builder: (context, ref, child) {
           ref.listen<AsyncValue>(
@@ -52,8 +100,8 @@ class JobsScreen extends StatelessWidget {
             errorBuilder: (context, error, stackTrace) => Center(
               child: Text(error.toString()),
             ),
-            loadingBuilder: (context) => const Center(
-                child: CircularProgressIndicator()),
+            loadingBuilder: (context) =>
+                const Center(child: CircularProgressIndicator()),
             itemBuilder: (context, doc) {
               final proclaim = doc.data();
               print("proclaim: ${proclaim?.book}_${proclaim?.page}");

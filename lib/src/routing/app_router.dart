@@ -55,7 +55,7 @@ GoRouter goRouter(GoRouterRef ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final onboardingRepository = ref.watch(onboardingRepositoryProvider);
   return GoRouter(
-    initialLocation: '/signIn',
+    initialLocation: '/onboarding',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     redirect: (context, state) {
@@ -109,28 +109,28 @@ GoRouter goRouter(GoRouterRef ref) {
             navigatorKey: _readNavigatorKey,
             routes: [
               GoRoute(
-                path: '/read',
-                name: AppRoute.read.name,
-                // pageBuilder: (context, state) => const NoTransitionPage(
-                //   child: ReadScreen(),
-                // ),
-                pageBuilder: (context, state) {
-                  return CustomTransitionPage(
-                    key: state.pageKey,
-                    child: ReadScreen(),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      // Change the opacity of the screen using a Curve based on the the animation's
-                      // value
-                      return FadeTransition(
-                        opacity: CurveTween(curve: Curves.easeInOutCirc)
-                            .animate(animation),
-                        child: child,
-                      );
-                    },
-                  );
-                },
-                routes: [
+                  path: '/read',
+                  name: AppRoute.read.name,
+                  // pageBuilder: (context, state) => const NoTransitionPage(
+                  //   child: ReadScreen(),
+                  // ),
+                  pageBuilder: (context, state) {
+                    return CustomTransitionPage(
+                      key: state.pageKey,
+                      child: ReadScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        // Change the opacity of the screen using a Curve based on the the animation's
+                        // value
+                        return FadeTransition(
+                          opacity: CurveTween(curve: Curves.easeInOutCirc)
+                              .animate(animation),
+                          child: child,
+                        );
+                      },
+                    );
+                  },
+                  routes: [
                     GoRoute(
                       path: 'keep',
                       name: AppRoute.keep.name,
@@ -150,124 +150,122 @@ GoRouter goRouter(GoRouterRef ref) {
                         return MaterialPage(
                           fullscreenDialog: true,
                           child: EditKeepScreen(
-                            keep: Keep.fromMap({
-                              'title': state.queryParameters['title'], 
-                              'verse': state.queryParameters['verse'], 
-                              'note': state.queryParameters['note'], 
-                            }, state.queryParameters['id']!)
-                          ),
+                              keep: Keep.fromMap({
+                            'title': state.queryParameters['title'],
+                            'verse': state.queryParameters['verse'],
+                            'note': state.queryParameters['note'],
+                          }, state.queryParameters['id']!)),
                         );
                       },
                     ),
-                //     GoRoute(
-                //       path: 'edit',
-                //       name: AppRoute.editKeep.name,
-                //       parentNavigatorKey: _readNavigatorKey,
-                //       pageBuilder: (context, state) {
-                //         final keepId = state.pathParameters['id'];
-                //         return MaterialPage(
-                //           fullscreenDialog: true,
-                //           child: EditKeepScreen(keepId: keepId),
-                //         );
-                //       },
-                //     ),
-                  ]
-              ),
+                    //     GoRoute(
+                    //       path: 'edit',
+                    //       name: AppRoute.editKeep.name,
+                    //       parentNavigatorKey: _readNavigatorKey,
+                    //       pageBuilder: (context, state) {
+                    //         final keepId = state.pathParameters['id'];
+                    //         return MaterialPage(
+                    //           fullscreenDialog: true,
+                    //           child: EditKeepScreen(keepId: keepId),
+                    //         );
+                    //       },
+                    //     ),
+                  ]),
             ],
           ),
           StatefulShellBranch(
             navigatorKey: _jobsNavigatorKey,
             routes: [
               GoRoute(
-                  path: '/proclaim',
-                  name: AppRoute.jobs.name,
-                  // pageBuilder: (context, state) => const NoTransitionPage(
-                  //   child: JobsScreen(),
-                  // ),
-                  pageBuilder: (context, state) {
-                    return CustomTransitionPage(
-                      key: state.pageKey,
-                      child: JobsScreen(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        // Change the opacity of the screen using a Curve based on the the animation's
-                        // value
-                        return FadeTransition(
-                          opacity: CurveTween(curve: Curves.easeInOutCirc)
-                              .animate(animation),
-                          child: child,
-                        );
-                      },
-                    );
-                  },
-                  // routes: [
-                  //   GoRoute(
-                  //     path: 'add',
-                  //     name: AppRoute.addJob.name,
-                  //     parentNavigatorKey: _rootNavigatorKey,
-                  //     pageBuilder: (context, state) {
-                  //       return const MaterialPage(
-                  //         fullscreenDialog: true,
-                  //         child: EditJobScreen(),
-                  //       );
-                  //     },
-                  //   ),
-                  //   GoRoute(
-                  //     path: ':id',
-                  //     name: AppRoute.job.name,
-                  //     pageBuilder: (context, state) {
-                  //       final id = state.pathParameters['id']!;
-                  //       return MaterialPage(
-                  //         child: JobEntriesScreen(jobId: id),
-                  //       );
-                  //     },
-                  //     routes: [
-                  //       // GoRoute(
-                  //       //   path: 'entries/add',
-                  //       //   name: AppRoute.addEntry.name,
-                  //       //   parentNavigatorKey: _rootNavigatorKey,
-                  //       //   pageBuilder: (context, state) {
-                  //       //     final jobId = state.pathParameters['id']!;
-                  //       //     return MaterialPage(
-                  //       //       fullscreenDialog: true,
-                  //       //       child: EntryScreen(
-                  //       //         jobId: jobId,
-                  //       //       ),
-                  //       //     );
-                  //       //   },
-                  //       // ),
-                  //       // GoRoute(
-                  //       //   path: 'entries/:eid',
-                  //       //   name: AppRoute.entry.name,
-                  //       //   pageBuilder: (context, state) {
-                  //       //     final jobId = state.pathParameters['id']!;
-                  //       //     final entryId = state.pathParameters['eid']!;
-                  //       //     final entry = state.extra as Entry?;
-                  //       //     return MaterialPage(
-                  //       //       child: EntryScreen(
-                  //       //         jobId: jobId,
-                  //       //         entryId: entryId,
-                  //       //         entry: entry,
-                  //       //       ),
-                  //       //     );
-                  //       //   },
-                  //       // ),
-                  //       // GoRoute(
-                  //       //   path: 'edit',
-                  //       //   name: AppRoute.editJob.name,
-                  //       //   pageBuilder: (context, state) {
-                  //       //     final jobId = state.pathParameters['id'];
-                  //       //     final job = state.extra as Job?;
-                  //       //     return MaterialPage(
-                  //       //       fullscreenDialog: true,
-                  //       //       child: EditJobScreen(jobId: jobId, job: job),
-                  //       //     );
-                  //       //   },
-                  //       // ),
-                  //     ],
-                  //   ),
-                  // ],
-                  ),
+                path: '/proclaim',
+                name: AppRoute.jobs.name,
+                // pageBuilder: (context, state) => const NoTransitionPage(
+                //   child: JobsScreen(),
+                // ),
+                pageBuilder: (context, state) {
+                  return CustomTransitionPage(
+                    key: state.pageKey,
+                    child: JobsScreen(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      // Change the opacity of the screen using a Curve based on the the animation's
+                      // value
+                      return FadeTransition(
+                        opacity: CurveTween(curve: Curves.easeInOutCirc)
+                            .animate(animation),
+                        child: child,
+                      );
+                    },
+                  );
+                },
+                // routes: [
+                //   GoRoute(
+                //     path: 'add',
+                //     name: AppRoute.addJob.name,
+                //     parentNavigatorKey: _rootNavigatorKey,
+                //     pageBuilder: (context, state) {
+                //       return const MaterialPage(
+                //         fullscreenDialog: true,
+                //         child: EditJobScreen(),
+                //       );
+                //     },
+                //   ),
+                //   GoRoute(
+                //     path: ':id',
+                //     name: AppRoute.job.name,
+                //     pageBuilder: (context, state) {
+                //       final id = state.pathParameters['id']!;
+                //       return MaterialPage(
+                //         child: JobEntriesScreen(jobId: id),
+                //       );
+                //     },
+                //     routes: [
+                //       // GoRoute(
+                //       //   path: 'entries/add',
+                //       //   name: AppRoute.addEntry.name,
+                //       //   parentNavigatorKey: _rootNavigatorKey,
+                //       //   pageBuilder: (context, state) {
+                //       //     final jobId = state.pathParameters['id']!;
+                //       //     return MaterialPage(
+                //       //       fullscreenDialog: true,
+                //       //       child: EntryScreen(
+                //       //         jobId: jobId,
+                //       //       ),
+                //       //     );
+                //       //   },
+                //       // ),
+                //       // GoRoute(
+                //       //   path: 'entries/:eid',
+                //       //   name: AppRoute.entry.name,
+                //       //   pageBuilder: (context, state) {
+                //       //     final jobId = state.pathParameters['id']!;
+                //       //     final entryId = state.pathParameters['eid']!;
+                //       //     final entry = state.extra as Entry?;
+                //       //     return MaterialPage(
+                //       //       child: EntryScreen(
+                //       //         jobId: jobId,
+                //       //         entryId: entryId,
+                //       //         entry: entry,
+                //       //       ),
+                //       //     );
+                //       //   },
+                //       // ),
+                //       // GoRoute(
+                //       //   path: 'edit',
+                //       //   name: AppRoute.editJob.name,
+                //       //   pageBuilder: (context, state) {
+                //       //     final jobId = state.pathParameters['id'];
+                //       //     final job = state.extra as Job?;
+                //       //     return MaterialPage(
+                //       //       fullscreenDialog: true,
+                //       //       child: EditJobScreen(jobId: jobId, job: job),
+                //       //     );
+                //       //   },
+                //       // ),
+                //     ],
+                //   ),
+                // ],
+              ),
             ],
           ),
 

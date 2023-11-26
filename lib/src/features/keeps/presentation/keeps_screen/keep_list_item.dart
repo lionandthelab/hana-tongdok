@@ -18,7 +18,7 @@ class KeepListItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.p16,
+          horizontal: Sizes.p4,
           vertical: Sizes.p8,
         ),
         child: Row(

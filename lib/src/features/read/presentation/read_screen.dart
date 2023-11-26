@@ -23,12 +23,17 @@ class ReadScreen extends StatefulWidget {
 }
 
 class _ReadScreenState extends State<ReadScreen> {
+  bool _showCheckButton = false;
+  bool _isButtonClicked = false;
+  late String _chapter = "";
+  late String _date = "";
   late List<dynamic> _verseData = [];
   late DateTime? _selectedDate = null;
   late String _verseKey = "";
   double _fontSize = 24.0; // Initial font size
   final today = DateUtils.dateOnly(DateTime.now());
   late bool _showCalendar = false;
+  late double _progress = 0.0;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final ReadRepository readRepository = new ReadRepository();
@@ -107,14 +112,14 @@ class _ReadScreenState extends State<ReadScreen> {
   Future<void> _loadUserDates() async {
     print('firestore dates read - start');
     final user = FirebaseAuth.instance.currentUser;
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
         .collection('dates')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        print(doc["date"]);
+        print("Marked ${DateTime.parse(doc["date"])}");
         _markedDateMap.add(
             DateTime.parse(doc["date"]),
             new Event(
@@ -130,6 +135,18 @@ class _ReadScreenState extends State<ReadScreen> {
       });
     });
     print('firestore dates read - done ');
+
+    DateTime now = _selectedDate ?? DateTime.now();
+    DateTime startOfYear = DateTime(now.year, 1, 1);
+    DateTime endOfYear = DateTime(now.year + 1, 1, 1);
+    int totalDays = endOfYear.difference(startOfYear).inDays;
+
+    int progressDays = _markedDateMap.events.length;
+
+    _progress = progressDays / totalDays;
+    print('progress calculated: $_progress ($progressDays/$totalDays))');
+
+    _isButtonClicked = false;
   }
 
   Future<void> _loadUserSettings() async {
@@ -137,6 +154,8 @@ class _ReadScreenState extends State<ReadScreen> {
 
     _fontSize = sharedPreferences.getDouble("fontSize") ?? 24.0;
     print("initState(sharedPreferences): _fontSize: $_fontSize");
+
+    _isButtonClicked = false;
   }
 
   Future<void> _loadJsonData() async {
@@ -150,7 +169,10 @@ class _ReadScreenState extends State<ReadScreen> {
       // _verseKey = "m${m}d$d";
 
       // yourJsonData = jsonData[_verseKey]["contents"] as List<Map<String, dynamic>>;
+      _date = jsonData[_verseKey]["date"];
+      _chapter = jsonData[_verseKey]["chapter"];
       _verseData = jsonData[_verseKey]["contents"] as List<dynamic>;
+      print("_verseKey: $_verseKey");
       print("_verseData: $_verseData");
       // yourJsonData = jsonDecode(_bibleList) as List<Map<String, dynamic>>;
     });
@@ -173,142 +195,283 @@ class _ReadScreenState extends State<ReadScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _calendarCarousel = CalendarCarousel<Event>(
-      onDayPressed: (date, events) {
-        print("onDayPressed: date: $date");
-        setState(() => {
-              _selectedDate = date,
-              _verseKey = "m${_selectedDate?.month}d${_selectedDate?.day}",
-            });
-
-        _loadJsonData();
-        setState(() => _showCalendar = !_showCalendar);
-      },
-      weekdayTextStyle: TextStyle(
-        color: Colors.black87,
-      ),
-      headerTextStyle: TextStyle(
-        color: Colors.cyan,
-      ),
-      weekendTextStyle: TextStyle(
-        color: Colors.redAccent,
-      ),
-      thisMonthDayBorderColor: Colors.grey,
+    final _calendarCarousel = Theme(
+        data: ThemeData(
+            primarySwatch: Colors.blue,
+            splashColor: Colors.red,
+            primaryColor: Colors.red),
+        child: CalendarCarousel<Event>(
+          showHeader: false,
+          onDayPressed: (date, events) {
+            print("onDayPressed: date: $date");
+            setState(() => {
+                  _selectedDate = date,
+                  _verseKey = "m${_selectedDate?.month}d${_selectedDate?.day}",
+                });
+            _loadJsonData();
+            _loadUserDates();
+            // setState(() => _showCalendar = !_showCalendar);
+          },
+          locale: 'ko',
+          prevDaysTextStyle: TextStyle(
+            color: Colors.grey, // Set the arrow color to cyan
+          ),
+          nextDaysTextStyle: TextStyle(
+            color: Colors.grey, // Set the arrow color to cyan
+          ),
+          daysTextStyle: TextStyle(
+            color: Colors.black87, // Set the arrow color to cyan
+          ),
+          weekdayTextStyle: TextStyle(
+            color: Colors.black87,
+          ),
+          headerTextStyle: TextStyle(
+            color: Colors.black87,
+            fontSize: 24,
+          ),
+          weekendTextStyle: TextStyle(
+            color: Colors.redAccent,
+          ),
+          thisMonthDayBorderColor: Colors.grey,
 //          weekDays: null, /// for pass null when you do not want to render weekDays
-      headerText: '하나통독 캘린더',
-      weekFormat: false,
-      markedDatesMap: _markedDateMap,
-      selectedDateTime: _selectedDate,
-      showIconBehindDayText: true,
+          headerText: '하나통독 캘린더',
+
+          weekFormat: false,
+          markedDatesMap: _markedDateMap,
+          selectedDateTime: _selectedDate,
+          showIconBehindDayText: true,
 //          daysHaveCircularBorder: false, /// null for not rendering any border, true for circular border, false for rectangular border
-      markedDateShowIcon: true,
-      markedDateIconMaxShown: 2,
-      selectedDayTextStyle: TextStyle(
-        color: Colors.white,
-      ),
-      selectedDayBorderColor: Colors.cyan,
-      selectedDayButtonColor: Colors.cyan,
-      markedDateCustomShapeBorder: BeveledRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      todayTextStyle: TextStyle(
-        color: Colors.cyan,
-      ),
-      markedDateIconBuilder: (event) {
-        return event.icon ?? Icon(Icons.help_outline);
-      },
-      markedDateMoreCustomDecoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.cyanAccent,
-          width: 1.0,
-        ),
-        borderRadius: BorderRadius.circular(4.0),
-        color: Colors.cyanAccent,
-      ),
-      // minSelectedDate: _selectedDate.subtract(Duration(days: 360)),
-      // maxSelectedDate: _selectedDate.add(Duration(days: 360)),
-      customGridViewPhysics: NeverScrollableScrollPhysics(),
-      // markedDateCustomShapeBorder:
-      //     (side: BorderSide(color: Colors.yellow)),
-      markedDateCustomTextStyle: TextStyle(
-        fontSize: 18,
-        color: Colors.blue,
-      ),
-      todayButtonColor: Colors.transparent,
-      todayBorderColor: Colors.cyanAccent,
-      markedDateIconMargin: 5,
-      markedDateIconOffset: 1,
-    );
+          markedDateShowIcon: true,
+          markedDateIconMaxShown: 1,
+          selectedDayTextStyle: TextStyle(
+            color: Colors.white,
+          ),
+          selectedDayBorderColor: Colors.grey,
+          selectedDayButtonColor: Colors.blue,
+          markedDateCustomShapeBorder: BeveledRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          todayTextStyle: TextStyle(
+            color: Colors.cyan,
+          ),
+          markedDateIconBuilder: (event) {
+            return Icon(Icons.check_circle, size: 30);
+          },
+          markedDateMoreCustomDecoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.cyan,
+              width: 3.0,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.cyan,
+          ),
+          // minSelectedDate: _selectedDate.subtract(Duration(days: 360)),
+          // maxSelectedDate: _selectedDate.add(Duration(days: 360)),
+          customGridViewPhysics: NeverScrollableScrollPhysics(),
+          // markedDateCustomShapeBorder:
+          //     (side: BorderSide(color: Colors.yellow)),
+          markedDateCustomTextStyle: TextStyle(
+            fontSize: 16,
+            color: Colors.cyan,
+          ),
+          todayButtonColor: Colors.transparent,
+          todayBorderColor: Colors.cyan,
+          markedDateIconMargin: 10,
+          markedDateIconOffset: 10,
+        ));
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.book_rounded),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.calendar_today),
-            onPressed: () {
-              setState(() => _showCalendar = !_showCalendar);
-              // showDialog(
-              //     context: context,
-              //     barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
-              //     builder: (BuildContext context) {
-              //       return AlertDialog(
-              //         content: Container(
-              //           margin: EdgeInsets.symmetric(horizontal: 16.0),
-              //           child: _calendarCarousel,
-              //         ), //_calendarCarousel,
-              //         insetPadding: const EdgeInsets.fromLTRB(0, 80, 0, 80),
-              //         actions: [
-              //           TextButton(
-              //             child: const Text('확인'),
-              //             onPressed: () {
-              //               Navigator.of(context).pop();
-              //             },
-              //           ),
-              //         ],
-              //       );
-              //     });
-            },
-            // onPressed: () => _selectDate(context, [DateTime(2023, 09, 01)]),
-          ),
-          FontSizeAdjusterButton(
-              increaseFontSize: _increaseFontSize,
-              decreaseFontSize: _decreaseFontSize),
-          IconButton(
-            icon: Icon(Icons.history_edu_rounded),
-            onPressed: () => context.goNamed(
-              AppRoute.keep.name,
-              // pathParameters: {'id': proclaim.id},
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: () {
-              if (_selectedDate != null) _submitAddDate(_selectedDate!);
-              print(_selectedDate.toString());
-              _loadUserDates();
-            },
-          ),
-        ],
-      ),
-      body: _showCalendar
-          ? Container(
-              margin: EdgeInsets.symmetric(horizontal: 160.0),
-              child: _calendarCarousel,
-            )
-          : StreamBuilder(
-              stream: product.snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                if (streamSnapshot.hasData) {
-                  return TextSizeAdjusterWidget(
-                      jsonData: _verseData, fontSize: _fontSize);
-                }
-                return CircularProgressIndicator();
+        appBar: AppBar(
+          leading: Icon(Icons.book_rounded),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.calendar_today),
+              onPressed: () {
+                setState(() => _showCalendar = !_showCalendar);
+                setState(() => _showCheckButton = false);
               },
-            ), //_cal
-      //,
-    );
+            ),
+            FontSizeAdjusterButton(
+                increaseFontSize: _increaseFontSize,
+                decreaseFontSize: _decreaseFontSize),
+            IconButton(
+              icon: Icon(Icons.history_edu_rounded),
+              onPressed: () => context.goNamed(
+                AppRoute.keep.name,
+                // pathParameters: {'id': proclaim.id},
+              ),
+            ),
+          ],
+        ),
+        body: _showCalendar
+            ? Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      _selectedDate == null
+                          ? '날짜를 선택하세요'
+                          : DateFormat('yyyy년 MM월 dd일').format(_selectedDate!),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+
+                    Text(
+                      _selectedDate == null ? '말씀을 선택하세요' : '$_chapter장',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 32.0),
+                    Expanded(
+                      child: _calendarCarousel,
+                    ),
+                    SizedBox(height: 16.0),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              onPrimary: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                            ),
+                            child: Text(
+                              '읽으러 가기',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: () async {
+                              setState(() {
+                                _showCalendar = false;
+                              });
+                            },
+                          )
+                        ]),
+                    SizedBox(height: 48.0),
+
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(children: [
+                          Expanded(
+                              child: Text(
+                            '${DateTime.now().year}년 목표',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.left,
+                          )),
+                          Expanded(
+                              child: Text(
+                            '${(_progress * 100).toStringAsFixed(2)}%',
+                            style: TextStyle(
+                              color: Colors.cyan,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.right,
+                          )),
+                        ]),
+                        SizedBox(height: 16.0),
+                        LinearProgressIndicator(
+                          value: _progress,
+                          backgroundColor: Colors.grey[300],
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.cyan),
+                        ),
+                        SizedBox(height: 16.0),
+                      ],
+                    ),
+                    // _calendarCarousel
+                  ],
+                ),
+              )
+            : NotificationListener<ScrollNotification>(
+                onNotification: (notification) {
+                  if (notification is ScrollEndNotification) {
+                    final metrics = notification.metrics;
+                    if (metrics.atEdge &&
+                        metrics.pixels == metrics.maxScrollExtent) {
+                      setState(() {
+                        _showCheckButton = true;
+                      });
+                    } else {
+                      setState(() {
+                        _showCheckButton = false;
+                      });
+                    }
+                  }
+                  return true;
+                },
+                child: StreamBuilder(
+                  stream: product.snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                    if (streamSnapshot.hasData) {
+                      // return TextSizeAdjusterWidget(
+                      //     jsonData: _verseData, fontSize: _fontSize);
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: TextSizeAdjusterWidget(
+                                jsonData: _verseData, fontSize: _fontSize),
+                          ),
+                          if (_showCheckButton)
+                            AnimatedOpacity(
+                              opacity: _showCheckButton ? 1.0 : 0.0,
+                              duration: Duration(milliseconds: 1000),
+                              child: Container(
+                                  padding: EdgeInsets.all(16.0),
+                                  color: Colors.white,
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: IconButton(
+                                            icon: Icon(Icons.check, size: 50),
+                                            color: _isButtonClicked
+                                                ? Colors.cyan
+                                                : Colors.black87,
+                                            onPressed: () async {
+                                              setState(() {
+                                                _isButtonClicked = true;
+                                              });
+
+                                              if (_selectedDate != null) {
+                                                await _submitAddDate(
+                                                    _selectedDate!);
+                                              }
+
+                                              print(_selectedDate.toString());
+                                              await _loadUserDates();
+
+                                              setState(() {
+                                                _showCalendar = true;
+                                                _showCheckButton = false;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                        ],
+                      );
+                    }
+                    return CircularProgressIndicator();
+                  },
+                ), //_cal
+                //,
+              ));
   }
 }
 
@@ -338,6 +501,13 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
         final chapterName = chapter['chapter_name'];
         final numOfVerses = chapter['num_of_verses'];
         final paragraphs = List<dynamic>.from(chapter['paragraphs']);
+        final comments = paragraphs
+            .map((paragraph) => paragraph['verses']
+                .map((verse) => verse['comments'])
+                .where((comment) => comment != null)
+                .toList())
+            .expand((i) => i)
+            .toSet();
 
         return Center(
             child: Container(
@@ -358,11 +528,28 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListTile(
-                      title: Text(
-                        '$chapterName - $numOfVerses절',
-                        style: TextStyle(
-                          fontSize: widget.fontSize,
-                          fontWeight: FontWeight.bold,
+                      title: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '$chapterName',
+                              style: TextStyle(
+                                fontSize: widget
+                                    .fontSize, // Font size for chapterName
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' - $numOfVerses절',
+                              style: TextStyle(
+                                fontSize: widget.fontSize -
+                                    6, // Font size for numOfVerses
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -392,7 +579,9 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                               ),
                             for (var verse in verses)
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical:
+                                        2.0), // Adjust the vertical padding value
                                 child: TextButton(
                                   child: Text(
                                     '${verse['index']}. ${verse['content']}',
@@ -415,21 +604,23 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                                   },
                                 ),
                               ),
-                            for (var verse in verses)
-                              if (verse['comments'] != null)
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '${verse['comments']}',
-                                    style: TextStyle(
-                                        fontSize: widget.fontSize - 6,
-                                        fontStyle: FontStyle.italic),
-                                  ),
-                                ),
                           ],
                         );
                       },
                     ),
+                    for (var comment in comments)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${comment}',
+                          style: TextStyle(
+                            fontSize: widget.fontSize - 8,
+                            fontFamily: 'NotoSansKR',
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
                   ],
                 )));
       },
