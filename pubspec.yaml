@@ -54,3 +54,10 @@ flutter:
         - assets/Open-Bible.svg
         - assets/json/
         - assets/images/
+
+fonts:
+    - family: NotoSansKR
+      fonts:
+          - asset: fonts/NotoSansKR-Regular.otf
+          - asset: fonts/NotoSansKR-Bold.otf
+            weight: 700

@@ -197,92 +197,101 @@ class _ReadScreenState extends State<ReadScreen> {
   Widget build(BuildContext context) {
     final _calendarCarousel = Theme(
         data: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.indigo,
             splashColor: Colors.red,
             primaryColor: Colors.red),
-        child: CalendarCarousel<Event>(
-          showHeader: false,
-          onDayPressed: (date, events) {
-            print("onDayPressed: date: $date");
-            setState(() => {
-                  _selectedDate = date,
-                  _verseKey = "m${_selectedDate?.month}d${_selectedDate?.day}",
-                });
-            _loadJsonData();
-            _loadUserDates();
-            // setState(() => _showCalendar = !_showCalendar);
-          },
-          locale: 'ko',
-          prevDaysTextStyle: TextStyle(
-            color: Colors.grey, // Set the arrow color to cyan
-          ),
-          nextDaysTextStyle: TextStyle(
-            color: Colors.grey, // Set the arrow color to cyan
-          ),
-          daysTextStyle: TextStyle(
-            color: Colors.black87, // Set the arrow color to cyan
-          ),
-          weekdayTextStyle: TextStyle(
-            color: Colors.black87,
-          ),
-          headerTextStyle: TextStyle(
-            color: Colors.black87,
-            fontSize: 24,
-          ),
-          weekendTextStyle: TextStyle(
-            color: Colors.redAccent,
-          ),
-          thisMonthDayBorderColor: Colors.grey,
-//          weekDays: null, /// for pass null when you do not want to render weekDays
-          headerText: '하나통독 캘린더',
-
-          weekFormat: false,
-          markedDatesMap: _markedDateMap,
-          selectedDateTime: _selectedDate,
-          showIconBehindDayText: true,
-//          daysHaveCircularBorder: false, /// null for not rendering any border, true for circular border, false for rectangular border
-          markedDateShowIcon: true,
-          markedDateIconMaxShown: 1,
-          selectedDayTextStyle: TextStyle(
-            color: Colors.white,
-          ),
-          selectedDayBorderColor: Colors.grey,
-          selectedDayButtonColor: Colors.blue,
-          markedDateCustomShapeBorder: BeveledRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          todayTextStyle: TextStyle(
-            color: Colors.cyan,
-          ),
-          markedDateIconBuilder: (event) {
-            return Icon(Icons.check_circle, size: 30);
-          },
-          markedDateMoreCustomDecoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.cyan,
-              width: 3.0,
+        child: AspectRatio(
+          aspectRatio: 1.0, // Adjust this value as needed
+          child: CalendarCarousel<Event>(
+            showHeader: false,
+            onDayPressed: (date, events) {
+              print("onDayPressed: date: $date");
+              setState(() => {
+                    _selectedDate = date,
+                    _verseKey =
+                        "m${_selectedDate?.month}d${_selectedDate?.day}",
+                  });
+              _loadJsonData();
+              _loadUserDates();
+              // setState(() => _showCalendar = !_showCalendar);
+            },
+            locale: 'ko',
+            prevDaysTextStyle: TextStyle(
+              color: Colors.grey, // Set the arrow color to cyan
             ),
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.cyan,
+            nextDaysTextStyle: TextStyle(
+              color: Colors.grey, // Set the arrow color to cyan
+            ),
+            daysTextStyle: TextStyle(
+              color: Colors.black87, // Set the arrow color to cyan
+            ),
+            weekdayTextStyle: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+            headerTextStyle: TextStyle(
+              color: Colors.black87,
+              fontSize: 24,
+            ),
+            weekendTextStyle: TextStyle(
+              color: Colors.redAccent,
+            ),
+            thisMonthDayBorderColor: Colors.grey,
+            //          weekDays: null, /// for pass null when you do not want to render weekDays
+            headerText: '하나통독 캘린더',
+            weekFormat: false,
+            markedDatesMap: _markedDateMap,
+            selectedDateTime: _selectedDate,
+            showIconBehindDayText: false,
+            //          daysHaveCircularBorder: false, /// null for not rendering any border, true for circular border, false for rectangular border
+            markedDateShowIcon: true,
+            markedDateIconMaxShown: 1,
+            selectedDayTextStyle: TextStyle(
+              color: Colors.indigo,
+            ),
+            selectedDayBorderColor: Colors.grey,
+            selectedDayButtonColor: Colors.white,
+            markedDateCustomShapeBorder: BeveledRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            todayTextStyle: TextStyle(
+              color: Colors.indigo,
+            ),
+            markedDateIconBuilder: (event) {
+              return Icon(
+                Icons.check,
+                size: 30,
+                color: Colors.indigo,
+              );
+            },
+            markedDateMoreCustomDecoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.indigo,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.circular(20.0),
+              color: Colors.indigo,
+            ),
+            // minSelectedDate: _selectedDate.subtract(Duration(days: 360)),
+            // maxSelectedDate: _selectedDate.add(Duration(days: 360)),
+            customGridViewPhysics: ScrollPhysics(),
+            // markedDateCustomShapeBorder:
+            //     (side: BorderSide(color: Colors.yellow)),
+            markedDateCustomTextStyle: TextStyle(
+              fontSize: 16,
+              color: Colors.indigo,
+            ),
+            todayButtonColor: Colors.transparent,
+            todayBorderColor: Colors.indigo,
+            markedDateIconMargin: 0,
+            markedDateIconOffset: 0,
           ),
-          // minSelectedDate: _selectedDate.subtract(Duration(days: 360)),
-          // maxSelectedDate: _selectedDate.add(Duration(days: 360)),
-          customGridViewPhysics: NeverScrollableScrollPhysics(),
-          // markedDateCustomShapeBorder:
-          //     (side: BorderSide(color: Colors.yellow)),
-          markedDateCustomTextStyle: TextStyle(
-            fontSize: 16,
-            color: Colors.cyan,
-          ),
-          todayButtonColor: Colors.transparent,
-          todayBorderColor: Colors.cyan,
-          markedDateIconMargin: 10,
-          markedDateIconOffset: 10,
         ));
 
     return Scaffold(
         appBar: AppBar(
           leading: Icon(Icons.book_rounded),
+          title: Text('하나통독'),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.calendar_today),
@@ -295,7 +304,7 @@ class _ReadScreenState extends State<ReadScreen> {
                 increaseFontSize: _increaseFontSize,
                 decreaseFontSize: _decreaseFontSize),
             IconButton(
-              icon: Icon(Icons.history_edu_rounded),
+              icon: Icon(Icons.list_alt),
               onPressed: () => context.goNamed(
                 AppRoute.keep.name,
                 // pathParameters: {'id': proclaim.id},
@@ -373,7 +382,7 @@ class _ReadScreenState extends State<ReadScreen> {
                               child: Text(
                             '${(_progress * 100).toStringAsFixed(2)}%',
                             style: TextStyle(
-                              color: Colors.cyan,
+                              color: Colors.indigo,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -385,7 +394,7 @@ class _ReadScreenState extends State<ReadScreen> {
                           value: _progress,
                           backgroundColor: Colors.grey[300],
                           valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.cyan),
+                              AlwaysStoppedAnimation<Color>(Colors.indigo),
                         ),
                         SizedBox(height: 16.0),
                       ],
@@ -438,7 +447,7 @@ class _ReadScreenState extends State<ReadScreen> {
                                           child: IconButton(
                                             icon: Icon(Icons.check, size: 50),
                                             color: _isButtonClicked
-                                                ? Colors.cyan
+                                                ? Colors.indigo
                                                 : Colors.black87,
                                             onPressed: () async {
                                               setState(() {
@@ -504,8 +513,7 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
         final comments = paragraphs
             .map((paragraph) => paragraph['verses']
                 .map((verse) => verse['comments'])
-                .where((comment) => comment != null)
-                .toList())
+                .where((comment) => comment != null))
             .expand((i) => i)
             .toSet();
 
@@ -586,8 +594,9 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                                   child: Text(
                                     '${verse['index']}. ${verse['content']}',
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: widget.fontSize - 4),
+                                      color: Colors.black,
+                                      fontSize: widget.fontSize - 4,
+                                    ),
                                   ),
                                   onPressed: () {
                                     context.goNamed(AppRoute.editKeep.name,
@@ -641,11 +650,11 @@ class FontSizeAdjusterButton extends StatelessWidget {
     return Row(
       children: [
         IconButton(
-          icon: Icon(Icons.add),
+          icon: Icon(Icons.text_increase),
           onPressed: increaseFontSize,
         ),
         IconButton(
-          icon: Icon(Icons.remove),
+          icon: Icon(Icons.text_decrease),
           onPressed: () {
             // ScaffoldMessenger.of(context).hideCurrentSnackBar();
             // ScaffoldMessenger.of(context).showSnackBar(SnackBar(

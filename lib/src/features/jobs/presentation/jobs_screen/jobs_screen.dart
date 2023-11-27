@@ -24,21 +24,26 @@ class _JobsScreenState extends State<JobsScreen> {
   void showOverlay(BuildContext context) {
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: kToolbarHeight,
-        right: 0,
+        top: kToolbarHeight - 10,
+        right: 10,
         child: Container(
-          margin: EdgeInsets.all(16.0),
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black87,
+            ),
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Cache cleared.'),
+                  content: Text('업데이트 완료!'),
+                  backgroundColor: Colors.indigo,
                 ),
               );
               new DefaultCacheManager().emptyCache();
             },
-            child: Text('Clear Cache'),
+            child: Text('업데이트',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
           ),
         ),
       ),

@@ -25,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -58,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyATxr_GCVVmeQE_tJxnlTkOZgOiGZ1Cz2g',
-    appId: '1:30352074708:android:89128b64a510ffed6c1841',
+    appId: '1:30352074708:android:75b635c7e526da886c1841',
     messagingSenderId: '30352074708',
     projectId: 'hana-tongdok-4887a',
     storageBucket: 'hana-tongdok-4887a.appspot.com',
@@ -72,5 +69,15 @@ class DefaultFirebaseOptions {
     storageBucket: 'hana-tongdok-4887a.appspot.com',
     iosClientId: '30352074708-spndhlsmttk3p5ktq8fhvmffie7lu6h2.apps.googleusercontent.com',
     iosBundleId: 'com.example.starterArchitectureFlutterFirebase',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBpepg0a_sVq81xDggtFOCpska3Z1Ef1cE',
+    appId: '1:30352074708:ios:6883d8da1bd74d1d6c1841',
+    messagingSenderId: '30352074708',
+    projectId: 'hana-tongdok-4887a',
+    storageBucket: 'hana-tongdok-4887a.appspot.com',
+    iosClientId: '30352074708-jn8c7u2sj65204t7ma4t8igflpvbekec.apps.googleusercontent.com',
+    iosBundleId: 'com.example.starterArchitectureFlutterFirebase.RunnerTests',
   );
 }

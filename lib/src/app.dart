@@ -29,7 +29,8 @@ class LabelOverrides extends DefaultLocalizations {
   @override
   String get resetPasswordButtonLabel => '비밀번호 재설정';
   @override
-  String get forgotPasswordHintText => '하나통독 회원가입시 입력했던 이메일을 입력해주세요. \n등록된 이메일로 비밀번호 재설정 링크를 보내드립니다.';
+  String get forgotPasswordHintText =>
+      '하나통독 회원가입시 입력했던 이메일을 입력해주세요. \n등록된 이메일로 비밀번호 재설정 링크를 보내드립니다.';
   @override
   String get goBackButtonLabel => '뒤로가기';
   @override
@@ -48,9 +49,7 @@ class LabelOverrides extends DefaultLocalizations {
   String get wrongOrNoPasswordErrorText => '잘못된 비밀번호 입니다';
   @override
   String get confirmPasswordIsRequiredErrorText => '적절한 비밀번호가 아닙니다';
-
 }
-
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -62,18 +61,28 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       routerConfig: goRouter,
       theme: ThemeData(
-        primarySwatch: Colors.cyan,
+        fontFamily: 'NotoSansKR',
+        fontFamilyFallback: <String>['NotoSansEN'],
+        primarySwatch: Colors.indigo,
         unselectedWidgetColor: Colors.grey,
         appBarTheme: const AppBarTheme(
           elevation: 2.0,
           centerTitle: true,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          iconTheme: IconThemeData(color: Colors.black),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         scaffoldBackgroundColor: Colors.grey[200],
         dividerColor: Colors.grey[400],
         // https://github.com/firebase/flutterfire/blob/master/packages/firebase_ui_auth/doc/theming.md
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.cyan),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.indigo),
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
           ),
         ),
@@ -84,14 +93,12 @@ class MyApp extends ConsumerWidget {
         Locale('ko', 'KR'), // 한국어 (대한민국)
         // 다른 지원하는 로케일들을 추가할 수 있습니다.
       ],
-
       localizationsDelegates: [
         FirebaseUILocalizations.withDefaultOverrides(const LabelOverrides()),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         FirebaseUILocalizations.delegate,
       ],
-
     );
   }
 }
