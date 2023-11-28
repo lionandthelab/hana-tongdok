@@ -10,6 +10,7 @@ import 'package:hntd/src/localization/string_hardcoded.dart';
 import 'package:hntd/src/features/onboarding/data/onboarding_repository.dart';
 // ignore:depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +32,8 @@ Future<void> main() async {
       ),
     ],
   );
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: []);
 
   runApp(UncontrolledProviderScope(
     container: container,

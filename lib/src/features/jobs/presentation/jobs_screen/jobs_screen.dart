@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,10 +17,14 @@ class JobsScreen extends StatefulWidget {
   _JobsScreenState createState() => _JobsScreenState();
 }
 
-class _JobsScreenState extends State<JobsScreen> {
+class _JobsScreenState extends State<JobsScreen>
+    with AutomaticKeepAliveClientMixin {
   bool _isOverlayVisible = false;
   OverlayEntry?
       overlayEntry; // Declare the OverlayEntry as an instance variable
+
+  @override
+  bool get wantKeepAlive => true; // 이 부분을 추가합니다.
 
   void showOverlay(BuildContext context) {
     overlayEntry = OverlayEntry(
@@ -67,73 +72,124 @@ class _JobsScreenState extends State<JobsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.flag_rounded),
-        title: const Text(Strings.jobs),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              toggleOverlayVisibility(); // Toggle the overlay visibility
-            },
-          ),
-        ],
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //         content: Text('캐시 이미지를 삭제했습니다.'),
-        //       ));
-        //       new DefaultCacheManager().emptyCache();
-        //     },
-        //     icon: Icon(Icons.delete_forever)
-        //   )
-        // ]
-      ),
-      body: Consumer(
-        builder: (context, ref, child) {
-          ref.listen<AsyncValue>(
-            jobsScreenControllerProvider,
-            (_, state) => state.showAlertDialogOnError(context),
-          );
-          final proclaimsQuery = ref.watch(jobsQueryProvider);
-          return FirestoreListView<Job>(
-            query: proclaimsQuery,
-            emptyBuilder: (context) => const Center(child: Text('No data')),
-            errorBuilder: (context, error, stackTrace) => Center(
-              child: Text(error.toString()),
-            ),
-            loadingBuilder: (context) =>
-                const Center(child: CircularProgressIndicator()),
-            itemBuilder: (context, doc) {
-              final proclaim = doc.data();
-              print("proclaim: ${proclaim?.book}_${proclaim?.page}");
+    super.build(context); // 이 부분을 추가합니다.
 
-              return ProclaimListTile(
-                proclaim: proclaim,
-                onTap: () => context.goNamed(
-                  AppRoute.job.name,
-                  pathParameters: {'id': proclaim.id},
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          leading: Icon(Icons.flag_rounded),
+          title: const Text(Strings.jobs),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                toggleOverlayVisibility(); // Toggle the overlay visibility
+              },
+            ),
+          ],
+          // actions: [
+          //   IconButton(
+          //     onPressed: () {
+          //       ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //         content: Text('캐시 이미지를 삭제했습니다.'),
+          //       ));
+          //       new DefaultCacheManager().emptyCache();
+          //     },
+          //     icon: Icon(Icons.delete_forever)
+          //   )
+          // ]
+        ),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('proclaims')
+              .orderBy('page')
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            }
+
+            return PageView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                DocumentSnapshot ds = snapshot.data!.docs[index];
+                Job proclaim =
+                    Job.fromMap(ds.data() as Map<String, dynamic>, ds.id);
+                print(
+                    "proclaim: ${proclaim?.book}_${proclaim?.page} ${proclaim?.id}}");
+                return Container(
+                    // child: Text("Title: ${ds['page']}"),
+                    child: ProclaimListTile(
+                  proclaim: proclaim,
+                  onTap: () => context.goNamed(
+                    AppRoute.job.name,
+                    pathParameters: {'id': proclaim.id},
+                  ),
+                ));
+              },
+            );
+          },
+        )
+        // Consumer(
+        // builder: (context, ref, child) {
+        //   ref.listen<AsyncValue>(
+        //     jobsScreenControllerProvider,
+        //     (_, state) => state.showAlertDialogOnError(context),
+        //   );
+        //   final proclaimsQuery = ref.watch(jobsQueryProvider);
+        //   final proclaims = ref.watch(jobsScreenControllerProvider);
+        // return FirestoreListView<Job>(
+        //   query: proclaimsQuery,
+        //   emptyBuilder: (context) => const Center(child: Text('No data')),
+        //   errorBuilder: (context, error, stackTrace) => Center(
+        //     child: Text(error.toString()),
+        //   ),
+        //   loadingBuilder: (context) =>
+        //       const Center(child: CircularProgressIndicator()),
+        //   itemBuilder: (context, doc) {
+        //     final proclaim = doc.data();
+        //     print("proclaim: ${proclaim?.book}_${proclaim?.page}");
+
+        //     return ProclaimListTile(
+        //       proclaim: proclaim,
+        //       onTap: () => context.goNamed(
+        //         AppRoute.job.name,
+        //         pathParameters: {'id': proclaim.id},
+        //       ),
+        //     );
+        //   },
+        // );
+        // },
+        //   ),
+        );
   }
 }
 
-class ProclaimListTile extends StatelessWidget {
-  const ProclaimListTile({Key? key, required this.proclaim, this.onTap})
-      : super(key: key);
+class ProclaimListTile extends StatefulWidget {
   final Job proclaim;
   final VoidCallback? onTap;
 
+  const ProclaimListTile({Key? key, required this.proclaim, this.onTap})
+      : super(key: key);
+
+  @override
+  _ProclaimListTileState createState() => _ProclaimListTileState();
+}
+
+class _ProclaimListTileState extends State<ProclaimListTile>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context); // 이 부분을 추가합니다.
+
     return Center(
       child: Container(
         margin: EdgeInsets.all(16.0),
@@ -149,40 +205,16 @@ class ProclaimListTile extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CachedNetworkImage(
-                imageUrl: MediaQuery.of(context).orientation ==
-                        Orientation.portrait
-                    ? "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${proclaim?.book}_${proclaim?.page}_port.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1"
-                    : "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${proclaim?.book}_${proclaim?.page}_land.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1",
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-                fit: MediaQuery.of(context).orientation == Orientation.landscape
-                    ? BoxFit.fitHeight
-                    : BoxFit.fitWidth,
-                alignment: Alignment.center),
-            // Padding(
-            //   padding: const EdgeInsets.all(16.0),
-            //   child: Text(
-            //     'Card Title',
-            //     style: TextStyle(
-            //       fontSize: 24.0,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            //   child: Text(
-            //     'This is a beautiful card with some description text. You can customize it as needed.',
-            //     style: TextStyle(fontSize: 16.0),
-            //   ),
-            // ),
-            SizedBox(height: 16.0),
-          ],
-        ),
+        child: CachedNetworkImage(
+            imageUrl: MediaQuery.of(context).orientation == Orientation.portrait
+                ? "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${widget.proclaim?.book}_${widget.proclaim?.page}_port.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1"
+                : "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${widget.proclaim?.book}_${widget.proclaim?.page}_land.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1",
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            fit: MediaQuery.of(context).orientation == Orientation.landscape
+                ? BoxFit.fitHeight
+                : BoxFit.fitWidth,
+            alignment: Alignment.center),
       ),
     );
     // return Padding(

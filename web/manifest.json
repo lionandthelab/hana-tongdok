@@ -1,6 +1,6 @@
 {
-    "name": "hntd",
-    "short_name": "hntd",
+    "name": "하나통독",
+    "short_name": "하나통독",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

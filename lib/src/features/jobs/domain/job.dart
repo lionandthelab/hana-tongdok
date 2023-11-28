@@ -19,8 +19,10 @@ class Job extends Equatable {
   factory Job.fromMap(Map<String, dynamic> data, String id) {
     final book = data['book'] as String;
     final page = data['page'] as int;
+    final proclaimId = data['id'] as String;
+
     return Job(
-      id: id,
+      id: proclaimId,
       book: book,
       page: page,
     );
@@ -64,7 +66,6 @@ class Job extends Equatable {
 //   }
 // }
 
-
 typedef ProclaimID = String;
 
 @immutable
@@ -82,7 +83,7 @@ class Proclaim extends Equatable {
 
   factory Proclaim.fromMap(Map<String, dynamic> data, String id) {
     final book = data['book'] as String;
-    final page= data['page'] as int;
+    final page = data['page'] as int;
     return Proclaim(
       id: id,
       book: book,

@@ -2,7 +2,7 @@ name: hntd
 description: Hana bible project.
 
 publish_to: "none"
-version: 2.0.0
+version: 2.0.1
 
 environment:
     sdk: ">=3.0.0 <4.0.0"
@@ -32,6 +32,7 @@ dependencies:
     firebase_database: ^10.2.6
     calendar_date_picker2: ^0.5.3
     fluttertoast: ^8.0.8
+    flutter_cache_manager: ^3.3.1
 
 dev_dependencies:
     flutter_test:
@@ -47,6 +48,7 @@ dev_dependencies:
     riverpod_lint: 1.3.2
     # import custom_lint too as riverpod_lint depends on it
     custom_lint: 0.4.0
+    flutter_launcher_icons: "^0.13.1"
 
 flutter:
     uses-material-design: true
@@ -54,6 +56,16 @@ flutter:
         - assets/Open-Bible.svg
         - assets/json/
         - assets/images/
+
+flutter_launcher_icons:
+    android: "launcher_icon"
+    ios: true
+    image_path: "assets/icon/icon.png"
+    web:
+        generate: true
+    windows:
+    macos:
+        generate: true
 
 fonts:
     - family: NotoSansKR
