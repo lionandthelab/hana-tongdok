@@ -23,13 +23,15 @@ class ReadScreen extends StatefulWidget {
 }
 
 class _ReadScreenState extends State<ReadScreen> {
+  int _annualGoal = 1;
   bool _showCheckButton = false;
   bool _isButtonClicked = false;
-  late String _chapter = "";
-  late String _date = "";
-  late List<dynamic> _verseData = [];
   late DateTime? _selectedDate = null;
-  late String _verseKey = "";
+  // late String _verseKey = "";
+  // late String _chapter = "";
+  late List<dynamic> _verseData = [];
+  late List<String> _verseKeys = [];
+  late List<String> _chapters = [];
   double _fontSize = 24.0; // Initial font size
   final today = DateUtils.dateOnly(DateTime.now());
   late bool _showCalendar = false;
@@ -47,21 +49,17 @@ class _ReadScreenState extends State<ReadScreen> {
   void initState() {
     super.initState();
 
-    setState(() => {
-          _selectedDate = DateTime.now(),
-          _verseKey = "m${DateTime.now().month}d${DateTime.now().day}",
-        });
+    setState(() => _selectedDate = DateTime.now());
 
     _loadUserSettings();
     _loadUserDates();
-    print("initState: _verseKey: $_verseKey");
     _loadJsonData();
   }
 
   @override
   void deactivate() async {
     super.deactivate();
-    print("deactivate: _verseKey: $_verseKey");
+    // print("deactivate: _verseKey: $_verseKey");
 
     final sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setDouble("fontSize", _fontSize);
@@ -164,16 +162,31 @@ class _ReadScreenState extends State<ReadScreen> {
     final jsonData = json.decode(jsonString);
 
     setState(() {
-      // String m = _selectedDate!.month.toString();
-      // String d = _selectedDate!.day.toString();
-      // _verseKey = "m${m}d$d";
+      final dayPassedFromFirstDayOfYear =
+          _selectedDate?.difference(DateTime(DateTime.now().year, 1, 1)).inDays;
+      print("dayPassedFromFirstDayOfYear: $dayPassedFromFirstDayOfYear");
 
-      // yourJsonData = jsonData[_verseKey]["contents"] as List<Map<String, dynamic>>;
-      _date = jsonData[_verseKey]["date"];
-      _chapter = jsonData[_verseKey]["chapter"];
-      _verseData = jsonData[_verseKey]["contents"] as List<dynamic>;
-      print("_verseKey: $_verseKey");
-      print("_verseData: $_verseData");
+      List<String> _verseKeys = List.generate(_annualGoal, (index) {
+        int day = (dayPassedFromFirstDayOfYear! * _annualGoal + index) % 365 +
+            1; // 연도의 총 일수로 나눈 나머지를 사용하여 12월 31일을 넘어가면 다시 1월 1일로 돌아갑니다.
+        DateTime date = DateTime(DateTime.now().year, 1, 1)
+            .add(Duration(days: day - 1)); // 올해 첫날에 일수를 더하여 날짜를 계산합니다.
+        return "m${date.month}d${date.day}";
+      });
+
+      print("_verseKeys: $_verseKeys");
+
+      // _verseKey = "m${_selectedDate?.month}d${_selectedDate?.day}";
+      // _chapter = jsonData[_verseKey]["chapter"];
+      // _verseData = jsonData[_verseKey]["contents"] as List<dynamic>;
+      _chapters =
+          _verseKeys.map((key) => jsonData[key]["chapter"] as String).toList();
+      final List<List<dynamic>> _verseDatas = _verseKeys
+          .map((key) => jsonData[key]["contents"] as List<dynamic>)
+          .toList();
+      _verseData = _verseDatas.expand((data) => data).toList();
+      // print("_verseKey: $_verseKey");
+      // print("_verseData: $_verseData");
       // yourJsonData = jsonDecode(_bibleList) as List<Map<String, dynamic>>;
     });
   }
@@ -206,11 +219,9 @@ class _ReadScreenState extends State<ReadScreen> {
             showHeader: false,
             onDayPressed: (date, events) {
               print("onDayPressed: date: $date");
-              setState(() => {
-                    _selectedDate = date,
-                    _verseKey =
-                        "m${_selectedDate?.month}d${_selectedDate?.day}",
-                  });
+              setState(() {
+                _selectedDate = date;
+              });
               _loadJsonData();
               _loadUserDates();
               // setState(() => _showCalendar = !_showCalendar);
@@ -293,23 +304,117 @@ class _ReadScreenState extends State<ReadScreen> {
           leading: Icon(Icons.book_rounded),
           title: Text('하나통독'),
           actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.calendar_today),
-              onPressed: () {
-                setState(() => _showCalendar = !_showCalendar);
-                setState(() => _showCheckButton = false);
+            PopupMenuButton<int>(
+              icon: Icon(Icons.more_vert),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: ListTile(
+                    leading: Icon(Icons.calendar_today),
+                    title: Text("달력"),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 2,
+                  child: ListTile(
+                    leading: Icon(Icons.text_increase),
+                    title: Text("글씨 크게"),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 3,
+                  child: ListTile(
+                    leading: Icon(Icons.text_decrease),
+                    title: Text("글씨 작게"),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 4,
+                  child: ListTile(
+                    leading: Icon(Icons.numbers),
+                    title: Text("통독 횟수"),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 5,
+                  child: ListTile(
+                    leading: Icon(Icons.list),
+                    title: Text("말씀 노트"),
+                  ),
+                ),
+              ],
+              onSelected: (value) async {
+                switch (value) {
+                  case 1:
+                    setState(() => _showCalendar = !_showCalendar);
+                    setState(() => _showCheckButton = false);
+                    break;
+                  case 2:
+                    _increaseFontSize();
+                    break;
+                  case 3:
+                    _decreaseFontSize();
+                    break;
+                  case 4:
+                    int? selectedValue = await showDialog<int>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SimpleDialog(
+                          title: const Text('🚩 통독 목표'),
+                          children: <Widget>[
+                            SimpleDialogOption(
+                              onPressed: () {
+                                Navigator.pop(context, 1);
+                              },
+                              child: const Text('😄 1년 1독'),
+                            ),
+                            SimpleDialogOption(
+                              onPressed: () {
+                                Navigator.pop(context, 2);
+                              },
+                              child: const Text('😁 1년 2독'),
+                            ),
+                            SimpleDialogOption(
+                              onPressed: () {
+                                Navigator.pop(context, 3);
+                              },
+                              child: const Text('😍 1년 3독'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (selectedValue != null) {
+                      setState(() {
+                        _annualGoal = selectedValue;
+                      });
+                    }
+                    break;
+                  case 5:
+                    context.goNamed(
+                      AppRoute.keep.name,
+                    );
+                    break;
+                }
               },
             ),
-            FontSizeAdjusterButton(
-                increaseFontSize: _increaseFontSize,
-                decreaseFontSize: _decreaseFontSize),
-            IconButton(
-              icon: Icon(Icons.list_alt),
-              onPressed: () => context.goNamed(
-                AppRoute.keep.name,
-                // pathParameters: {'id': proclaim.id},
-              ),
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.calendar_today),
+            //   onPressed: () {
+            //     setState(() => _showCalendar = !_showCalendar);
+            //     setState(() => _showCheckButton = false);
+            //   },
+            // ),
+            // FontSizeAdjusterButton(
+            //     increaseFontSize: _increaseFontSize,
+            //     decreaseFontSize: _decreaseFontSize),
+            // IconButton(
+            //   icon: Icon(Icons.list_alt),
+            //   onPressed: () => context.goNamed(
+            //     AppRoute.keep.name,
+            //     // pathParameters: {'id': proclaim.id},
+            //   ),
+            // ),
           ],
         ),
         body: _showCalendar
@@ -330,9 +435,9 @@ class _ReadScreenState extends State<ReadScreen> {
                     SizedBox(height: 16.0),
 
                     Text(
-                      _selectedDate == null ? '말씀을 선택하세요' : '$_chapter장',
+                      _selectedDate == null ? '말씀을 선택하세요' : '$_chapters',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                       ),
                     ),
                     SizedBox(height: 32.0),
