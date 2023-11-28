@@ -12,12 +12,15 @@ import 'package:hntd/src/features/onboarding/data/onboarding_repository.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  print("firebase initialized");
+
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
   final sharedPreferences = await SharedPreferences.getInstance();
@@ -34,12 +37,17 @@ Future<void> main() async {
     ],
   );
 
+  requestPermissions();
+  print("requestPermissions");
+
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: []);
 
   runApp(UncontrolledProviderScope(
     container: container,
     child: const MyApp(),
   ));
+
+  _showNotification(); // 앱이 시작될 때 알림을 보여줍니다.
   _scheduleNotification(); // 앱이 시작될 때 알림을 예약합니다.
 }
 
@@ -69,11 +77,29 @@ void registerErrorHandlers() {
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
+Future<void> requestPermissions() async {
+  // You can request multiple permissions at once.
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.notification,
+    // Add other permissions you want to request here.
+  ].request();
+
+  // Check the permission status.
+  if (!statuses[Permission.notification]!.isGranted) {
+    // The permission is not granted, you can request again or show some kind of message.
+    openAppSettings();
+    print("openAppSettings");
+  }
+}
+
 Future<void> _showNotification() async {
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(
-          'com.lionandthelab.hntd', 'hntd', 'hana tongdok daily notification',
-          importance: Importance.max, priority: Priority.high, showWhen: false);
+          'com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver',
+          '하나통독 알림',
+          importance: Importance.max,
+          priority: Priority.high,
+          showWhen: false);
   const NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
   await flutterLocalNotificationsPlugin.show(
@@ -84,9 +110,8 @@ Future<void> _showNotification() async {
 Future<void> _scheduleNotification() async {
   var scheduledNotificationDateTime = Time(7, 0, 0);
   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-    'com.lionandthelab.hntd',
-    'hntd',
-    'hana tongdok daily notification',
+    'com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver',
+    '하나통독 알림',
   );
   var iOSPlatformChannelSpecifics = IOSNotificationDetails();
   var platformChannelSpecifics = NotificationDetails(

@@ -1,4 +1,4 @@
-package com.example.hntd
+package com.lionandthelab.hntd
 
 import io.flutter.embedding.android.FlutterActivity
 
