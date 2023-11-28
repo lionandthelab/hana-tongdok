@@ -11,6 +11,7 @@ import 'package:hntd/src/features/onboarding/data/onboarding_repository.dart';
 // ignore:depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +40,7 @@ Future<void> main() async {
     container: container,
     child: const MyApp(),
   ));
+  _scheduleNotification(); // 앱이 시작될 때 알림을 예약합니다.
 }
 
 void registerErrorHandlers() {
@@ -64,45 +66,36 @@ void registerErrorHandlers() {
   };
 }
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+Future<void> _showNotification() async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+          'com.lionandthelab.hntd', 'hntd', 'hana tongdok daily notification',
+          importance: Importance.max, priority: Priority.high, showWhen: false);
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.show(
+      0, '하나통독 알림', '말씀과 함께 하루를 시작해보세요!', platformChannelSpecifics,
+      payload: 'item x');
+}
 
-// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//     FlutterLocalNotificationsPlugin();
-
-// Future<void> _showNotification() async {
-//   const AndroidNotificationDetails androidPlatformChannelSpecifics =
-//       AndroidNotificationDetails(
-//           'your channel id', 'your channel name', 'your channel description',
-//           importance: Importance.max,
-//           priority: Priority.high,
-//           showWhen: false);
-//   const NotificationDetails platformChannelSpecifics =
-//       NotificationDetails(android: androidPlatformChannelSpecifics);
-//   await flutterLocalNotificationsPlugin.show(
-//       0, 'plain title', 'plain body', platformChannelSpecifics,
-//       payload: 'item x');
-// }
-
-// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//     FlutterLocalNotificationsPlugin();
-
-// Future<void> _scheduleNotification() async {
-//   var scheduledNotificationDateTime =
-//       DateTime.now().add(Duration(seconds: 5));
-//   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-//     'your other channel id',
-//     'your other channel name',
-//     'your other channel description',
-//   );
-//   var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-//   var platformChannelSpecifics = NotificationDetails(
-//       android: androidPlatformChannelSpecifics,
-//       iOS: iOSPlatformChannelSpecifics);
-//   await flutterLocalNotificationsPlugin.schedule(
-//       0,
-//       'scheduled title',
-//       'scheduled body',
-//       scheduledNotificationDateTime,
-//       platformChannelSpecifics);
-// }
+Future<void> _scheduleNotification() async {
+  var scheduledNotificationDateTime = Time(7, 0, 0);
+  var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    'com.lionandthelab.hntd',
+    'hntd',
+    'hana tongdok daily notification',
+  );
+  var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+  var platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.showDailyAtTime(
+      0,
+      '하나통독 알림',
+      '말씀과 함께 하루를 시작해보세요!',
+      scheduledNotificationDateTime,
+      platformChannelSpecifics);
+}
