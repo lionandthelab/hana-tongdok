@@ -2,12 +2,12 @@ import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/data/keeps_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/presentation/keeps_screen/keep_list_item.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/presentation/keeps_screen/keeps_list_controller.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
+import 'package:hntd/src/features/keeps/data/keeps_repository.dart';
+import 'package:hntd/src/features/keeps/domain/keep.dart';
+import 'package:hntd/src/features/keeps/presentation/keeps_screen/keep_list_item.dart';
+import 'package:hntd/src/features/keeps/presentation/keeps_screen/keeps_list_controller.dart';
+import 'package:hntd/src/routing/app_router.dart';
+import 'package:hntd/src/utils/async_value_ui.dart';
 
 class KeepsList extends ConsumerWidget {
   const KeepsList({super.key});

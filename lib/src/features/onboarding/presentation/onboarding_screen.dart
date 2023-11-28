@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/primary_button.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/responsive_center.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/app_sizes.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/onboarding/presentation/onboarding_controller.dart';
-import 'package:starter_architecture_flutter_firebase/src/localization/string_hardcoded.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
+import 'package:hntd/src/common_widgets/primary_button.dart';
+import 'package:hntd/src/common_widgets/responsive_center.dart';
+import 'package:hntd/src/constants/app_sizes.dart';
+import 'package:hntd/src/features/onboarding/presentation/onboarding_controller.dart';
+import 'package:hntd/src/localization/string_hardcoded.dart';
+import 'package:hntd/src/routing/app_router.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 

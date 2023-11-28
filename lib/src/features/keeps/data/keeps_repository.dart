@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/domain/app_user.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
+import 'package:hntd/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:hntd/src/features/authentication/domain/app_user.dart';
+import 'package:hntd/src/features/keeps/domain/keep.dart';
 
 part 'keeps_repository.g.dart';
 
@@ -12,7 +12,8 @@ class KeepsRepository {
   const KeepsRepository(this._firestore);
   final FirebaseFirestore _firestore;
 
-  static String keepPath(String uid, String keepId) => 'users/$uid/keeps/$keepId';
+  static String keepPath(String uid, String keepId) =>
+      'users/$uid/keeps/$keepId';
   static String keepsPath(String uid) => 'users/$uid/keeps';
 
   // create
@@ -79,7 +80,7 @@ class KeepsRepository {
 // Custom methods for the Keeping verses feature
 @Riverpod(keepAlive: true)
 KeepsRepository keepsRepository(KeepsRepositoryRef ref) {
-  return KeepsRepository (FirebaseFirestore.instance);
+  return KeepsRepository(FirebaseFirestore.instance);
 }
 
 @riverpod

@@ -2,12 +2,12 @@ import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/strings.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/data/jobs_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/jobs_screen/jobs_screen_controller.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
+import 'package:hntd/src/constants/strings.dart';
+import 'package:hntd/src/features/jobs/data/jobs_repository.dart';
+import 'package:hntd/src/features/jobs/domain/job.dart';
+import 'package:hntd/src/features/jobs/presentation/jobs_screen/jobs_screen_controller.dart';
+import 'package:hntd/src/routing/app_router.dart';
+import 'package:hntd/src/utils/async_value_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class JobsScreen extends StatelessWidget {
@@ -74,10 +74,11 @@ class JobListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-        imageUrl: "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${job?.name}_${job?.page}_port.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1",
-        placeholder: (context, url) => CircularProgressIndicator(),
-        errorWidget: (context, url, error) => Icon(Icons.error),
-      );
+      imageUrl:
+          "https://firebasestorage.googleapis.com/v0/b/hana0re.appspot.com/o/bgImages%2F${job?.name}_${job?.page}_port.png?alt=media&token=ff6539d2-2d7b-4ccc-95e4-b8412bb9e6d1",
+      placeholder: (context, url) => CircularProgressIndicator(),
+      errorWidget: (context, url, error) => Icon(Icons.error),
+    );
     // return ListTile(
     //   title: Text(job.name),
     //   trailing: const Icon(Icons.chevron_right),

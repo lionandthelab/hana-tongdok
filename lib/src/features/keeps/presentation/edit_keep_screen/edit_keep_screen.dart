@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/responsive_center.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/breakpoints.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/presentation/edit_keep_screen/edit_keep_screen_controller.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
+import 'package:hntd/src/common_widgets/responsive_center.dart';
+import 'package:hntd/src/constants/breakpoints.dart';
+import 'package:hntd/src/features/keeps/domain/keep.dart';
+import 'package:hntd/src/features/keeps/presentation/edit_keep_screen/edit_keep_screen_controller.dart';
+import 'package:hntd/src/utils/async_value_ui.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 // TODO (ikess): It is Keep Screen (Temporal implemenation)

@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/domain/app_user.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/data/entries_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
+import 'package:hntd/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:hntd/src/features/authentication/domain/app_user.dart';
+import 'package:hntd/src/features/entries/data/entries_repository.dart';
+import 'package:hntd/src/features/entries/domain/entry.dart';
+import 'package:hntd/src/features/jobs/domain/job.dart';
 
 part 'jobs_repository.g.dart';
 
@@ -22,9 +22,7 @@ class JobsRepository {
 
   // create
   Future<void> addJob(
-          {required UserID uid,
-          required String name,
-          required int page}) =>
+          {required UserID uid, required String name, required int page}) =>
       _firestore.collection(jobsPath(uid)).add({
         'name': name,
         'page': page,

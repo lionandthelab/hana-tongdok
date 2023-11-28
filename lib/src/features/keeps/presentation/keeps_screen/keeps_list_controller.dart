@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/data/keeps_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
+import 'package:hntd/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:hntd/src/features/keeps/data/keeps_repository.dart';
+import 'package:hntd/src/features/keeps/domain/keep.dart';
 
 part 'keeps_list_controller.g.dart';
 

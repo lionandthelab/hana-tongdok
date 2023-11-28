@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/async_value_widget.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/data/keeps_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/presentation/keeps_screen/keeps_list.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
+import 'package:hntd/src/common_widgets/async_value_widget.dart';
+import 'package:hntd/src/features/keeps/data/keeps_repository.dart';
+import 'package:hntd/src/features/keeps/domain/keep.dart';
+import 'package:hntd/src/features/keeps/presentation/keeps_screen/keeps_list.dart';
+import 'package:hntd/src/routing/app_router.dart';
 
 class KeepsScreen extends ConsumerWidget {
   const KeepsScreen({super.key, required this.keepId});

@@ -12,8 +12,8 @@ import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/read/data/read_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
+import 'package:hntd/src/features/read/data/read_repository.dart';
+import 'package:hntd/src/routing/app_router.dart';
 
 class ReadScreen extends StatefulWidget {
   const ReadScreen({super.key});

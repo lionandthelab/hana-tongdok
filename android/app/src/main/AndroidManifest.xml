@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.starter_architecture_flutter_firebase">
+    package="com.example.hntd">
    <application
-        android:label="starter_architecture_flutter_firebase"
+        android:label="hntd"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/input_dropdown.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/app_sizes.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/format.dart';
+import 'package:hntd/src/common_widgets/input_dropdown.dart';
+import 'package:hntd/src/constants/app_sizes.dart';
+import 'package:hntd/src/utils/format.dart';
 
 class DateTimePicker extends StatelessWidget {
   const DateTimePicker({

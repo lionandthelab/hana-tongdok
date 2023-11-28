@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/data/keeps_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/presentation/edit_keep_screen/keep_submit_exception.dart';
+import 'package:hntd/src/features/authentication/data/firebase_auth_repository.dart';
+import 'package:hntd/src/features/keeps/data/keeps_repository.dart';
+import 'package:hntd/src/features/keeps/domain/keep.dart';
+import 'package:hntd/src/features/keeps/presentation/edit_keep_screen/keep_submit_exception.dart';
 
 part 'edit_keep_screen_controller.g.dart';
 

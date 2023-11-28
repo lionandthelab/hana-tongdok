@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/date_time_picker.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/responsive_center.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/app_sizes.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/breakpoints.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/presentation/entry_screen/entry_screen_controller.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
-import 'package:starter_architecture_flutter_firebase/src/utils/format.dart';
+import 'package:hntd/src/common_widgets/date_time_picker.dart';
+import 'package:hntd/src/common_widgets/responsive_center.dart';
+import 'package:hntd/src/constants/app_sizes.dart';
+import 'package:hntd/src/constants/breakpoints.dart';
+import 'package:hntd/src/features/entries/domain/entry.dart';
+import 'package:hntd/src/features/jobs/domain/job.dart';
+import 'package:hntd/src/features/entries/presentation/entry_screen/entry_screen_controller.dart';
+import 'package:hntd/src/utils/async_value_ui.dart';
+import 'package:hntd/src/utils/format.dart';
 
 class EntryScreen extends ConsumerStatefulWidget {
   const EntryScreen({super.key, required this.jobId, this.entryId, this.entry});

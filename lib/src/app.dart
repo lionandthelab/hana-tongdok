@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
+import 'package:hntd/src/routing/app_router.dart';
 
 import 'package:intl/intl.dart';
 

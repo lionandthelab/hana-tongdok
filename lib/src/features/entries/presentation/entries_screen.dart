@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/app_sizes.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/strings.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entries_list_tile_model.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/application/entries_service.dart';
-import 'package:starter_architecture_flutter_firebase/src/common_widgets/list_items_builder.dart';
+import 'package:hntd/src/constants/app_sizes.dart';
+import 'package:hntd/src/constants/strings.dart';
+import 'package:hntd/src/features/entries/domain/entries_list_tile_model.dart';
+import 'package:hntd/src/features/entries/application/entries_service.dart';
+import 'package:hntd/src/common_widgets/list_items_builder.dart';
 
 class EntriesScreen extends ConsumerWidget {
   const EntriesScreen({super.key});
@@ -12,23 +12,22 @@ class EntriesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(Strings.entries),
-      ),
-      body: Consumer(
-        builder: (context, ref, child) {
-          // * This data is combined from two streams, so it can't be returned
-          // * directly as a Query object from the repository.
-          // * As a result, we can't use FirestoreListView here.
-          final entriesTileModelStream =
-              ref.watch(entriesTileModelStreamProvider);
-          return ListItemsBuilder<EntriesListTileModel>(
-            data: entriesTileModelStream,
-            itemBuilder: (context, model) => EntriesListTile(model: model),
-          );
-        },
-      )
-    );
+        appBar: AppBar(
+          title: const Text(Strings.entries),
+        ),
+        body: Consumer(
+          builder: (context, ref, child) {
+            // * This data is combined from two streams, so it can't be returned
+            // * directly as a Query object from the repository.
+            // * As a result, we can't use FirestoreListView here.
+            final entriesTileModelStream =
+                ref.watch(entriesTileModelStreamProvider);
+            return ListItemsBuilder<EntriesListTileModel>(
+              data: entriesTileModelStream,
+              itemBuilder: (context, model) => EntriesListTile(model: model),
+            );
+          },
+        ));
   }
 }
 

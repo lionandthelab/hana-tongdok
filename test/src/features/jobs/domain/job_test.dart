@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
+import 'package:hntd/src/features/jobs/domain/job.dart';
 
 void main() {
   group('fromMap', () {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:starter_architecture_flutter_firebase/src/constants/app_sizes.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/keeps/domain/keep.dart';
+import 'package:hntd/src/constants/app_sizes.dart';
+import 'package:hntd/src/features/keeps/domain/keep.dart';
 
 class KeepListItem extends StatelessWidget {
   const KeepListItem({
