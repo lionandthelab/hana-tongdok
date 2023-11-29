@@ -13,6 +13,7 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -107,20 +108,37 @@ Future<void> _showNotification() async {
       payload: 'item x');
 }
 
+tz.TZDateTime _nextInstanceOfEightAM() {
+  final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+  tz.TZDateTime scheduledDate =
+      tz.TZDateTime(tz.local, now.year, now.month, now.day, 7);
+  if (scheduledDate.isBefore(now)) {
+    scheduledDate = scheduledDate.add(const Duration(days: 1));
+  }
+  return scheduledDate;
+}
+
 Future<void> _scheduleNotification() async {
-  var scheduledNotificationDateTime = Time(7, 0, 0);
-  var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-    'com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver',
-    '하나통독 알림',
-  );
-  var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+  var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+      'com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver',
+      '하나통독 알림',
+      importance: Importance.max,
+      priority: Priority.high,
+      showWhen: false);
+  var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
   var platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.showDailyAtTime(
-      0,
-      '하나통독 알림',
-      '말씀과 함께 하루를 시작해보세요!',
-      scheduledNotificationDateTime,
-      platformChannelSpecifics);
+
+  await flutterLocalNotificationsPlugin.zonedSchedule(
+    0,
+    '하나통독 알림',
+    '말씀과 함께 하루를 시작해보세요!',
+    _nextInstanceOfEightAM(),
+    platformChannelSpecifics,
+    androidAllowWhileIdle: true,
+    uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+    matchDateTimeComponents: DateTimeComponents.time,
+  );
 }

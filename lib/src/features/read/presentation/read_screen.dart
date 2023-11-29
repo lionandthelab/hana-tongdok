@@ -15,6 +15,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hntd/src/features/read/data/read_repository.dart';
 import 'package:hntd/src/routing/app_router.dart';
 
+// Future<void> speak(String text) async {
+//   FlutterTts flutterTts = FlutterTts();
+
+//   await flutterTts.setLanguage("ko-KR");
+//   await flutterTts.setPitch(1);
+//   await flutterTts.speak(text);
+// }
+
 class ReadScreen extends StatefulWidget {
   const ReadScreen({super.key});
 
@@ -623,80 +631,94 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
             .where((comment) => comment != null))
         .expand((i) => i)
         .toSet();
+    final contentText = paragraphs
+        .map(
+            (paragraph) => paragraph['verses'].map((verse) => verse['content']))
+        .expand((i) => i)
+        .toList()
+        .toString();
+    print("contentText $contentText");
 
-    final scrollView = Center(
-        child: Container(
-            margin: EdgeInsets.all(4.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
-                ),
-              ],
+    final scrollView = Container(
+        margin: EdgeInsets.all(4.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3),
             ),
-            child: SingleChildScrollView(
-                child: Column(
-              children: [
-                ListTile(
-                  title: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '$chapterName',
-                          style: TextStyle(
-                            fontSize:
-                                widget.fontSize, // Font size for chapterName
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).secondaryHeaderColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' - $numOfVerses절',
-                          style: TextStyle(
-                            fontSize: widget.fontSize -
-                                6, // Font size for numOfVerses
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).secondaryHeaderColor,
-                          ),
-                        ),
-                      ],
+          ],
+        ),
+        child: SingleChildScrollView(
+            child: Column(
+          children: [
+            // Padding(
+            //     padding: EdgeInsets.all(8.0),
+            //     child: FloatingActionButton(
+            //       child: Icon(Icons.volume_up),
+            //       onPressed: () => speak(contentText),
+            //     )),
+            ListTile(
+              title: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '$chapterName',
+                      style: TextStyle(
+                        fontSize: widget.fontSize, // Font size for chapterName
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).secondaryHeaderColor,
+                      ),
                     ),
-                  ),
+                    TextSpan(
+                      text: ' - $numOfVerses절',
+                      style: TextStyle(
+                        fontSize:
+                            widget.fontSize - 6, // Font size for numOfVerses
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).secondaryHeaderColor,
+                      ),
+                    ),
+                  ],
                 ),
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: paragraphs.length,
-                  itemBuilder: (context, paragraphIndex) {
-                    final paragraph = paragraphs[paragraphIndex];
-                    final title = paragraph['title'];
-                    final verses =
-                        List<Map<String, dynamic>>.from(paragraph['verses']);
+              ),
+            ),
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: paragraphs.length,
+              itemBuilder: (context, paragraphIndex) {
+                final paragraph = paragraphs[paragraphIndex];
+                final title = paragraph['title'];
+                final verses =
+                    List<Map<String, dynamic>>.from(paragraph['verses']);
 
-                    return Column(
-                      children: [
-                        if (title != null && title.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              title,
-                              style: TextStyle(
-                                color: Theme.of(context).secondaryHeaderColor,
-                                fontSize: widget.fontSize - 2,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                return Column(
+                  children: [
+                    if (title != null && title.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            color: Theme.of(context).secondaryHeaderColor,
+                            fontSize: widget.fontSize - 2,
+                            fontWeight: FontWeight.bold,
                           ),
-                        for (var verse in verses)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 2.0,
-                                horizontal:
-                                    8.0), // Adjust the vertical padding value
+                        ),
+                      ),
+                    for (var verse in verses)
+                      Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 2.0,
+                              horizontal:
+                                  8.0), // Adjust the vertical padding value
+                          child: Container(
+                            width: double.infinity,
+                            alignment: Alignment.centerLeft,
                             child: TextButton(
                               child: Text(
                                 '${verse['index']}. ${verse['content']}',
@@ -720,26 +742,24 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                                     });
                               },
                             ),
-                          ),
-                      ],
-                    );
-                  },
-                )
-                // for (var comment in comments)
-                //   Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Text(
-                //       '${comment}',
-                //       style: TextStyle(
-                //         fontSize: widget.fontSize - 8,
-                //         fontFamily: 'NotoSansKR',
-                //         fontStyle: FontStyle.italic,
-                //         fontWeight: FontWeight.w300,
-                //       ),
-                //     ),
-                //   ),
-              ],
-            ))));
+                          )),
+                  ],
+                );
+              },
+            ),
+            for (var comment in comments)
+              Text(
+                '${comment}',
+                style: TextStyle(
+                  fontSize: widget.fontSize - 8,
+                  fontFamily: 'NotoSansKR',
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w300,
+                ),
+                textAlign: TextAlign.left,
+              ),
+          ],
+        )));
 
     if (isLastChapter == true) {
       print('LAST! isLastChapter: $isLastChapter');
