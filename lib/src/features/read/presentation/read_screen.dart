@@ -99,6 +99,7 @@ class _ReadScreenState extends State<ReadScreen> {
     setState(() {
       _showCheckButton = true;
     });
+    _loadUserDates();
   }
 
   Future<void> _submitAddDate(DateTime selectedDate) async {
@@ -117,6 +118,10 @@ class _ReadScreenState extends State<ReadScreen> {
   }
 
   Future<void> _loadUserDates() async {
+    setState(() {
+      _markedDateMap.clear();
+    });
+
     print('firestore dates read - start');
     final user = FirebaseAuth.instance.currentUser;
     await FirebaseFirestore.instance
@@ -127,18 +132,20 @@ class _ReadScreenState extends State<ReadScreen> {
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         print("Marked ${DateTime.parse(doc["date"])}");
-        _markedDateMap.add(
-            DateTime.parse(doc["date"]),
-            new Event(
-              date: DateTime.parse(doc["date"]),
-              icon: Icon(Icons.check_circle_outline_outlined),
-              dot: Container(
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                color: Colors.black,
-                height: 12.0,
-                width: 12.0,
-              ),
-            ));
+        setState(() {
+          _markedDateMap.add(
+              DateTime.parse(doc["date"]),
+              new Event(
+                date: DateTime.parse(doc["date"]),
+                icon: Icon(Icons.check_circle_outline_outlined),
+                dot: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                  color: Colors.black,
+                  height: 12.0,
+                  width: 12.0,
+                ),
+              ));
+        });
       });
     });
     print('firestore dates read - done ');

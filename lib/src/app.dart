@@ -1,3 +1,4 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
@@ -16,6 +17,7 @@ class LabelOverrides extends DefaultLocalizations {
   String get passwordInputLabel => '비밀번호';
   @override
   String get signInActionText => '로그인';
+  @override
   @override
   String get registerText => '회원가입';
   @override
@@ -49,6 +51,14 @@ class LabelOverrides extends DefaultLocalizations {
   String get wrongOrNoPasswordErrorText => '잘못된 비밀번호 입니다';
   @override
   String get confirmPasswordIsRequiredErrorText => '적절한 비밀번호가 아닙니다';
+  @override
+  String get signOutButtonText => '로그아웃';
+  @override
+  String get deleteAccount => '회원탈퇴';
+  @override
+  String get sendVerificationEmailButtonLabel => '인증메일 재전송';
+  @override
+  String get signInMethods => '로그인 방법';
 }
 
 class MyApp extends ConsumerWidget {
@@ -89,14 +99,15 @@ class MyApp extends ConsumerWidget {
       ),
       debugShowCheckedModeBanner: false,
       supportedLocales: const [
-        Locale('en', 'US'), // 영어 (미국)
         Locale('ko', 'KR'), // 한국어 (대한민국)
+        Locale('en', 'US'), // 영어 (미국)
         // 다른 지원하는 로케일들을 추가할 수 있습니다.
       ],
       localizationsDelegates: [
         FirebaseUILocalizations.withDefaultOverrides(const LabelOverrides()),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
         FirebaseUILocalizations.delegate,
       ],
     );
