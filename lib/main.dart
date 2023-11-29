@@ -47,7 +47,7 @@ Future<void> main() async {
     child: const MyApp(),
   ));
 
-  _showNotification(); // 앱이 시작될 때 알림을 보여줍니다.
+  // _showNotification(); // 앱이 시작될 때 알림을 보여줍니다.
   _scheduleNotification(); // 앱이 시작될 때 알림을 예약합니다.
 }
 

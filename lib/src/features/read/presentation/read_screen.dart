@@ -95,6 +95,12 @@ class _ReadScreenState extends State<ReadScreen> {
     _loadJsonData();
   }
 
+  void _showCheckButtonOn() {
+    setState(() {
+      _showCheckButton = true;
+    });
+  }
+
   Future<void> _submitAddDate(DateTime selectedDate) async {
     if (selectedDate != null) {
       final user = FirebaseAuth.instance.currentUser;
@@ -109,21 +115,6 @@ class _ReadScreenState extends State<ReadScreen> {
       }
     }
   }
-
-  // Future<void> _loadDatesData() async {
-  //   print('hello');
-  //   final user = FirebaseAuth.instance.currentUser;
-  //   final path = 'users/${user!.uid}/dates';
-
-  //   if (user != null) {
-  //     // readRepository.addDate(uid: user.uid, date: "09/13");
-  //     QuerySnapshot querySnapshot = await _firestore.collection(path).get();
-  //     print("_loadDatesData: $querySnapshot");
-  //     querySnapshot.docs.forEach((doc) {
-  //       print(doc["date"]);
-  //     });
-  //   }
-  // }
 
   Future<void> _loadUserDates() async {
     print('firestore dates read - start');
@@ -543,94 +534,64 @@ class _ReadScreenState extends State<ReadScreen> {
                       ],
                     ),
                   )
-                : NotificationListener<ScrollNotification>(
-                    onNotification: (notification) {
-                      if (notification is ScrollEndNotification) {
-                        final metrics = notification.metrics;
-                        if (metrics.atEdge &&
-                            metrics.pixels == metrics.maxScrollExtent) {
-                          setState(() {
-                            _showCheckButton = true;
-                          });
-                        } else {
-                          setState(() {
-                            _showCheckButton = false;
-                          });
-                        }
+                : StreamBuilder(
+                    stream: product.snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                      if (streamSnapshot.hasData) {
+                        return Column(
+                          children: [
+                            Expanded(
+                              child: TextSizeAdjusterWidget(
+                                  jsonData: _verseData,
+                                  fontSize: _fontSize,
+                                  showCheckButtonOn: _showCheckButtonOn),
+                            ),
+                          ],
+                        );
                       }
-                      return true;
+                      return CircularProgressIndicator();
                     },
-                    child: StreamBuilder(
-                      stream: product.snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                        if (streamSnapshot.hasData) {
-                          // return TextSizeAdjusterWidget(
-                          //     jsonData: _verseData, fontSize: _fontSize);
-                          return Column(
-                            children: [
-                              Expanded(
-                                child: TextSizeAdjusterWidget(
-                                    jsonData: _verseData, fontSize: _fontSize),
-                              ),
-                              if (_showCheckButton)
-                                AnimatedOpacity(
-                                  opacity: _showCheckButton ? 1.0 : 0.0,
-                                  duration: Duration(milliseconds: 1000),
-                                  child: Container(
-                                      padding: EdgeInsets.all(16.0),
-                                      color: Colors.white,
-                                      child: Center(
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: IconButton(
-                                                icon:
-                                                    Icon(Icons.check, size: 50),
-                                                color: _isButtonClicked
-                                                    ? Colors.indigo
-                                                    : Colors.black87,
-                                                onPressed: () async {
-                                                  setState(() {
-                                                    _isButtonClicked = true;
-                                                  });
+                  ), //_cal
+            //,
+            floatingActionButton: _showCheckButton
+                ? FloatingActionButton(
+                    onPressed: () async {
+                      setState(() {
+                        _isButtonClicked = true;
+                      });
 
-                                                  if (_selectedDate != null) {
-                                                    await _submitAddDate(
-                                                        _selectedDate!);
-                                                  }
+                      if (_selectedDate != null) {
+                        await _submitAddDate(_selectedDate!);
+                      }
 
-                                                  print(
-                                                      _selectedDate.toString());
-                                                  await _loadUserDates();
+                      print(_selectedDate.toString());
+                      await _loadUserDates();
 
-                                                  setState(() {
-                                                    _showCalendar = true;
-                                                    _showCheckButton = false;
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ),
-                            ],
-                          );
-                        }
-                        return CircularProgressIndicator();
-                      },
-                    ), //_cal
-                    //,
-                  )));
+                      setState(() {
+                        _showCalendar = true;
+                        _showCheckButton = false;
+                      });
+                    },
+                    child: Icon(
+                      Icons.check,
+                      size: 50,
+                      color: _isButtonClicked ? Colors.black87 : Colors.white,
+                    ),
+                  )
+                : null));
   }
 }
 
 class TextSizeAdjusterWidget extends StatefulWidget {
   final List<dynamic> jsonData;
   final double fontSize;
+  final Function showCheckButtonOn;
 
-  TextSizeAdjusterWidget({required this.jsonData, required this.fontSize});
+  TextSizeAdjusterWidget(
+      {required this.jsonData,
+      required this.fontSize,
+      required this.showCheckButtonOn});
 
   @override
   _TextSizeAdjusterWidgetState createState() => _TextSizeAdjusterWidgetState();
@@ -643,141 +604,171 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
     // print("initState: jsondata: ${widget.jsonData}");
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: widget.jsonData.length,
-      itemBuilder: (context, chapterIndex) {
-        final chapter = widget.jsonData[chapterIndex];
-        final chapterName = chapter['chapter_name'];
-        final numOfVerses = chapter['num_of_verses'];
-        final paragraphs = List<dynamic>.from(chapter['paragraphs']);
-        final comments = paragraphs
-            .map((paragraph) => paragraph['verses']
-                .map((verse) => verse['comments'])
-                .where((comment) => comment != null))
-            .expand((i) => i)
-            .toSet();
+  final _pageController = PageController();
 
-        return Center(
-            child: Container(
-                margin: EdgeInsets.all(4.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
+  Widget _buildChapter(dynamic chapter, bool isLastChapter) {
+    final chapterName = chapter['chapter_name'];
+    final numOfVerses = chapter['num_of_verses'];
+    final paragraphs = List<dynamic>.from(chapter['paragraphs']);
+    final comments = paragraphs
+        .map((paragraph) => paragraph['verses']
+            .map((verse) => verse['comments'])
+            .where((comment) => comment != null))
+        .expand((i) => i)
+        .toSet();
+
+    final scrollView = Center(
+        child: Container(
+            margin: EdgeInsets.all(4.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
                 ),
+              ],
+            ),
+            child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      title: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: '$chapterName',
-                              style: TextStyle(
-                                fontSize: widget
-                                    .fontSize, // Font size for chapterName
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).secondaryHeaderColor,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' - $numOfVerses절',
-                              style: TextStyle(
-                                fontSize: widget.fontSize -
-                                    6, // Font size for numOfVerses
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).secondaryHeaderColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: paragraphs.length,
-                      itemBuilder: (context, paragraphIndex) {
-                        final paragraph = paragraphs[paragraphIndex];
-                        final title = paragraph['title'];
-                        final verses = List<Map<String, dynamic>>.from(
-                            paragraph['verses']);
-
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (title != null && title.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(
-                                  title,
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).secondaryHeaderColor,
-                                    fontSize: widget.fontSize - 2,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            for (var verse in verses)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 2.0,
-                                    horizontal:
-                                        8.0), // Adjust the vertical padding value
-                                child: TextButton(
-                                  child: Text(
-                                    '${verse['index']}. ${verse['content']}',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .secondaryHeaderColor,
-                                      fontSize: widget.fontSize - 4,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    context.goNamed(AppRoute.editKeep.name,
-                                        pathParameters: {},
-                                        queryParameters: {
-                                          'title':
-                                              "$chapterName ${verse['index']}절",
-                                          'verse': verse['content'],
-                                          'note': '',
-                                          'id': Random.secure()
-                                              .nextInt(1000000)
-                                              .toString()
-                                        });
-                                  },
-                                ),
-                              ),
-                          ],
-                        );
-                      },
-                    ),
-                    for (var comment in comments)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${comment}',
+              children: [
+                ListTile(
+                  title: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '$chapterName',
                           style: TextStyle(
-                            fontSize: widget.fontSize - 8,
-                            fontFamily: 'NotoSansKR',
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w300,
+                            fontSize:
+                                widget.fontSize, // Font size for chapterName
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).secondaryHeaderColor,
                           ),
                         ),
-                      ),
-                  ],
-                )));
-      },
+                        TextSpan(
+                          text: ' - $numOfVerses절',
+                          style: TextStyle(
+                            fontSize: widget.fontSize -
+                                6, // Font size for numOfVerses
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).secondaryHeaderColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: paragraphs.length,
+                  itemBuilder: (context, paragraphIndex) {
+                    final paragraph = paragraphs[paragraphIndex];
+                    final title = paragraph['title'];
+                    final verses =
+                        List<Map<String, dynamic>>.from(paragraph['verses']);
+
+                    return Column(
+                      children: [
+                        if (title != null && title.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                color: Theme.of(context).secondaryHeaderColor,
+                                fontSize: widget.fontSize - 2,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        for (var verse in verses)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 2.0,
+                                horizontal:
+                                    8.0), // Adjust the vertical padding value
+                            child: TextButton(
+                              child: Text(
+                                '${verse['index']}. ${verse['content']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).secondaryHeaderColor,
+                                  fontSize: widget.fontSize - 4,
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                              onPressed: () {
+                                context.goNamed(AppRoute.editKeep.name,
+                                    pathParameters: {},
+                                    queryParameters: {
+                                      'title':
+                                          "$chapterName ${verse['index']}절",
+                                      'verse': verse['content'],
+                                      'note': '',
+                                      'id': Random.secure()
+                                          .nextInt(1000000)
+                                          .toString()
+                                    });
+                              },
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                )
+                // for (var comment in comments)
+                //   Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: Text(
+                //       '${comment}',
+                //       style: TextStyle(
+                //         fontSize: widget.fontSize - 8,
+                //         fontFamily: 'NotoSansKR',
+                //         fontStyle: FontStyle.italic,
+                //         fontWeight: FontWeight.w300,
+                //       ),
+                //     ),
+                //   ),
+              ],
+            ))));
+
+    if (isLastChapter == true) {
+      print('LAST! isLastChapter: $isLastChapter');
+      return NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            if (notification is ScrollEndNotification) {
+              final metrics = notification.metrics;
+              if (metrics.atEdge && metrics.pixels == metrics.maxScrollExtent) {
+                print('End of scroll');
+                setState(() {
+                  widget.showCheckButtonOn();
+                });
+              }
+            }
+            return true;
+          },
+          child: scrollView);
+    } else {
+      return scrollView;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // ...
+      body: PageView.builder(
+        controller: _pageController,
+        itemCount: widget.jsonData.length,
+        itemBuilder: (context, chapterIndex) {
+          final chapter = widget.jsonData[chapterIndex];
+          print("object: $chapterIndex, len: ${widget.jsonData.length}");
+          return _buildChapter(
+              chapter, chapterIndex == widget.jsonData.length - 1);
+        },
+      ),
     );
   }
 }
