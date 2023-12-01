@@ -254,7 +254,6 @@ class _ReadScreenState extends State<ReadScreen> {
             _selectedDate = date;
           });
           _loadJsonData();
-          _loadUserDates();
           // setState(() => _showCalendar = !_showCalendar);
         },
         locale: 'ko',
@@ -652,8 +651,9 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
             ),
           ],
         ),
-        child: SingleChildScrollView(
-            child: Column(
+        child: Scrollbar(
+            child: SingleChildScrollView(
+                child: Column(
           children: [
             // Padding(
             //     padding: EdgeInsets.all(8.0),
@@ -720,13 +720,25 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                             width: double.infinity,
                             alignment: Alignment.centerLeft,
                             child: TextButton(
-                              child: Text(
-                                '${verse['index']}. ${verse['content']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).secondaryHeaderColor,
-                                  fontSize: widget.fontSize - 4,
+                              child: GestureDetector(
+                                onLongPress: () {
+                                  Clipboard.setData(ClipboardData(
+                                      text:
+                                          "${verse['content']} - $chapterName ${verse['index']}절"));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text('말씀이 클립보드에 복사되었습니다 :)')),
+                                  );
+                                },
+                                child: Text(
+                                  '${verse['index']}. ${verse['content']}',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor,
+                                    fontSize: widget.fontSize - 4,
+                                  ),
+                                  textAlign: TextAlign.left,
                                 ),
-                                textAlign: TextAlign.justify,
                               ),
                               onPressed: () {
                                 context.goNamed(AppRoute.editKeep.name,
@@ -759,7 +771,7 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                 textAlign: TextAlign.left,
               ),
           ],
-        )));
+        ))));
 
     if (isLastChapter == true) {
       print('LAST! isLastChapter: $isLastChapter');

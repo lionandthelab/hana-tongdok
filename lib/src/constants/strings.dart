@@ -5,8 +5,7 @@ class Strings {
 
   // Logout
   static const String logout = '로그아웃';
-  static const String logoutAreYouSure =
-      '정말 로그아웃 하시겠습니까?';
+  static const String logoutAreYouSure = '정말 로그아웃 하시겠습니까?';
   static const String logoutFailed = '로그아웃 실패';
 
   // Sign In Page
@@ -20,17 +19,17 @@ class Strings {
   static const String homePage = '홈';
 
   // Jobs page
-  static const String jobs = '하나선포';
+  static const String jobs = '하나말씀';
 
   // Entries page
-  static const String entries = '하나선포';
+  static const String entries = '하나말씀';
 
   // Read page
   static const String read = '하나통독';
   static const String keeps = '나의 구절';
 
   // Proclaim page
-  static const String proclaim = '하나선포';
+  static const String proclaim = '하나말씀';
 
   // Account page
   static const String account = '계정';

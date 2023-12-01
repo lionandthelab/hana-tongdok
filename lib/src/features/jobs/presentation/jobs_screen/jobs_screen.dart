@@ -11,6 +11,7 @@ import 'package:hntd/src/routing/app_router.dart';
 import 'package:hntd/src/utils/async_value_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 class JobsScreen extends StatefulWidget {
   @override
@@ -47,7 +48,7 @@ class _JobsScreenState extends State<JobsScreen>
               );
               new DefaultCacheManager().emptyCache();
             },
-            child: Text('업데이트',
+            child: Text('암송카드 업데이트',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
           ),
         ),
@@ -79,6 +80,20 @@ class _JobsScreenState extends State<JobsScreen>
           leading: Icon(Icons.flag_rounded),
           title: const Text(Strings.jobs),
           actions: [
+            // IconButton(
+            //   icon: Icon(Icons.open_in_new),
+            //   onPressed: () async {
+            //     final url = Uri.parse(
+            //       'https://sum.su.or.kr:8888/bible/today',
+            //     );
+            //     if (await canLaunchUrl(url)) {
+            //       launchUrl(url);
+            //     } else {
+            //       // ignore: avoid_print
+            //       print("Can't launch $url");
+            //     }
+            //   },
+            // ),
             IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
