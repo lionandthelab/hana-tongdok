@@ -59,6 +59,10 @@ class LabelOverrides extends DefaultLocalizations {
   String get sendVerificationEmailButtonLabel => '인증메일 재전송';
   @override
   String get signInMethods => '로그인 방법';
+  @override
+  String get emailIsNotVerifiedText => '이메일이 인증되지 않았습니다.';
+  @override
+  String get dismissButtonLabel => '무시';
 }
 
 class MyApp extends ConsumerWidget {
@@ -71,8 +75,8 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       routerConfig: goRouter,
       theme: ThemeData(
-        fontFamily: 'NotoSansKR',
-        fontFamilyFallback: <String>['NotoSansEN'],
+        fontFamily: 'NotoSerifKR',
+        // fontFamilyFallback: <String>['NotoSansEN'],
         primarySwatch: Colors.indigo,
         unselectedWidgetColor: Colors.grey,
         appBarTheme: const AppBarTheme(
@@ -82,6 +86,7 @@ class MyApp extends ConsumerWidget {
           foregroundColor: Colors.black,
           iconTheme: IconThemeData(color: Colors.black),
           titleTextStyle: TextStyle(
+            fontFamily: 'NotoSerifKR',
             color: Colors.black,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,

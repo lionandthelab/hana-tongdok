@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart' as firebase_ui_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hntd/src/features/authentication/presentation/auth_providers.dart';
@@ -19,7 +19,7 @@ class CustomProfileScreen extends ConsumerWidget {
 }
 
 class ProfileScreenStatefulWidget extends StatefulWidget {
-  final List<AuthProvider> authProviders;
+  final List<firebase_ui_auth.AuthProvider> authProviders;
 
   ProfileScreenStatefulWidget({required this.authProviders});
 
@@ -89,7 +89,7 @@ class _ProfileScreenStatefulWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return ProfileScreen(
+    return firebase_ui_auth.ProfileScreen(
       appBar: AppBar(
         title: const Text('프로필'),
         actions: <Widget>[

@@ -111,7 +111,7 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
             },
             child: const Text(
               '완료',
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: TextStyle(fontSize: 18, color: Colors.black87),
             ),
           ),
         ],
@@ -171,10 +171,6 @@ class _EditKeepScreenState extends ConsumerState<EditKeepScreen> {
         decoration: const InputDecoration(labelText: '노트'),
         keyboardAppearance: Brightness.light,
         initialValue: _note != null ? '$_note' : null,
-        keyboardType: const TextInputType.numberWithOptions(
-          signed: false,
-          decimal: false,
-        ),
         onSaved: (value) => _note = value,
       ),
     ];

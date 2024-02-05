@@ -98,3 +98,7 @@ web/firebase-config.js
 # Firebase configuration files
 ios/Runner/GoogleService-Info.plist
 android/app/google-services.json
+
+android/app/release
+android/keystores
+my-upload-key.keystore

@@ -14,6 +14,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hntd/src/features/read/data/read_repository.dart';
 import 'package:hntd/src/routing/app_router.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 // Future<void> speak(String text) async {
 //   FlutterTts flutterTts = FlutterTts();
@@ -116,6 +117,8 @@ class _ReadScreenState extends State<ReadScreen> {
 
       if (user != null) {
         final path = 'users/${user!.uid}/dates';
+        selectedDate = DateTime(selectedDate.year, selectedDate.month,
+            selectedDate.day); // Remove time part of DateTime
         readRepository.addDate(uid: user.uid, date: selectedDate.toString());
         print("selectedDate.toString(): ${selectedDate.toString()}");
 
@@ -163,7 +166,11 @@ class _ReadScreenState extends State<ReadScreen> {
     DateTime endOfYear = DateTime(now.year + 1, 1, 1);
     int totalDays = endOfYear.difference(startOfYear).inDays;
 
-    int progressDays = _markedDateMap.events.length;
+    int progressDays = _markedDateMap.events.entries.where((entry) {
+      DateTime eventDate = entry.key;
+      print("eventDate: ${eventDate.year}");
+      return eventDate.year == now.year;
+    }).length;
 
     _progress = progressDays / totalDays;
     print('progress calculated: $_progress ($progressDays/$totalDays))');
@@ -227,21 +234,6 @@ class _ReadScreenState extends State<ReadScreen> {
     });
   }
 
-  Future<void> _selectDate(BuildContext context, List<DateTime> dates) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2023),
-      lastDate: DateTime(2024),
-    );
-
-    if (pickedDate != null && pickedDate != _selectedDate) {
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final _calendarCarousel = AspectRatio(
@@ -256,6 +248,16 @@ class _ReadScreenState extends State<ReadScreen> {
           _loadJsonData();
           // setState(() => _showCalendar = !_showCalendar);
         },
+        onDayLongPressed: (day) async {
+          print('long pressed date $day');
+          if (_selectedDate != null) {
+            await _submitAddDate(_selectedDate!);
+          }
+
+          print(_selectedDate.toString());
+          await _loadUserDates();
+        },
+
         locale: 'ko',
         prevDaysTextStyle: TextStyle(
           color: Colors.grey, // Set the arrow color to cyan
@@ -347,7 +349,11 @@ class _ReadScreenState extends State<ReadScreen> {
             appBar: AppBar(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               leading: Icon(Icons.book_rounded, color: Colors.black87),
-              title: Text('하나통독', style: TextStyle(color: Colors.black87)),
+              title: Text('하나통독',
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontFamily: 'NotoSerifKR',
+                  )),
               actions: <Widget>[
                 PopupMenuButton<int>(
                   icon: Icon(Icons.more_vert, color: Colors.black87),
@@ -400,6 +406,9 @@ class _ReadScreenState extends State<ReadScreen> {
                   onSelected: (value) async {
                     switch (value) {
                       case 1:
+                        if (!_showCalendar) {
+                          await _loadUserDates();
+                        }
                         setState(() => _showCalendar = !_showCalendar);
                         setState(() => _showCheckButton = false);
                         break;
@@ -466,6 +475,7 @@ class _ReadScreenState extends State<ReadScreen> {
                               : DateFormat('yyyy년 MM월 dd일')
                                   .format(_selectedDate!),
                           style: TextStyle(
+                            fontFamily: 'NotoSerifKR',
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -475,6 +485,7 @@ class _ReadScreenState extends State<ReadScreen> {
                         Text(
                           _selectedDate == null ? '말씀을 선택하세요' : '$_chapters',
                           style: TextStyle(
+                            fontFamily: 'NotoSerifKR',
                             fontSize: 18,
                           ),
                         ),
@@ -519,6 +530,7 @@ class _ReadScreenState extends State<ReadScreen> {
                                 '${DateTime.now().year}년 목표',
                                 style: TextStyle(
                                   fontSize: 24,
+                                  fontFamily: 'NotoSerifKR',
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.left,
@@ -559,7 +571,8 @@ class _ReadScreenState extends State<ReadScreen> {
                               child: TextSizeAdjusterWidget(
                                   jsonData: _verseData,
                                   fontSize: _fontSize,
-                                  showCheckButtonOn: _showCheckButtonOn),
+                                  showCheckButtonOn: _showCheckButtonOn,
+                                  selectedDate: _selectedDate!),
                             ),
                           ],
                         );
@@ -601,11 +614,13 @@ class TextSizeAdjusterWidget extends StatefulWidget {
   final List<dynamic> jsonData;
   final double fontSize;
   final Function showCheckButtonOn;
+  final DateTime selectedDate;
 
   TextSizeAdjusterWidget(
       {required this.jsonData,
       required this.fontSize,
-      required this.showCheckButtonOn});
+      required this.showCheckButtonOn,
+      required this.selectedDate});
 
   @override
   _TextSizeAdjusterWidgetState createState() => _TextSizeAdjusterWidgetState();
@@ -615,7 +630,6 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
   @override
   void initState() {
     super.initState();
-    // print("initState: jsondata: ${widget.jsonData}");
   }
 
   final _pageController = PageController();
@@ -636,7 +650,6 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
         .expand((i) => i)
         .toList()
         .toString();
-    print("contentText $contentText");
 
     final scrollView = Container(
         margin: EdgeInsets.all(4.0),
@@ -655,12 +668,49 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
             child: SingleChildScrollView(
                 child: Column(
           children: [
-            // Padding(
-            //     padding: EdgeInsets.all(8.0),
-            //     child: FloatingActionButton(
-            //       child: Icon(Icons.volume_up),
-            //       onPressed: () => speak(contentText),
-            //     )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: kIsWeb
+                      ? FloatingActionButton(
+                          backgroundColor: Colors.white10,
+                          child: Icon(Icons.arrow_left),
+                          onPressed: () => {
+                            _pageController
+                                .jumpToPage((_pageController.page! - 1) as int)
+                          },
+                        )
+                      : Container(), // Empty container for non-web platforms
+                ),
+                Text(
+                  widget.selectedDate == null
+                      ? '날짜를 선택하세요'
+                      : DateFormat('yyyy년 MM월 dd일')
+                          .format(widget.selectedDate!),
+                  style: TextStyle(
+                    fontFamily: 'NotoSerifKR',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: kIsWeb
+                      ? FloatingActionButton(
+                          backgroundColor: Colors.white10,
+                          child: Icon(Icons.arrow_right),
+                          onPressed: () => {
+                            _pageController
+                                .jumpToPage((_pageController.page! + 1) as int)
+                          },
+                        )
+                      : Container(), // Empty container for non-web platforms
+                ),
+              ],
+            ),
+            SizedBox(height: 16.0),
             ListTile(
               title: RichText(
                 text: TextSpan(
@@ -668,6 +718,7 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                     TextSpan(
                       text: '$chapterName',
                       style: TextStyle(
+                        fontFamily: 'NotoSerifKR',
                         fontSize: widget.fontSize, // Font size for chapterName
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).secondaryHeaderColor,
@@ -704,6 +755,7 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                         child: Text(
                           title,
                           style: TextStyle(
+                            fontFamily: 'NotoSerifKR',
                             color: Theme.of(context).secondaryHeaderColor,
                             fontSize: widget.fontSize - 2,
                             fontWeight: FontWeight.bold,
@@ -733,6 +785,7 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                                 child: Text(
                                   '${verse['index']}. ${verse['content']}',
                                   style: TextStyle(
+                                    fontFamily: 'NotoSerifKR',
                                     color:
                                         Theme.of(context).secondaryHeaderColor,
                                     fontSize: widget.fontSize - 4,
@@ -764,7 +817,7 @@ class _TextSizeAdjusterWidgetState extends State<TextSizeAdjusterWidget> {
                 '${comment}',
                 style: TextStyle(
                   fontSize: widget.fontSize - 8,
-                  fontFamily: 'NotoSansKR',
+                  fontFamily: 'NotoSerifKR',
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.w300,
                 ),
